@@ -1,0 +1,669 @@
+﻿<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <meta name="msapplication-tap-highlight" content="no" /> 
+    <title>VinaPhone Plus</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/jquery.mobile.structure-1.4.4.css">
+    <link rel="stylesheet" href="css/idangerous.swiper.css">
+    <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+    <script type="text/javascript" charset="utf-8" src="cordova_plugins.js"></script>
+	<script src="js/index.js"></script>
+    <script type="text/javascript">
+        app.initialize();
+    </script>
+</head>
+<body class="font_size_12">
+    <div class="sk-spinner sk-spinner-fading-circle loading_animation">
+        <div class="sk-circle1 sk-circle"></div>
+        <div class="sk-circle2 sk-circle"></div>
+        <div class="sk-circle3 sk-circle"></div>
+        <div class="sk-circle4 sk-circle"></div>
+        <div class="sk-circle5 sk-circle"></div>
+        <div class="sk-circle6 sk-circle"></div>
+        <div class="sk-circle7 sk-circle"></div>
+        <div class="sk-circle8 sk-circle"></div>
+        <div class="sk-circle9 sk-circle"></div>
+        <div class="sk-circle10 sk-circle"></div>
+        <div class="sk-circle11 sk-circle"></div>
+        <div class="sk-circle12 sk-circle"></div>
+    </div>
+
+    <div id="background" class="hidden" style="opacity:0.4;position: absolute; z-index: 90; background-color: black; width: 100%; height: 100%;"></div>
+
+    <div id="search_panel" class="font_size_14" style="padding-bottom: 5%; width: 98%; margin-left: 1%; position: absolute; z-index: 100; top: -500px; margin-top: 10%; height: 210.95px;">
+        <div style="width: 98%; margin-left: 1%; height: 2em; background-color: blue; background: -webkit-linear-gradient(rgb(194, 194, 194), rgb(255, 255, 255)); border-radius: 1.5em 1.5em 0em 0em; border-top: 1px solid rgb(171, 166, 166); border-right: 1px solid rgb(171, 166, 166); border-left: 1px solid rgb(171, 166, 166);"></div>
+        <div id="search_tab" class="hidden" style="width: 98%; margin-left: 1%; background-color: white; border-left: 1px solid rgb(163, 163, 163); border-right: 1px solid rgb(176, 176, 176);">
+            <input data-type="search" type="search" style="margin-top: 10%; margin-left: 10%; width: 80%; padding-top: 2%; border-radius: 2em; border: 1px solid black; padding-bottom: 2%; padding-left: 5%;" id="txt_search" placeholder="Từ tìm kiếm" class="font_size_14" />
+            <ul id="suggest" class="font_size_14" style="width: 80%; margin-left: 10%;position:absolute;z-index:11;" data-role="listview" data-filter="true" data-filter-reveal="true" data-input="#txt_search" data-inset="true">
+
+            </ul>
+            <input id="txt_range" data-type="search" onclick="sPage.onRangeTextClick()" onkeyup="    sPage.onRangeTextChange()" onblur="    sPage.onRangeBlur()" type="search" style="margin-top: 10%; margin-left: 10%; width: 80%; padding-top: 2%; border-radius: 2em; border: 1px solid black; padding-bottom: 2%; padding-left: 5%;" placeholder="Thành phố" class="font_size_14" />
+
+            <ul id="" class="suggest_range font_size_14" style="width: 80%; margin-left: 10%;position:absolute;z-index:11;" data-role="listview" data-filter="true" data-filter-reveal="true" data-inset="true"></ul>
+            <div class="btn_container_a">
+                <div class="ui-btn" onclick="CloseSearchPanel()" style="line-height:3em; height:3em;">Đóng</div>
+                <div class="ui-btn" onclick="pPage.SearchPromotion()" style="line-height:3em; height:3em;">Tìm kiếm</div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        <div id="active_tab" style="width: 98%; margin-left: 1%; background-color: white; border-left: 1px solid rgb(163, 163, 163); border-right: 1px solid rgb(176, 176, 176);padding-bottom: 5%;">
+            <input style="display:none;margin-top: 5%; margin-left: 10%; width: 75%; padding-top: 2%; border: 1px solid rgb(155, 154, 154); border-radius: 0.5em; padding-bottom: 2%; padding-left: 5%; " id="txt_active_phone" placeholder="Số điện thoại" class="font_size_20" />
+            <input style="margin-top: 5%; margin-left: 10%; width: 75%; padding-top: 2%; border: 1px solid rgb(155, 154, 154); border-radius: 0.5em; padding-bottom: 2%; padding-left: 5%; " id="txt_active_code" placeholder="Mã kích hoạt" class="font_size_20" />
+            <div class="btn_container_a">
+                <div class="ui-btn" onclick="CloseSearchPanel()" style="line-height:3em; height:3em;">Đóng</div>
+                <div class="ui-btn" onclick="sPage.ActiveCode()" style="line-height:3em; height:3em;">Kích hoạt</div>
+            </div>
+        </div>
+        <div style="width: 98%; margin-left: 1%; height: 1em; background-color: blue; background: -webkit-linear-gradient(rgb(255, 255, 255), rgb(174, 174, 174)); border-radius: 0em 0em 1.5em 1.5em; border-bottom: 1px solid rgb(171, 166, 166); border-right: 1px solid rgb(171, 166, 166); border-left: 1px solid rgb(171, 166, 166); "></div>
+    </div>
+
+    <div id="categories_page" data-role="page" style="height:100%;overflow-x:hidden;">
+        <div id="headline" class="large_header">
+            <img class="m_gradient" src="img/marquee.png" />
+            <marquee class="headline_text font_size_14" behavior="scroll" scrollamount="10" direction="left">
+                THẾ GIỚI KHUYẾN MÃI DÀNH CHO KHÁCH HÀNG VINAPHONE
+            </marquee>
+            <img class="m_gradient m_right" src="img/marquee1.png" />
+        </div>
+        
+        <div class="addbar" style="">
+            <div id="groupUser1" onclick="loginPage.UpdateClick()" style="width: 30%; height: 100%; float: left; margin-left: -3%;">
+                <img id="imguser1" src="img/levels/6.png" style="width: 40%; margin-left: 30%; margin-top: 7%;" />
+                <div id="lblleveltext1" style="text-align: center; font-size: 90%;">Chưa đăng nhập</div>
+            </div>
+            <div id="uName1" class=""style="position: absolute; text-align: center; width: 100%; margin-top: 4.5%; font-weight: bold; font-size: 120%;">
+                
+            </div>
+            <div style="width: 30%; height: 100%; float: right; position: relative; margin-right: -7%;">
+                <div style="margin-top: 10%;position: relative;text-align: center;width: 100%;font-weight: bold;">Điểm</div>
+                <div id="loyalty_point1" style="position: relative; margin-top: 3%; text-align: center; width: 100%; font-weight: bold;">0</div>
+            </div>
+
+        </div>
+        <div class="gradient_bot" style="background: -webkit-linear-gradient(top, rgb(255, 255, 255), rgb(195, 195, 195));"></div>
+        <div class="member_image_slider swiper-pages swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <img src="img/member_image.png" />
+                </div>
+            </div>
+        </div>
+        <div id="categories">
+            <div class="category category_item_1" onclick="cPage.OnCategoryClick(1)">
+                <div class="category_slider1 swiper-pages swiper-container">
+                    <div class="swiper-wrapper swiper-no-swiping">
+                        <div class="swiper-slide">
+                            <img src="img/ca3.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="title font_size_14">
+                    <span>Ẩm thực</span>
+                </div>
+            </div>
+            <div class="category category_item_2" onclick="cPage.OnCategoryClick(2)">
+                <div class="category_slider2 swiper-pages swiper-container">
+                    <div class="swiper-wrapper swiper-no-swiping">
+                        <div class="swiper-slide">
+                            <img src="img/ca1.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="title font_size_14">
+                    <span>Mua sắm</span>
+                </div>
+            </div>
+            <div class="category category_item_3 swiper-no-swiping" onclick="cPage.OnCategoryClick(3)">
+                <div class="category_slider3 swiper-pages swiper-container">
+                    <div class="swiper-wrapper swiper-no-swiping">
+                        <div class="swiper-slide">
+                            <img src="img/ca2.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="title font_size_14">
+                    <span>Giải trí</span>
+                </div>
+            </div> 
+            <div class="category category_item_4" onclick="cPage.OnCategoryClick(4)">
+                <div class="category_slider4 swiper-pages swiper-container">
+                    <div class="swiper-wrapper swiper-no-swiping">
+                        <div class="swiper-slide">
+                            <img src="img/ca5.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="title font_size_14">
+                    <span>Du lịch</span>
+                </div>
+            </div>
+            <div class="category category_item_5" onclick="cPage.OnCategoryClick(5)">
+                <div class="category_slider5 swiper-pages swiper-container">
+                    <div class="swiper-wrapper swiper-no-swiping">
+                        <div class="swiper-slide">
+                            <img src="img/ca4.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="title font_size_14">
+                    <span>Sức khỏe</span>
+                </div>
+            </div>
+            <div class="category category_item_6" onclick="cPage.OnCategoryClick(6)">
+                <div class="category_slider6 swiper-pages swiper-container">
+                    <div class="swiper-wrapper swiper-no-swiping">
+                        <div class="swiper-slide">
+                            <img src="img/ca6.png" />
+                        </div>
+                    </div>
+                </div>
+                <div class="title font_size_14">
+                    <span>Giáo dục</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer font_size_14">
+            <div id="not_login_footer" class="font_size_14 ui-grid-a text_center">
+                <div class="ui-block-a pressable" onclick="cPage.Login()">
+                    Đăng nhập
+                </div>
+                <div class="ui-block-b pressable" onclick="cPage.ShowHelp()">
+                    Hướng dẫn
+                </div>
+            </div>
+            <div id="loggedin_footer" class="font_size_14 ui-grid-b bg_blue text_center hidden">
+                <div class="ui-block-a pressable" onclick="user.LogOut()">
+                    Đăng xuất
+                </div>
+                <div class="ui-block-b pressable" onclick="loginPage.UpdateClick()">
+                    Hội viên
+                </div>
+                <div class="ui-block-c pressable" onclick=" cPage.ShowHelp()">
+                    Hướng dẫn
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div data-role="page" id="help_page">
+        <div id="help_content" class="swiper-container scroll-container" style="text-align:justify; overflow-y:hidden; margin:10px 10px 10px 10px;">
+            <div class="swiper-scrollbar"></div>
+            <div class="swiper-wrapper">
+                <div id="help_text" class="swiper-slide hidden">
+                    <center><b>HƯỚNG DẪN SỬ DỤNG</b></center><br />
+                    Xem video hướng dẫn: <a href="#" onclick="ui.OpenLink('http://youtu.be/UnEULu2g710');">TẠI ĐÂY</a><br /><br />
+                    <b><i>Hướng dẫn sử dụng chung</i></b><br />
+                    Tất cả các loại máy điện thoại di động đều nhận được mã ưu đãi bằng cách đơn giản nhất là: nhắn tin <b>ud</b> gửi <b>9898</b><br /><br />
+                    <b><i>Hướng dẫn sử dụng cho Smartphone</i></b><br />
+                    <b>1. Cài đặt ứng dụng VinaPhone Plus từ chợ ứng dụng CH Play, Apple Store, Windows Phone Store.<br /></b><br />
+                    <img src="img/help/h1.png" style="width:80%;margin-left:10%;" /><br /><br />
+                    <b>2. Xem các ưu đãi của chương trình theo các nhóm ngành hàng: Ẩm thực, Mua Sắm, Giải trí, Du lịch, Sức khỏe, Giáo dục.<br /></b><br />
+                    <img src="img/help/h2.png" style="width:80%;margin-left:10%;" />
+                    <img src="img/help/h3.png" style="width:80%;margin-left:10%;" /><br /><br />
+                    <b>3. Đăng nhập để lấy mã ưu đãi: <br /></b>
+                    •	Nhập số điện thoại là thuê bao của VinaPhone vào ứng dụng<br />
+                    •	Nhập mã xác nhận của hệ thống gửi tới thuê bao của VinaPhone qua tin nhắn SMS<br /><br />
+                    <img src="img/help/h4.png" style="width:80%;margin-left:10%;" />
+                    <img src="img/help/h5.png" style="width:80%;margin-left:10%;" /><br /><br />
+                    <b>4. Cập nhật thông tin mới nhất của Quý Khách và lấy mã ưu đãi</b><br /><br />
+                    <img src="img/help/h6.png" style="width:80%;margin-left:10%;" /><br /><br />
+                    <b>5. Quý Khách đưa mã ưu đãi cho nhân viên tại địa điểm ưu đãi sẽ nhận được ưu đãi của chương trình.</b>
+                </div>
+            </div>
+        </div>
+        <div class="footer font_size_14">
+            <div class="text_center pressable" onclick="ui.OnBackClick()">
+                Quay lại
+            </div>
+        </div>
+    </div>
+
+    <div data-role="page" id="promotions_page">
+        <div id="promotions_page_header">
+            <div class="page_header bg_blue" style="">
+                <img id="main_menu_icon" src="img/menu.png" onclick="ui.ToggleMenu()" />
+                <span class="category_title page_header font_size_20" onclick="ui.ToggleMenu()">Mua sam</span>
+                <img style="height:100%;float:right;margin-right:2%;" id="search_btn" src="img/search.png" onclick="pPage.OnSearchClick()"/>
+            </div>
+            <div id="promotion_nav" class="swiper-container swiper-pages page_header p_nav_slider bg_blue font_size_12" style="color: black;">
+                <div class="swiper-wrapper" style="background: -webkit-linear-gradient(top, rgb(255, 255, 255), rgb(202, 202, 202));">
+                    <div class="swiper-slide swiper-slide-active" onclick="pPage.OnNavItemClick(0)">
+                        <div class="" style="text-align: center;">Ưu đãi</div>
+                    </div>
+                    <div class="swiper-slide" onclick="pPage.OnNavItemClick(1)">
+                        <div class="" style="text-align: center;">Hot nhất</div>
+                    </div>
+                    <div class="swiper-slide" onclick="pPage.OnNavItemClick(2)">
+                        <div class="" style="text-align: center;">Mới nhất</div>
+                    </div>
+                    <div class="swiper-slide" onclick="pPage.OnNavItemClick(3)">
+                        <div class="" style="text-align: center;">Gần nhất</div>
+                    </div>
+                    <div class="swiper-slide" onclick="pPage.OnNavItemClick(4)">
+                        <div class="" style="text-align: center;">Mua nhiều nhất</div>
+                    </div>
+                    <div class="swiper-slide" onclick="pPage.OnNavItemClick(5)"style="border-right: 1px solid rgb(210, 206, 206);">
+                        <div class="" style="text-align: center; margin-left: 5%;">Tìm kiếm</div>
+                    </div>
+                    <div class="swiper-slide" style="border-left:rgb(144, 144, 144);">
+                        &nbsp;
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="promotion_page_slider swiper-pages swiper-container">
+            <div id="moreani1" class="sk-spinner sk-spinner-three-bounce">
+                <div class="sk-bounce1"></div>
+                <div class="sk-bounce2"></div>
+                <div class="sk-bounce3"></div>
+            </div>
+            <div id="moreani2" class="sk-spinner sk-spinner-three-bounce"  style="bottom: 5%;">
+                <div class="sk-bounce1"></div>
+                <div class="sk-bounce2"></div>
+                <div class="sk-bounce3"></div>
+            </div>
+            <div id="moredata1" class="moredata promotion_item grad_p font_size_14" style="text-align: center; position: absolute; top: 0px; height: 10%; width: 100%; font-weight: bold; ">Thả ra để hiện thêm dữ liệu</div>
+            <div id="moredata2" class="moredata promotion_item grad_p font_size_14" style="text-align: center; position: absolute; bottom: 0px; height: 10%; width: 100%; font-weight: bold; ">Thả ra để hiện thêm dữ liệu</div>
+            <div class="swiper-wrapper">
+                <div class="swiper-slide">
+                    <div class="randomScroll promotion_content swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"></div>
+                            </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="hotScroll promotion_content swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"></div>
+                            </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="newScroll promotion_content swiper-container">
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div id="map_canvas" class="swiper-no-swiping">
+                    </div>
+                    <div class="nearScroll nearPanel" style="overflow-y:hidden;">
+                        <div id="moredata3" class="moredata promotion_item grad_p font_size_14" style="text-align: center; position: absolute; height: 10%; width: 100%; font-weight: bold; ">Tính toán lại khoảng cách</div>
+                        <div class="swiper-scrollbar"></div>
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"></div>
+                            </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="bestbuyScroll promotion_content">
+                        <div class="swiper-scrollbar"></div>
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="searchScroll promotion_content">
+                        <div class="swiper-scrollbar"></div>
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="promotion_detail_page" data-role="page">
+        <div class="large_header">
+            <img class="m_gradient" src="img/marquee.png" />
+            <marquee id="detail_title" behavior="scroll" direction="left" class="font_size_14">
+                THẾ GIỚI KHUYẾN MÃI DÀNH CHO KHÁCH HÀNG VINAPHONE
+            </marquee>
+            <img class="m_gradient m_right" src="img/marquee1.png" />
+        </div>
+        <div>
+            <div id="detail_page_percent">
+                <img src="img/percent.png" />
+                <span id="detail_page_percent_text" class="font_size_36">20%</span>
+            </div>
+            <div class="large_slider promotion_detail_slider swiper-pages swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img src="img/no_image.jpg" />
+                    </div>
+                </div>
+            </div>
+            <div class="social">
+                <div class="detail_social font_size_14 ui-grid-c bg_blue text_white">
+                    <div class="ui-block-a text_center social_block" onclick="dPage.OnSocialClick(1)">
+                        <!--<img src="img/like.png" class="social_icon" />-->
+                        <div class="social_text no_line_height">Thích</div>
+                        <div class="clear"></div>
+                        <div id="like_count" class="no_line_height social_text_count">1</div>
+                        <img class="social_img" src="img/like.png" />
+                    </div>
+                    <div class="ui-block-b text_center social_block" onclick="dPage.OnSocialClick(2)">
+                        <!--<img src="img/comment.png" class="social_icon" />-->
+                        <div class="social_text no_line_height">Bình luận</div>
+                        <div class="clear"></div>
+                        <div id="comment_count" class="no_line_height  social_text_count">1</div>
+                        <img class="social_img" src="img/comment.png" />
+                    </div>
+                    <div class="ui-block-c text_center social_block" onclick="dPage.OnSocialClick(3)">
+                        <!--<img src="img/assess.png" class="social_icon" />-->
+                        <div class="social_text no_line_height">Đánh giá</div>
+                        <div class="clear"></div>
+                        <div id="rate_count" class="no_line_height  social_text_count">1</div>
+                        <img class="social_img" src="img/rate.png" />
+                    </div>
+                    <div class="ui-block-d text_center social_block" onclick="dPage.OnSocialClick(4)">
+                        <div class="social_text no_line_height">Chia sẻ</div>
+                        <div class="clear"></div>
+                        <img class="social_img" style='margin-left:40%;' src="img/fb.png" />
+                    </div>
+                </div>
+            </div>
+            <div id="detail_content" class="detail_scroll swiper-container scroll-container" style="text-align:justify; overflow-y:hidden;padding-left:2%;padding-right:2%;width:96%;">
+                <div class="swiper-scrollbar"></div>
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <div id="detail_above">
+
+                        </div>
+                            <div class="getCodeButton" onclick="dPage.OnGetDealCodeClick();">
+                                <span id="deal_code_button" class="font_size_14">Lấy mã ưu đãi</span>
+                                <div class="showQRButton" onclick="dPage.OnShowQRClick();" style="margin-bottom:2%;">Hiện mã QR</div>
+                            </div>
+                            
+                        
+                        <div id="detail_under">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer text_white font_size_14 ui-grid-c bg_blue text_center">
+            <div class="ui-block-a pressable" onclick="dPage.OnFooterClick(-1)">
+                Quay lại
+            </div>
+            <div class="ui-block-b pressable" onclick="dPage.OnFooterClick(0)">
+                Thông tin
+            </div>
+            <div class="ui-block-c pressable" onclick="dPage.OnFooterClick(1)">
+                Địa điểm
+            </div>
+            <div class="ui-block-d pressable" onclick="dPage.OnFooterClick(2)">
+                Hình ảnh
+            </div>
+        </div>
+    </div>
+
+    <div id="detail_extend_page" data-role="page" class="font_size_14">
+        <div class="detail_extend_slider swiper-pages swiper-container">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide page_slide">
+                    <div id="info_panel" class="infoScroll promotion_content paddingside">
+                        <div class="swiper-scrollbar"></div>
+                        <div class="swiper-wrapper">
+                            <div class="swiper-slide">
+                                <div class="infoItems page-inner">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swiper-slide page_slide">
+                    <div id="location_map_canvas" class="swiper-no-swiping">
+                    </div>
+                    <div class="locationScroll locationSize" style="overflow-y:hidden;">
+                        <div class="swiper-scrollbar"></div>
+                        <div class="swiper-wrapper" style="float:left;">
+                            <div class="swiper-slide">
+                                <div class="locationItems page-inner">
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="images_panel" class="swiper-slide page_slide">
+                    <div class="imageScroll promotion_content">
+                        <div class="swiper-scrollbar"></div>
+                        <div class="swiper-wrapper">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer text_white font_size_14 ui-grid-c bg_blue text_center">
+            <div class="ui-block-a pressable" onclick="ePage.OnTabClick(-1)">
+                Quay lại
+            </div>
+            <div id="e0" class="ui-block-b pressable" onclick="ePage.OnTabClick(0)">
+                Thông tin
+            </div>
+            <div id="e1" class="ui-block-c pressable" onclick="ePage.OnTabClick(1)">
+                Địa điểm
+            </div>
+            <div id="e2" class="ui-block-d pressable" onclick="ePage.OnTabClick(2)">
+                Hình ảnh
+            </div>
+        </div>
+    </div>
+
+    <div id="comment_page" data-role="page" class="scroll_hidden">
+        <table id="comment_input_panel">
+            <tr>
+                <td rowspan="2" style="width:70%;">
+                    <textarea rows="4" id="comment_input" class="font_size_14" placeholder="Viết bình luận"></textarea>
+                </td>
+                <td>
+                    <div style="margin-top:5px;" class="btn btn_cyan" onclick="commentPage.SendComment()">Gửi</div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div style ="margin-top:5px;" class="btn btn_cyan" onclick="ui.OnBackClick()">Quay lại</div>
+                </td>
+            </tr>
+        </table>
+        <div class="comments scrollY">
+        </div>
+    </div>
+    
+    <!--Login popup-->
+    <div data-role="page" id="login_dialog" style="overflow-x:hidden;">
+        <div id="login_popup" role="main">
+            <img src="img/vinaphone.png" style="width: 30%; margin-left: 35%;"/>
+            <div style="width: 98%; margin-left: 1%; height: 2em; background-color: blue; background: -webkit-linear-gradient(rgb(194, 194, 194), rgb(255, 255, 255)); border-radius: 1.5em 1.5em 0em 0em; border-top: 1px solid rgb(171, 166, 166); border-right: 1px solid rgb(171, 166, 166); border-left: 1px solid rgb(171, 166, 166);"></div>
+            <div id="popup_content" style="padding-bottom: 2%; width: 98%; margin-left: 1%; border-left: 1px solid rgb(166, 157, 157); border-right: 1px solid rgb(166, 157, 157);">
+                <div id="login_popup1" class="hidden">
+                    <span class="viplus font_size_20">VINAPHONE PLUS</span>
+                    <div class="font_size_14 text_center full_width"><b>Tận hưởng thế giới ưu đãi của khách hàng VinaPhone</b></div>
+                    <span id="popup_warning_text" class="large_text text_red"></span>
+                    <div class="btn_container_a">
+                        <div class="ui-btn" onclick="ui.OnBackClick()">Đóng</div>
+                        <div class="ui-btn" onclick="cPage.Login()">Đăng nhập</div>
+                    </div>
+                </div>
+
+                <div id="login_popup2" class="hidden">
+                    <span class="viplus font_size_20">VINAPHONE PLUS</span>
+                    <div class="font_size_14 text_center full_width"><b>Tận hưởng thế giới ưu đãi của khách hàng VinaPhone</b></div><br />
+                    <div class="clear"></div>
+                    <div class="font_size_12 text_center full_width"><i>Nhập số điện thoại của bạn</i></div>
+                    <div class="clear"></div>
+                    <input id="txt_sdt" data-role="none" type="number" placeholder="Số điện thoại" class="font_size_20"/>
+                    <div class="btn_container_a">
+                        <div class="ui-btn" onclick="ui.OnBackClick()">Đóng</div>
+                        <div id="login_btn_next" class="ui-btn" onclick="cPage.Login()">Tiếp</div>
+                    </div>
+                </div>
+
+                <div id="login_popup3" class="hidden">
+                    <span class="viplus font_size_20">VINAPHONE PLUS</span>
+                    <div class="font_size_14 text_center full_width"><b>Tận hưởng thế giới ưu đãi của khách hàng VinaPhone</b></div><br />
+                    <div class="clear"></div>
+                    <div class="font_size_12 text_center full_width"><i>Nhập mã xác nhận</i></div>
+                    <div class="clear"></div>
+                    <input id="txt_maxacnhan" data-role="none" type="number" placeholder="Mã xác nhận" class="font_size_20"/>
+                    <div class="warning_text font_size_12"></div>
+                    <div class="btn_container_a">
+                        <div id="login_btn_back" class="ui-btn">Quay lại</div>
+                        <div id="login_btn_login" class="ui-btn">Đăng nhập</div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div id="login_popup4" class="hidden">
+                    <span class="viplus font_size_20">VINAPHONE PLUS</span>
+                    <div class="font_size_14 text_center full_width"><b>Tận hưởng thế giới ưu đãi của khách hàng VinaPhone</b></div><br />
+                    
+                    <div class="popup1_controls">
+                        <span class="large_text font_size_20" style="margin-top:25px;margin-bottom:25px;color:#0094ff;">Bạn đã đăng nhập<br /> thành công</span>
+                        <div class="btn_container_a">
+                            <div class="ui-btn" onclick="ui.OnBackClick()">Đóng</div>
+                            <div id="login_btn_login" class="ui-btn" onclick="loginPage.UpdateClick()">Cập nhật</div>
+                        </div>
+                        <div class="clear"></div><br />
+                        <div class="font_size_12 text_center full_width"><i>Vui lòng cập nhật thông tin để nhận<br />những ưu đãi mới nhất từ VinaPhone Plus</i></div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+
+                <div id="login_popup5" class="hidden font_size_14">
+                    <table border="0" style="margin-left:10px;margin-right:10px;">
+                        
+                        <tr>
+                            <th colspan="2" align="center" class="font_size_20">Thông tin người dùng<br /></th>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <img onclick="loginPage.OnAvatarClick();" id="avatar_img" src="img/avatar_default.png" style="width: 20%; margin-left: 40%; border-radius: 1em; border: 1px solid rgb(179, 179, 179);width:5em;height:5em;" />
+                                <div id="uName" style="width: 100%; text-align: center; font-weight: bold;">(Họ và tên)</div>
+                                <div id="level" style="width: 60%; margin-left: 20%;">
+                                    <img id="imguser" src="img/levels/1.png" style="width: 30%; margin-left: 35%;" />
+                                    <div id="lblleveltext" style="text-align: center; font-size: 100%; font-weight: bold;">Chưa xếp hạng</div>
+                                    <div id="loyalty_point" style="text-align: center;  font-size: 100%;">Điểm:0</div>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr>
+                            <td class="font_size_14" style="width:30%;">Họ tên:</td>
+                            <td style="width:70%;"><input type="text" id="inf_txthoten" value="username" placeholder="vd. Nguyễn Văn A" class="font_size_14" /></td>
+                        </tr>
+                        <tr>
+                            <td class="font_size_14">Email:</td>
+                            <td><input type="text" id="inf_txtemail" value="user@gmail.com" placeholder="vd. NguyenA@gmail.com" class="font_size_14" /></td>
+                        </tr>
+                        <tr>
+                            <td class="font_size_14" style="width:30%;">Địa chỉ:</td>
+                            <td style="width:70%;"><input type="text" id="txt_address" value="" placeholder="(Địa chỉ)" class="font_size_14" /></td>
+                        </tr>
+                        <tr>
+                            <td class="font_size_14"><br />Số điện thoại:</td>
+                            <td >
+                                <div style ="margin-left:5%;" id="inf_txtsdt" class="font_size_14">
+                                    012345687
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                    <div class="btn_container_a">
+                        <div class="ui-btn" onclick="ui.OnBackClick()">Đóng</div>
+                        <div id="login_btn_login" class="ui-btn" onclick="loginPage.ProcessUpdate()">Cập nhật</div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div style="width: 98%; margin-left: 1%; height: 1em; background-color: blue; background: -webkit-linear-gradient(rgb(255, 255, 255), rgb(174, 174, 174)); border-radius: 0em 0em 1.5em 1.5em; border-bottom: 1px solid rgb(171, 166, 166); border-right: 1px solid rgb(171, 166, 166); border-left: 1px solid rgb(171, 166, 166); "></div>
+        </div>
+    </div>
+    <!--Menu panel-->
+    <div data-role="panel" id="menu_panel" class="font_size_14">
+        <div class="ui-panel-inner">
+            <div class="menu_header" onclick="ui.CloseMenu()">
+                <b>Menu</b>
+            </div>
+            <ul style="margin-top:0px;">
+                <li onclick="ui.OnBackClick()" class="menu_item"><img src="img/home.png" /><div>Màn hình chính</div></li>
+                <li onclick="cPage.OnMenuClick(1)" class="menu_item"><img src="img/cuisine.png" /><div>Ẩm thực</div></li>
+                <li onclick="cPage.OnMenuClick(2)" class="menu_item"><img src="img/shopping.png" /><div>Mua sắm</div></li>
+                <li onclick="cPage.OnMenuClick(3)" class="menu_item"><img src="img/entertainment.png" /><div>Giải trí­</div></li>
+                <li onclick="cPage.OnMenuClick(4)" class="menu_item"><img src="img/travel.png" /><div>Du lịch</div></li>
+                <li onclick="cPage.OnMenuClick(5)" class="menu_item"><img src="img/health.png" /><div>Sức khỏe</div></li>
+                <li onclick="cPage.OnMenuClick(6)" class="menu_item"><img src="img/education.png" /><div>Giáo dục</div></li>
+                <li onclick="cPage.OnMenuClick(7)" class="menu_item"><img src="img/icon/help.png" /><div>Hướng dẫn</div></li>
+                <li onclick="dPage.OnInfoMenuClick()" class="menu_item"><img src="img/information.png" /><div>Thông tin</div></li>
+            </ul>
+        </div>
+    </div>
+    <!--Rate dialog-->
+    <div data-role="popup" class="dialog ui-content" id="rate_dialog" data-history="false" data-overlay-theme="b">
+        <div role="main">
+            <h2 class="font_size_48" align="center">Đánh giá</h2><br />
+            <img class="rate_pic_size" id="rate_pic_1" src="img/star_empty.png" />
+            <img class="rate_pic_size" id="rate_pic_2" src="img/star_empty.png" />
+            <img class="rate_pic_size" id="rate_pic_3" src="img/star_empty.png" />
+            <img class="rate_pic_size" id="rate_pic_4" src="img/star_empty.png" />
+            <img class="rate_pic_size" id="rate_pic_5" src="img/star_empty.png" />
+            <div class="font_size_14"><br />Quý khách hãy đánh giá ưu đãi này. <br /><b>Lưu ý: </b><i>Quý khách chỉ được đánh giá <br />một lần cho mỗi ưu đãi.</i></div>
+        </div>
+    </div>
+
+    <!--qr dialog-->
+    <div data-role="popup" class="dialog ui-content" id="qr_dialog" data-history="false" data-overlay-theme="b">
+        <div id="qrcode"></div>
+    </div>
+    <!--Info dialog-->
+    <div data-role="popup" class="dialog" id="info_dialog" data-history="false" data-overlay-theme="b" style="padding-bottom:20px;">
+        <div role="main">
+            <h2 style="margin-left:5%;" class="font_size_24">Thông tin</h2><br />
+            <img src="img/vinaphone.png" style="width:80%;margin-left:10%;" />
+        </div>
+    </div>
+    
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.mobile-1.4.4.min.js"></script>
+    <script src="js/idangerous.swiper.js"></script>
+    <script src="js/jsResponsive.js"></script>
+    
+    <script src="js/views/sliderManager.js"></script>
+    <script src="js/qrcode.min.js"></script>
+
+    <!--Models-->
+    <script src="js/models/dataModel.js"></script>
+    <script src="js/models/dataUtilities.js"></script>
+    <script src="js/models/httpRequest.js"></script>
+    <script src="js/models/requestManager.js"></script>
+    <script src="js/models/user.js"></script>
+    <!--Controls-->
+    <script src="js/controls/eventListener.js"></script>
+    <script src="js/controls/data.js"></script>
+    <script src="js/controls/promotionDetailFunctions.js"></script>
+    <!--View-->
+    <script src="js/views/uiControl.js"></script>
+    <script src="js/views/uiPages.js"></script>
+    <script src="js/models/httpClient.js"></script>
+    <script type="text/javascript"
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXGB8JF4cvCtemlZr2G_ajvBGg239sNbQ">
+    </script>
+    
+    <script src="js/models/map.js"></script>
+</body>
+</html>

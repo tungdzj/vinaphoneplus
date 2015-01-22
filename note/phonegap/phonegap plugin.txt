@@ -1,0 +1,13 @@
+cordova plugin add org.apache.cordova.device
+
+cordova plugin add org.apache.cordova.dialogs
+
+cordova plugin add org.apache.cordova.geolocation
+
+cordova plugin add org.apache.cordova.inappbrowser
+
+cordova plugin add https://github.com/wymsee/cordova-HTTP.git
+
+cordova plugin add org.apache.cordova.statusbar
+
+cordova -d plugin add https://github.com/phonegap/phonegap-facebook-plugin.git --variable APP_ID="1582812815280220" --variable APP_NAME="ViPlus"

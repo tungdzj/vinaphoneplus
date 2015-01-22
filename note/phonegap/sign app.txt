@@ -1,0 +1,11 @@
+cd platforms/android
+
+ant release
+
+cd bin
+
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore viplusKey.keystore CordovaApp-release-unsigned.apk viplus
+
+jarsigner -verify -verbose -certs CordovaApp-release-unsigned.apk
+
+zipalign -v 4 CordovaApp-release-unsigned.apk Viplus.apk

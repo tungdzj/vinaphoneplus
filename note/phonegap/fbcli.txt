@@ -1,0 +1,5 @@
+cordova -d plugin add https://github.com/phonegap/phonegap-facebook-plugin.git --variable APP_ID="1582812815280220" --variable APP_NAME="ViPlus"
+
+android update project --subprojects --path "platforms/android" --target android-19 --library "CordovaLib"
+
+android update project --subprojects --path "platforms/android/com.phonegap.plugins.facebookconnect" --target android-19 --library "FacebookLib"

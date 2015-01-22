@@ -1,0 +1,18 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <title>test</title>
+</head>
+<body>
+    <script>
+        function a() {
+            this.v = "12";
+            this.show = function () {
+                alert(this.v);
+            }
+        }
+        var i = new a();
+        i.show();
+    </script>
+</body>
+</html>

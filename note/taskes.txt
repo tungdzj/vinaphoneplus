@@ -1,0 +1,7 @@
+them nut search tren frontend, (cua hang va thanh pho). (hỏi lại anh Hà xem dùng filter hay search)4
+Hiển thị thông tin điểm tích lũy trên màn hình chính và cập nhật
+Thêm (tab hiển thị random các promotion).
+Đổi mã qr code
+refresh map vi tri hien tai, drag to refresh
+
+viet app check qr code
