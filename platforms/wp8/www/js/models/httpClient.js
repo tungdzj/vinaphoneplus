@@ -89,7 +89,7 @@ var client = {
             url: r,
             crossDomain: true,
             success: function (data, textStatus, jqXHR) {
-                console.log(data);
+                
                 client.UpdateEndUserInfo(data.data);
                 s_callback(data);
             },
@@ -110,6 +110,7 @@ var client = {
             url: r,
             crossDomain: true,
             success: function (data, textStatus, jqXHR) {
+                console.log(data);
                 if (data.status == "ok") {
                     addPromotionCode(data.data.promotionId, data.data.code);
                     s_callback(data);
@@ -323,15 +324,17 @@ var client = {
     UpdateEndUserInfo: function (data) {
         ui.HideLoading();
         endUser = new EndUserInfo(data);
-        $("#inf_txthoten").val(endUser.userName);
-        $("#inf_txtemail").val(endUser.email);
+        $("#inf_txthoten").html(endUser.userName);
+        $("#inf_txtemail").html(endUser.email);
+        $("#txt_address").html(endUser.address);
         $("#inf_txtsdt").html(endUser.phone);
         var img = endUser.groupId;
         if (img > 6) {
             img = 6;
         }
-        $("#avatar_img").attr('src', host + endUser.avatar);
-        refresh($("#avatar_img"));
+        d = new Date();
+        $("#avatar_img").attr("src", endUser.avatar + "?" + d.getTime());
+        
         $("#imguser1").attr('src', 'img/levels/' + img + '.png');
         $("#imguser").attr('src', 'img/levels/' + img + '.png');
         $("#lblleveltext1").html(group[endUser.groupId].name);

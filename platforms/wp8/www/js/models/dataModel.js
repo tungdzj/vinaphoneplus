@@ -39,6 +39,8 @@ function PromotionInfo(data) {
     } else {
         this.PromotionAdd = null;
     }
+    this.AreaText = '';
+    this.ActiveService = data.info.activeService;
 }
 
 PromotionInfo.prototype.AddComment = function (data) {
@@ -81,12 +83,12 @@ function EndUserInfo(data) {
     
     this.loyaltyPoint = data.loyaltyPoint;
     this.email = data.email;
-    if (data.avatar == '') {
-        this.avatar = 'img/avatar_default.png';
+    this.avatar = host + 'uploads/avatar/' + this.phone + '.jpg';
+    if (data.address == null) {
+        this.address = '';
     } else {
-        this.avatar = data.avatar;
+        this.address = data.address;
     }
-    
     this.groupId = data.groupID;
     this.image = null;
 
@@ -214,13 +216,31 @@ function updateListShop() {
         shops.length == 0) {
         return;
     }
+    var areat = -1;
+    var first = 1;
     for (var p in promotions) {
         if (promotions[p].ListShop.length == 0) {
+            first = 1;
             for (var s in shops) {
                 if (shops[s].PartnerId == promotions[p].PartnerId) {
-                    promotions[p].ListShop.push(s);
+                    if (first) {
+                        first = 0;
+                        areat = shops[s].Area;
+                        promotions[p].ListShop.push(s);
+                    } else {
+                        promotions[p].ListShop.push(s);
+                        if (shops[s].Area != areat) {
+                            areat = -1;
+                        }
+                    }
+                    
                 }
             }
+        }
+        if (areat != -1) {
+            promotions[p].AreaText = '[' + area[Number(areat) - 1].areaName + ']';
+        } else {
+            promotions[p].AreaText = '[Toàn quốc]';
         }
     }
 }

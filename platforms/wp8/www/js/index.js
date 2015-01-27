@@ -79,8 +79,8 @@ function onCapturePhoto(fileURI) {
         clearCache();
         retries = 0;
         ui.HideLoading();
-        $("#avatar_img").attr('src', host + 'uploads/avatar/' + endUser.phone + '.jpg');
-        refresh($("#avatar_img"));
+        d = new Date();
+        $("#avatar_img").attr("src", endUser.avatar + "?" + d.getTime());
     }
 
     var fail = function (error) {
@@ -118,7 +118,6 @@ function capturePhoto(type) {
 }
 
 function onFail(message) {
-    alert('Loi: ' + message);
 }
 
 function register() {

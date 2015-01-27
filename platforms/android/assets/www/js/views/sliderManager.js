@@ -60,45 +60,35 @@ function InitAllScrolls() {
             if (pos > 100) {
                 if (currentSlide[0] + slShow / 2 * 3 < plist[currentCategoryId][0].length) {
                     holdPosition = pos;
-                    $("#moredata2").removeClass('visible');
-                    $("#moreani2").addClass('visible');
-                } else {
-                    $("#moredata2").html("Hết dữ liệu");
-                    $("#moredata2").addClass('visible');
-                    $("#moreani2").removeClass('visible');
+                    $("#moreani2").removeClass('hidden');
+                } else {;
+                    $("#moreani2").addClass('hidden');
                 }
             } else {
                 holdPosition = -pos;
-                $("#moredata2").removeClass("visible");
-                $("#moredata1").removeClass("visible");
-                $("#moreani1").removeClass('visible');
-                $("#moreani2").removeClass('visible');
+                $("#moreani1").addClass('hidden');
+                $("#moreani2").addClass('hidden');
             }
         },
         onResistanceBefore: function (s, pos) {
             if (pos > 100) {
                 if (currentSlide[0] > 0) {
-                    $("#moredata1").removeClass('visible');
-                    $("#moreani1").addClass('visible');
+                    $("#moreani1").removeClass('hidden');
                     holdPosition = -pos;
                 } else {
-                    $("#moredata1").html("Hết dữ liệu");
-                    $("#moredata1").addClass('visible');
-                    $("#moreani1").removeClass('visible');
+                    $("#moreani1").addClass('hidden');
                 }
             } else {
                 holdPosition = -pos;
-                $("#moredata2").removeClass("visible");
-                $("#moredata1").removeClass("visible");
-                $("#moreani1").removeClass('visible');
-                $("#moreani2").removeClass('visible');
+                $("#moreani1").addClass('hidden');
+                $("#moreani2").addClass('hidden');
             }
         },
         onTouchEnd: function () {
-            $("#moredata2").removeClass("visible");
-            $("#moredata1").removeClass("visible");
-            $("#moreani1").removeClass('visible');
-            $("#moreani2").removeClass('visible');
+            $("#moredata2").addClass('hidden');
+            $("#moredata1").addClass('hidden');
+            $("#moreani1").addClass('hidden');
+            $("#moreani2").addClass('hidden');
             var len = plist[currentCategoryId][0].length;
             var me = scrolls[0];
             var pos = me.positions;
@@ -146,45 +136,33 @@ function InitAllScrolls() {
             if (pos > 100) {
                 if (currentSlide[1] + slShow / 2 * 3 < plist[currentCategoryId][1].length) {
                     holdPosition = pos;
-                    $("#moredata2").removeClass('visible');
-                    $("#moreani2").addClass('visible');
+                    $("#moreani2").removeClass('hidden');
                 } else {
-                    $("#moredata2").html("Hết dữ liệu");
-                    $("#moredata2").addClass('visible');
-                    $("#moreani2").removeClass('visible');
+                    $("#moreani2").addClass('hidden');
                 }
             } else {
                 holdPosition = -pos;
-                $("#moredata2").removeClass("visible");
-                $("#moredata1").removeClass("visible");
-                $("#moreani1").removeClass('visible');
-                $("#moreani2").removeClass('visible');
+                $("#moreani1").addClass('hidden');
+                $("#moreani2").addClass('hidden');
             }
         },
         onResistanceBefore: function (s, pos) {
             if (pos > 100) {
                 if (currentSlide[1] > 0) {
-                    $("#moredata1").removeClass('visible');
-                    $("#moreani1").addClass('visible');
+                    $("#moreani1").removeClass('hidden');
                     holdPosition = -pos;
                 } else {
-                    $("#moredata1").html("Hết dữ liệu");
-                    $("#moredata1").addClass('visible');
-                    $("#moreani1").removeClass('visible');
+                    $("#moreani1").addClass('hidden');
                 }
             } else {
                 holdPosition = -pos;
-                $("#moredata2").removeClass("visible");
-                $("#moredata1").removeClass("visible");
-                $("#moreani1").removeClass('visible');
-                $("#moreani2").removeClass('visible');
+                $("#moreani1").addClass('hidden');
+                $("#moreani2").addClass('hidden');
             }
         },
         onTouchEnd: function () {
-            $("#moredata2").removeClass("visible");
-            $("#moredata1").removeClass("visible");
-            $("#moreani1").removeClass('visible');
-            $("#moreani2").removeClass('visible');
+            $("#moreani1").addClass('hidden');
+            $("#moreani2").addClass('hidden');
             var len = plist[currentCategoryId][1].length;
             var me = scrolls[1];
             var pos = me.positions;
@@ -232,45 +210,33 @@ function InitAllScrolls() {
             if (pos > 100) {
                 if (currentSlide[2] + slShow / 2 * 3 < plist[currentCategoryId][2].length) {
                     holdPosition = pos;
-                    $("#moredata2").removeClass('visible');
-                    $("#moreani2").addClass('visible');
+                    $("#moreani2").removeClass('hidden');
                 } else {
-                    $("#moredata2").html("Hết dữ liệu");
-                    $("#moredata2").addClass('visible');
-                    $("#moreani2").removeClass('visible');
+                    $("#moreani2").addClass('hidden');
                 }
             } else {
                 holdPosition = -pos;
-                $("#moredata2").removeClass("visible");
-                $("#moredata1").removeClass("visible");
-                $("#moreani1").removeClass('visible');
-                $("#moreani2").removeClass('visible');
+                $("#moreani1").addClass('hidden');
+                $("#moreani2").addClass('hidden');
             }
         },
         onResistanceBefore: function (s, pos) {
             if (pos > 100) {
                 if (currentSlide[2] > 0) {
-                    $("#moredata1").removeClass('visible');
-                    $("#moreani1").addClass('visible');
+                    $("#moreani1").removeClass('hidden');
                     holdPosition = -pos;
                 } else {
-                    $("#moredata1").html("Hết dữ liệu");
-                    $("#moredata1").addClass('visible');
-                    $("#moreani1").removeClass('visible');
+                    $("#moreani1").addClass('hidden');
                 }
             } else {
                 holdPosition = -pos;
-                $("#moredata2").removeClass("visible");
-                $("#moredata1").removeClass("visible");
-                $("#moreani1").removeClass('visible');
-                $("#moreani2").removeClass('visible');
+                $("#moreani1").addClass('hidden');
+                $("#moreani2").addClass('hidden');
             }
         },
         onTouchEnd: function () {
-            $("#moredata2").removeClass("visible");
-            $("#moredata1").removeClass("visible");
-            $("#moreani1").removeClass('visible');
-            $("#moreani2").removeClass('visible');
+            $("#moreani1").addClass('hidden');
+            $("#moreani2").addClass('hidden');
             var len = plist[currentCategoryId][2].length;
             var me = scrolls[2];
             var pos = me.positions;
@@ -320,7 +286,7 @@ function InitAllScrolls() {
         },
         onResistanceBefore: function (s, pos) {
             if (pos > 100) {
-                $('#moredata3').addClass('visible');
+                $('#moredata3').removeClass('hidden');
             }
             holdPosition = pos;
         },
@@ -334,7 +300,7 @@ function InitAllScrolls() {
                 ui.ReloadNear();
                 scrolls[3].setWrapperTranslate(0, 0, 0)
                 scrolls[3].params.onlyExternal = false;
-                $('#moredata3').removeClass('visible');
+                $('#moredata3').addClass('hidden');
             }
         }
     });

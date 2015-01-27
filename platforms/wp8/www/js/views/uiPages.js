@@ -100,7 +100,7 @@ var pPage = { //promotions page
             if (plist[currentCategoryId][0].length > 0) {
                 $("#moredata1").removeClass("visible");
             }
-            CloseSearchPanel();
+            //CloseSearchPanel();
         }
         if (promotion_slider.activeIndex == 1) {
             if (map != null) {
@@ -257,9 +257,9 @@ var ePage = {
     },
     OnLocationItemClick: function (shopId) {
         var marker = map_marker[shopId].Marker;
+        clearRoute();
         subMap.setCenter(marker.getPosition());
         marker.setMap(subMap);
-        calcRoute(marker);
         /*var infowindow = new google.maps.InfoWindow({
             content: '<div id="content">' +
                           '<div id="siteNotice"><b>' + partners[shops[shopId].PartnerId].Title +
@@ -342,8 +342,8 @@ var loginPage = {
                 ui.ShowLoading();
                 return;
             }
-            $("#inf_txthoten").val(endUser.userName);
-            $("#inf_txtemail").val(endUser.email);
+            $("#inf_txthoten").html(endUser.userName);
+            $("#inf_txtemail").html(endUser.email);
             $("#inf_txtsdt").html(endUser.phone);
         } else {
             cPage.Login();
@@ -352,15 +352,16 @@ var loginPage = {
     },
 
     ProcessUpdate: function () {
-        endUser.userName = $("#inf_txthoten").val();
-        endUser.email = $("#inf_txtemail").val();
+        endUser.userName = $("#inf_txthoten").html();
+        endUser.email = $("#inf_txtemail").html();
+        endUser.address = $("#txt_address").html();
         if (!validateForm(endUser.email)) {
             ui.Alert("Email không hợp lệ.", "Lỗi", function () { });
             return;
         }
         ui.ShowLoading();
-        endUser.userName = $("#inf_txthoten").val();
-        endUser.email = $("#inf_txtemail").val();
+        endUser.userName = $("#inf_txthoten").html();
+        endUser.email = $("#inf_txtemail").html();
         client.UpdateUserInfo(
             function () {
                 ui.HideLoading();
@@ -374,12 +375,12 @@ var loginPage = {
     }
 }
 function validateForm(val) {
-    var x = val;
+    /*var x = val;
     var atpos = x.indexOf("@");
     var dotpos = x.lastIndexOf(".");
     if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
         return false;
-    }
+    }*/
     return true;
 }
 

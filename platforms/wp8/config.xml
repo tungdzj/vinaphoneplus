@@ -18,6 +18,9 @@
     <feature name="FileTransfer">
         <param name="wp-package" value="FileTransfer" />
     </feature>
+    <feature name="Camera">
+        <param name="wp-package" value="Camera" />
+    </feature>
     <name>VinaPhone Plus</name>
     <description>
         Vinaphone Care Plus
@@ -32,7 +35,4 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="Fullscreen" value="true" />
     <access origin="*" />
-    <feature name="Camera">
-        <param name="wp-package" value="Camera" />
-    </feature>
 </widget>

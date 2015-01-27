@@ -20,14 +20,16 @@ var user = {
                             loggedIn = false;
                             ui.UpdateLoginStatus(false);
                             window.localStorage.clear();
-                            $(".avatar_img").attr('src', 'img/avatar_default.png');
-                            $("#imguser1").attr('src', 'img/levels/' + 6 + '.png');
-                            $("#imguser").attr('src', 'img/levels/' + 6 + '.png');
+                            $("#avatar_img").attr("src", 'img/avatar_default.png' + "?" + d.getTime());
+                            $("#avatar_img1").attr("src", 'img/avatar_default.png' + "?" + d.getTime());
+                            $("#imguser1").attr('src', 'img/levels/' + 3 + '.png' + "?" + d.getTime());
+                            $("#imguser").attr('src', 'img/levels/' + 3 + '.png' + "?" + d.getTime());
+
                             $("#lblleveltext1").html('Chưa đăng nhập');
                             $("#lblleveltext").html('Chưa đăng nhập');
                             $("#uName1").html('');
                             $("#uName").html('');
-                            $("#loyalty_point1").html('0');
+                            $("#loyalty_point1").html('Điểm: 0');
                             $("#loyalty_point").html("Điểm: " + '0');
                         }
                     },
@@ -81,8 +83,8 @@ $("#login_btn_login").click(function () {
 
 $("#login_btn_next").click(function () {
     userPhoneNumber = $("#txt_sdt").val();
-    var str = "Số điện thoại của quý khách là \n               " +
-        userPhoneNumber + "\nMột SMS có chứa mã xác nhận của Quý khách sẽ được gửi tới số này. Vui lòng kiểm tra tin nhắn và tiếp tục đăng nhập";
+    var str = "Số điện thoại của quý khách là:\n" +
+        userPhoneNumber + "\n\nMột SMS có chứa mã xác nhận của Quý khách sẽ được gửi tới số này. Vui lòng kiểm tra tin nhắn và tiếp tục đăng nhập";
     ui.ShowLoading();
     client.GetCodeByPhone(
         function (data) {

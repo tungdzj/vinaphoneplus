@@ -342,7 +342,7 @@ tr td{
 }
 
 .social{
-    background-color: #00a0e4;
+    background-color: #00A0E4;
 }
 
 
@@ -352,19 +352,31 @@ tr td{
     width: 80%;
     margin-left: 10%;
     text-align: center;
-    padding-top: 10px;
+    /* padding-top: 10px; */
     vertical-align: middle;
-    padding-bottom: 10px;
+    height: 4em;
+    line-height: 4em;
+    /* padding-bottom: 10px; */
+    float: left;
 }
 .showQRButton{
     background-color: #00a0e4;
-    color: white;
-    width: 40%;
-    margin-left: 30%;
-    text-align: center;
-    padding-top: 15px;
-    vertical-align: middle;
-    padding-bottom: 10px;
+color: white;
+width: 40%;
+/* margin-left: 30%; */
+text-align: center;
+/* padding-top: 15px; */
+vertical-align: middle;
+/* padding-bottom: 10px; */
+/* position: absolute; */
+height: 4em;
+width: 4em;
+/* line-height: 4em; */
+/* right: 0px; */
+/* top: 0; */
+float: right;
+background-image: url(../img/qr.png);
+background-size: 100%;
 }
 
 .getCodeButton:active{
@@ -1026,4 +1038,20 @@ textarea:focus, input:focus{
     height:2em;
     margin-top:0px;
     border-top:1px solid #a0a0a0;
+}
+
+.padding-5{
+    padding-left: 5%;
+    width: 95%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    height: 2em;
+    line-height: 2em;
+    border-bottom: 1px solid #add;
+}
+
+#login_popup5 td{
+    height:2em;
+    line-height:2em;
 }

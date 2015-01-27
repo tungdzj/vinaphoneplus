@@ -59,8 +59,8 @@ function onRequestFailed(msg) {
 function onReceivedAll(data) {
     onReceiveMemberInfo(data.member_info[0]);
     onReceivedListPartners(data.partners);
-    onReceivedPromotions(data.promotions);
     onReceivedListShops(data.shops);
+    onReceivedPromotions(data.promotions);
     onReceiveBestBuy(data.bestbuy);
     createplist();
     if (currentPage == "promotions_page") {

@@ -38,6 +38,7 @@ var client = {
 
     GetMemberInfo: function (s_callback, f_callback) {
         var r = request.MemberAds();
+        console.log(r);
         $.ajax({
             url: r,
             dataType: 'jsonp', crossDomain: true, async: false,
@@ -111,6 +112,7 @@ var client = {
             url: r,
             dataType: 'jsonp', crossDomain: true, async: false,
             success: function (data, textStatus, jqXHR) {
+                console.log(data);
                 if (data.status == "ok") {
                     addPromotionCode(data.data.promotionId, data.data.code);
                     s_callback(data);
@@ -288,10 +290,10 @@ var client = {
             url: r,
             dataType: 'jsonp', crossDomain: true, async: false,
             success: function (data, textStatus, jqXHR) {
-                
+                console.log(data);
                 ui.HideLoading();
                 CloseSearchPanel();
-                alert(data.msg)
+                ui.Alert(data.msg, "Thông báo", function () { })
             },
             error: function (responseData, textStatus, errorThrown) {
             }
@@ -323,17 +325,42 @@ var client = {
         });
     },
 
+    SendRequest:function(url, login){
+        var r = request.VerifyCode();
+
+        $.ajax({
+            url: r,
+            dataType: 'jsonp', crossDomain: true, async: false,
+            success: function (data, textStatus, jqXHR) {
+                alert(data.msg);
+                ui.Alert(data.msg, 'Thông báo', function () {
+
+                })
+            },
+            error: function (responseData, textStatus, errorThrown) {
+                if (connectionError == 0) {
+                    connectionError = 1;
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
+                        ui.ShowCategoryPage();
+                    });
+                }
+            }
+        });
+    },
+
     UpdateEndUserInfo: function (data) {
         ui.HideLoading();
         endUser = new EndUserInfo(data);
-        $("#inf_txthoten").val(endUser.userName);
-        $("#inf_txtemail").val(endUser.email);
+        $("#inf_txthoten").html(endUser.userName);
+        $("#inf_txtemail").html(endUser.email);
         $("#inf_txtsdt").html(endUser.phone);
         var img = endUser.groupId;
         if (img > 6) {
             img = 6;
         }
-        $("#avatar_img").attr('src', host + endUser.avatar);
+        d = new Date();
+        $("#avatar_img").attr("src", endUser.avatar + "?" + d.getTime());
+        $("#txt_address").html(endUser.address);
         $("#imguser1").attr('src', 'img/levels/' + img + '.png');
         $("#imguser").attr('src', 'img/levels/' + img + '.png');
         $("#lblleveltext1").html(group[endUser.groupId].name);

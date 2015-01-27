@@ -81,6 +81,7 @@ function onCapturePhoto(fileURI) {
         ui.HideLoading();
         d = new Date();
         $("#avatar_img").attr("src", endUser.avatar + "?" + d.getTime());
+        $("#avatar_img1").attr("src", endUser.avatar + "?" + d.getTime());
     }
 
     var fail = function (error) {
@@ -113,6 +114,7 @@ function capturePhoto(type) {
     navigator.camera.getPicture(onCapturePhoto, onFail, {
         quality: 100,
         destinationType: destinationType.FILE_URI,
+        correctOrientation: true,
         sourceType: pictureSource
     });
 }

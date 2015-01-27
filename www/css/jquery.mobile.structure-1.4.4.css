@@ -152,14 +152,14 @@ div.ui-mobile-viewport {
 
 .ui-icon-loading {
 	background: url(../img/ajax-loader.gif);
-	background-size: 2.875em 2.875em;
+	background-size: 100%;
 }
 
 .ui-loader .ui-icon-loading {
 	display: block;
 	margin: 0;
-	width: 2.75em;
-	height: 2.75em;
+	width: 4em;
+	height: 4em;
 	padding: .0625em;
 	-webkit-border-radius: 2.25em;
 	border-radius: 2.25em;

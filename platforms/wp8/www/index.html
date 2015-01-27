@@ -31,9 +31,9 @@
         <div class="sk-circle12 sk-circle"></div>
     </div>
 
-    <div id="background" class="hidden" style="opacity:0.4;position: absolute; z-index: 90; background-color: black; width: 100%; height: 100%;"></div>
+    <div id="background" class="hidden" style="opacity:0.4;position: absolute; z-index: 1000; background-color: black; width: 100%; height: 100%;"></div>
 
-    <div id="search_panel" class="font_size_14" style="padding-bottom: 5%; width: 98%; margin-left: 1%; position: absolute; z-index: 100; top: -500px; margin-top: 10%; height: 210.95px;">
+    <div id="search_panel" class="font_size_14 hidden"  style="padding-bottom: 5%; width: 98%; margin-left: 1%; position: absolute; z-index: 1001; margin-top: 10%; height: 210.95px;">
         <div style="width: 98%; margin-left: 1%; height: 2em; background-color: blue; background: -webkit-linear-gradient(rgb(194, 194, 194), rgb(255, 255, 255)); border-radius: 1.5em 1.5em 0em 0em; border-top: 1px solid rgb(171, 166, 166); border-right: 1px solid rgb(171, 166, 166); border-left: 1px solid rgb(171, 166, 166);"></div>
         <div id="search_tab" class="hidden" style="width: 98%; margin-left: 1%; background-color: white; border-left: 1px solid rgb(163, 163, 163); border-right: 1px solid rgb(176, 176, 176);">
             <input data-type="search" type="search" style="margin-top: 10%; margin-left: 10%; width: 80%; padding-top: 2%; border-radius: 2em; border: 1px solid black; padding-bottom: 2%; padding-left: 5%;" id="txt_search" placeholder="Từ tìm kiếm" class="font_size_14" />
@@ -57,6 +57,7 @@
                 <div class="ui-btn" onclick="sPage.ActiveCode()" style="line-height:3em; height:3em;">Kích hoạt</div>
             </div>
         </div>
+
         <div style="width: 98%; margin-left: 1%; height: 1em; background-color: blue; background: -webkit-linear-gradient(rgb(255, 255, 255), rgb(174, 174, 174)); border-radius: 0em 0em 1.5em 1.5em; border-bottom: 1px solid rgb(171, 166, 166); border-right: 1px solid rgb(171, 166, 166); border-left: 1px solid rgb(171, 166, 166); "></div>
     </div>
 
@@ -101,7 +102,7 @@
                     </div>
                 </div>
                 <div class="title font_size_14">
-                    <span>Ẩm thực</span>
+                    <span onclick="ui.Prompt(this, 'Nhap ten')">Ẩm thực</span>
                 </div>
             </div>
             <div class="category category_item_2" onclick="cPage.OnCategoryClick(2)">
@@ -378,13 +379,24 @@
                         <div id="detail_above">
 
                         </div>
-                        <div class="getCodeButton" onclick="dPage.OnGetDealCodeClick();">
-                            <span id="deal_code_button" class="font_size_14">Nhấn vào đây<br />để lấy mã ưu đãi</span>
+                        <div class="getcodecontainer">
+                            <div class="getCodeButton" onclick="dPage.OnGetDealCodeClick();" style="width:60%;">
+                                <span id="deal_code_button" class="font_size_14">Lấy mã ưu đãi</span>
+                            </div>
+                            <div class="showQRButton" onclick="dPage.OnShowQRClick();" style="margin-bottom:2%; float:left;">Hiện mã QR</div>
                         </div>
-                        <br />
-                        <div class="showQRButton" onclick="dPage.OnShowQRClick();" style="margin-bottom:2%;">Hiện mã QR</div>
+                        <div class="getcodecontainer1 hidden">
+                            <div class="getCodeButton" onclick="dPage.OnGetDealCodeClick();">
+                                <span id="deal_code_button1" class="font_size_14">Lấy mã ưu đãi</span>
+                            </div>
+                        </div>
                         
-                        <div id="detail_under">
+                            
+                        <div class="active70 hidden" onclick="OpenSearchPanel(1)" style="float: left; margin-bottom: 1%; margin-top: 1%; height: 4em; line-height: 4em; background-color: #00A0E4; width: 40%; margin-left: 30%; text-align: center; color: white;">
+                            Kích hoạt gói cước
+                        </div>
+                        
+                        <div id="detail_under" style="margin-top:2%;float:left;">
 
                         </div>
                     </div>
@@ -564,18 +576,18 @@
                         
                         <tr>
                             <td class="font_size_14" style="width:30%;">Họ tên:</td>
-                            <td style="width:70%;"><input type="text" id="inf_txthoten" value="username" placeholder="vd. Nguyễn Văn A" class="font_size_14" /></td>
+                            <td style="width:70%;"><div id="inf_txthoten" class="font_size_14 padding-5" onclick="ui.Prompt(this, 'Nhập họ tên')"></div></td>
                         </tr>
                         <tr>
                             <td class="font_size_14">Email:</td>
-                            <td><input type="text" id="inf_txtemail" value="user@gmail.com" placeholder="vd. NguyenA@gmail.com" class="font_size_14" /></td>
+                            <td><div id="inf_txtemail" class="font_size_14 padding-5" onclick="ui.Prompt(this, 'Nhập email')"></div></td>
                         </tr>
                         <tr>
                             <td class="font_size_14" style="width:30%;">Địa chỉ:</td>
-                            <td style="width:70%;"><input type="text" id="" value="" placeholder="(Địa chỉ)" class="font_size_14" /></td>
+                            <td style="width:70%;"><div id="txt_address" class="font_size_14 padding-5" onclick="ui.Prompt(this, 'Nhập địa chỉ')"></div></td>
                         </tr>
                         <tr>
-                            <td class="font_size_14"><br />Số điện thoại:</td>
+                            <td class="font_size_14">Số điện thoại:</td>
                             <td >
                                 <div style ="margin-left:5%;" id="inf_txtsdt" class="font_size_14">
                                     012345687

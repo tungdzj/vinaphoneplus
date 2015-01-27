@@ -103,6 +103,7 @@
             "&uuid=" + uuid +
             "&userName=" + endUser.userName +
             "&phone=" + r + 
-            "&email=" + endUser.email;
+            "&email=" + endUser.email + 
+            "&address=" + endUser.address;
     }
 }

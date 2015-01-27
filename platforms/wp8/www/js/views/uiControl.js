@@ -28,6 +28,19 @@ var ui = {
         window.open(link, '_blank', 'location=yes');
     },
 
+    Prompt: function (selector, message) {
+        navigator.notification.prompt(
+            message,
+            function (result) {
+                if (result.buttonIndex == 1) {
+                    $(selector).html(result.input1);
+                }
+            },
+            'Nhập',
+            ['Xong', 'Hủy'],
+            '');
+    },
+
     OnBackClick: function () {
         backClick = true;
         if (popupOpen != "none") {
@@ -119,7 +132,7 @@ var ui = {
     },
 
     ReloadPromotionsPage: function () {
-        console.error(promotions.length + ":" + shops.length + ":" + partners.length + ":" + bestView.length + ":" + bestBuy.length);
+        //console.error(promotions.length + ":" + shops.length + ":" + partners.length + ":" + bestView.length + ":" + bestBuy.length);
         //ui.ShowLoading();
         if (promotions.length == 0) {
             ui.ShowLoading();
@@ -300,13 +313,13 @@ var ui = {
 
     PromotionItemSlide: function (p, s) {
         var padd = promotions[p].PromotionAdd;
-        var description = "";
+        var description = promotions[p].AreaText + ' ';
         if (s == -1) {
             onclick_func = "pPage.OnPromotionClick(" + p + "," + "-1, -1)";
-            description = "<b>" + truncate(partners[promotions[p].PartnerId].PartnerName, 40) + "</b><br> " + truncate(promotions[p].Title, 40) + "<br><br>"
+            description += "<b>" + truncate(partners[promotions[p].PartnerId].PartnerName, 40) + "</b><br> " + truncate(promotions[p].Title, 40) + "<br><br>"
         } else {
             onclick_func = "pPage.OnPromotionClick(" + p + "," + "-1, " + s + ")";
-            description = "<b>" + truncate(shops[s].ShopName, 40) + "</b><br> " + truncate(promotions[p].Title, 40) + "<br><br>"
+            description += "<b>" + truncate(shops[s].ShopName, 40) + "</b><br> " + truncate(promotions[p].Title, 40) + "<br><br>"
         }
         var url = (partners[promotions[p].PartnerId] != null ? host + partners[promotions[p].PartnerId].Logo : "img/default_partner.png");
         
@@ -369,17 +382,26 @@ var ui = {
     },
 
     ShowPromotionDetailPage: function (reload) {
+        var p = promotions[currentPromotionId];
         ui.ChangePage("promotion_detail_page");
         if (promotionsCode[currentPromotionId] != null) {
-            $("#deal_code_button").html(promotionsCode[currentPromotionId]);
+            $(".getcodecontainer1").addClass('hidden');
+            $(".getcodecontainer").removeClass('hidden');
         }
         else {
-            $("#deal_code_button").html("Nhấn vào đây <br>để nhận mã ưu đãi");
+            $(".getcodecontainer1").removeClass('hidden');
+            $(".getcodecontainer").addClass('hidden');
         }
-        var p = promotions[currentPromotionId];
+        if (p.ActiveService != null) {
+            $(".active70").removeClass('hidden');
+            console.log("remove");
+        } else {
+            $(".active70").addClass('hidden');
+            console.log("hide");
+        }
+        
         var padd = p.PromotionAdd;
         var part = partners[shops[p.ListShop[0]].PartnerId];
-        //ui.ShowLoading();
         if (reload) {//back from another page
             ui.ChangePage("promotion_detail_page");
             //add slider images
@@ -387,14 +409,7 @@ var ui = {
             for (var i = 0; i < p.Photo.length; i++){
                 slider.AddSlide("promotion_detail_slider", host + p.Photo[i]);
             }
-            if (promotionsCode[currentPromotionId] != null) {
-                $("#deal_code_button").html(promotionsCode[currentPromotionId]);
-                $(".showQRButton").removeClass("hidden");
-            }
-            else {
-                $("#deal_code_button").html("Nhấn vào đây <br>để nhận mã ưu đãi");
-                $(".showQRButton").addClass("hidden");
-            }
+            
             var percent_number = Number(p.PromotionPercent) + Number(padd != null ? padd.PercentAdd : "0");
 
             if (percent_number == 0) {

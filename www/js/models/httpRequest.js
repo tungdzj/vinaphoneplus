@@ -22,6 +22,15 @@
         return host + "?json=neon/getListShops";
     },
 
+    SendOrder:function(){
+        return host + "?json=neon/order&token=" + token +
+            "&uuid=" + uuid +
+            "&phone=" + endUser.phone +
+            "&promotionId=" + currentPromotionId +
+            "&userName=" + $("#inf_txthoten1").html() +
+            "&email=" + $("#inf_txtemail1").html() +
+            "&address=" + $("#inf_txtaddress1").html(); 
+    },
     GetListPartners: function () {
         return host + "?json=neon/getListPartners";
     },

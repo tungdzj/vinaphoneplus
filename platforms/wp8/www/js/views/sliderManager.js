@@ -364,14 +364,12 @@ function InitAllScrolls() {
     scrolls[10] = $(".bestbuyScroll").swiper({
         mode: 'vertical',
         slidesPerView: 'auto',
-        scrollContainer: true,
-        slideVisibleClass: 'scroll_visible'
+        scrollContainer: true
     });
     scrolls[11] = $(".searchScroll").swiper({
         mode: 'vertical',
         slidesPerView: 'auto',
-        scrollContainer: true,
-        slideVisibleClass: 'scroll_visible',
+        scrollContainer: true
     });
 
 }

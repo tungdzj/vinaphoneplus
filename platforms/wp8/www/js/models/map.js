@@ -34,6 +34,11 @@ if (typeof(google) != "undefined") {
     google.maps.event.addDomListener(window, 'load', initMap);
 }
 
+
+function clearRoute() {
+    directionsDisplay.setMap(null);
+}
+
 function calcRoute() {
     if (hereMarker == null || currentDesMarker == null) {
         return;
