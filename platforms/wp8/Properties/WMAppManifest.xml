@@ -4,7 +4,7 @@
     <Languages xmlns="">
         <Language code="en-US" />
     </Languages>
-    <App Author="VinaPhone Plus Author" BitsPerPixel="32" Description="Apache Cordova for Windows Phone" Genre="apps.normal" ProductID="{ec8d1e70-8f04-11e4-b9d6-a5b657468a3e}" Publisher="VinaPhone Plus Publisher" PublisherID="{db093ed5-53b1-45f7-af72-751e8f36ab80}" RuntimeType="Silverlight" Title="VinaPhone Plus" Version="1.0.7" xmlns="">
+    <App Author="VinaPhone Plus Author" BitsPerPixel="32" Description="Apache Cordova for Windows Phone" Genre="apps.normal" ProductID="{ec8d1e70-8f04-11e4-b9d6-a5b657468a3e}" Publisher="VinaPhone Plus Publisher" PublisherID="{db093ed5-53b1-45f7-af72-751e8f36ab80}" RuntimeType="Silverlight" Title="VinaPhone Plus" Version="1.0.8" xmlns="">
         <IconPath IsRelative="true" IsResource="false">large.png</IconPath>
         <Capabilities>
             <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />

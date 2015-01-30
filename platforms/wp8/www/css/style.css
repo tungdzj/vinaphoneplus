@@ -11,6 +11,7 @@
     -webkit-backface-visibility:hidden;
     -ms-content-zooming: none;
     -ms-touch-action:none;
+    touch-action:manipulation;
 }
 
 .clear{
@@ -46,7 +47,7 @@
     color:red;
 }
 .bg_blue{
-    background-color:#009AFF;
+    background-color:#00A0E4;
 }
 
 .bg_gray{
@@ -352,12 +353,11 @@ tr td{
     width: 80%;
     margin-left: 10%;
     text-align: center;
-    /* padding-top: 10px; */
     vertical-align: middle;
     height: 4em;
     line-height: 4em;
-    /* padding-bottom: 10px; */
     float: left;
+    border-radius:0.9em;
 }
 .showQRButton{
     background-color: #00a0e4;
@@ -417,9 +417,8 @@ marquee{
 }
 
 .dialog{
-    background-color:white;
-    /*width:100%;*/
-    border-radius:10px;
+    /*background-color:white;
+    border-radius:10px;*/
 }
 
 
@@ -1032,12 +1031,14 @@ textarea:focus, input:focus{
     background-color: #dfdfdf;
 }
 
-.suggest_range li{
-    background-color:#dfdfdf;
-    line-height:2em;
-    height:2em;
-    margin-top:0px;
-    border-top:1px solid #a0a0a0;
+.suggest_range li, .suggest_text li{
+    background-color: #dfdfdf;
+    line-height: 2em;
+    height: 2em;
+    margin-top: 0px;
+    border-top: 1px solid #a0a0a0;
+    list-style: none;
+    padding-left: 5%;
 }
 
 .padding-5{
@@ -1050,8 +1051,36 @@ textarea:focus, input:focus{
     line-height: 2em;
     border-bottom: 1px solid #add;
 }
-
+#order_tab .padding-5{
+    width: 80%;
+}
 #login_popup5 td{
     height:2em;
     line-height:2em;
+}
+
+.top_border{
+    width: 98%;
+    margin-left: 1%;
+    height: 2em;
+    background: -webkit-linear-gradient(rgb(194, 194, 194), rgb(255, 255, 255));
+    border-radius: 1.5em 1.5em 0em 0em;
+    border-top: 1px solid rgb(171, 166, 166);
+    border-right: 1px solid rgb(171, 166, 166);
+    border-left: 1px solid rgb(171, 166, 166);
+}
+
+.bottom_border{
+    width: 98%;
+    margin-left: 1%;
+    height: 1em;
+    background: -webkit-linear-gradient(rgb(255, 255, 255), rgb(174, 174, 174));
+    border-radius: 0em 0em 1.5em 1.5em;
+    border-bottom: 1px solid rgb(171, 166, 166);
+    border-right: 1px solid rgb(171, 166, 166);
+    border-left: 1px solid rgb(171, 166, 166);
+}
+
+.card{
+
 }

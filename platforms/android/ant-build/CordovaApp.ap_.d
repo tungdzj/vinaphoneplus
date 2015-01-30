@@ -72,6 +72,7 @@ g:\viplus\platforms\android\assets\www\img\ca3.png \
 g:\viplus\platforms\android\assets\www\img\ca4.png \
 g:\viplus\platforms\android\assets\www\img\ca5.png \
 g:\viplus\platforms\android\assets\www\img\ca6.png \
+g:\viplus\platforms\android\assets\www\img\card.png \
 g:\viplus\platforms\android\assets\www\img\comment.png \
 g:\viplus\platforms\android\assets\www\img\cuisine.png \
 g:\viplus\platforms\android\assets\www\img\education.png \
@@ -132,6 +133,7 @@ g:\viplus\platforms\android\assets\www\img\levels\7.png \
 g:\viplus\platforms\android\assets\www\img\levels\8.png \
 g:\viplus\platforms\android\assets\www\img\levels\9.png \
 g:\viplus\platforms\android\assets\www\js\controls \
+g:\viplus\platforms\android\assets\www\js\fastclick.js \
 g:\viplus\platforms\android\assets\www\js\idangerous.swiper.js \
 g:\viplus\platforms\android\assets\www\js\idangerous.swiper.min.js \
 g:\viplus\platforms\android\assets\www\js\index.js \

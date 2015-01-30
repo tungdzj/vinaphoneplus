@@ -115,16 +115,16 @@ div.ui-mobile-viewport {
 	display: none;
 	z-index: 9999999;
 	position: fixed;
-	top: 50%;
-	left: 50%;
+	top: 48%;
+	left: 48%;
 	border:0;
 }
 .ui-loader-default {
 	background: none;
 	/*filter: Alpha(Opacity=18);*/
 	/*opacity: .18;*/
-	width: 2.875em;
-	height: 2.875em;
+	width: 4em;
+	height: 4em;
 	margin-left: -1.4375em;
 	margin-top: -1.4375em;
 }
@@ -152,14 +152,14 @@ div.ui-mobile-viewport {
 
 .ui-icon-loading {
 	background: url(../img/ajax-loader.gif);
-	background-size: 2.875em 2.875em;
+	background-size: 100%;
 }
 
 .ui-loader .ui-icon-loading {
 	display: block;
 	margin: 0;
-	width: 2.75em;
-	height: 2.75em;
+	width: 4em;
+	height: 4em;
 	padding: .0625em;
 	-webkit-border-radius: 2.25em;
 	border-radius: 2.25em;
@@ -1881,10 +1881,11 @@ fieldset.ui-controlgroup {
 }
 .ui-popup {
 	position: relative;
+    position: relative;
+background-color: white;
+border-radius: 2em;
 }
 .ui-popup.ui-body-inherit {
-	border-width: 1px;
-	border-style: solid;
 }
 .ui-popup-hidden {
 	left: 0;
@@ -1902,6 +1903,8 @@ fieldset.ui-controlgroup {
 .ui-popup.ui-content,
 .ui-popup .ui-content {
 	overflow: visible;
+    background-color: white;
+border-radius: 2em;
 }
 .ui-popup > .ui-header {
 	border-top-width: 0;

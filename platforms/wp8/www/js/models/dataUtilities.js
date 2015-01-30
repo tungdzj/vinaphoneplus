@@ -3,11 +3,13 @@ var slShow = 8;
 var slTotal = slShow * 2;
 var slideSize = thumbnail_size + 17;
 var currentSlide = [];
+var searchresult = [];
 for (var i = 0; i < 5; i++) {
     currentSlide[i] = 0;
 }
 function utilGetDayFromString(str) {
     var d = new Date(str.replace(" ", "T"));
+    
     return d.getDate() + "/" + (d.getMonth() + 1) + "/" + (d.getFullYear() + "")/*.substr(2,2)*/;
 }
 
@@ -36,31 +38,31 @@ function matchName(a, b) {
     return false;
 }
 
-function change_alias(alias) {
-    var str = alias;
-    str = str.toLowerCase();
-    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
-    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
-    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
-    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
-    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
-    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
-    str = str.replace(/đ/g, "d");
-    str = str.replace(/đ/g, "d");
-    //str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|$|_/g, "-");
-    /* tìm và thay thế các kí tự đặc biệt trong chuỗi sang kí tự - */
-    //str = str.replace(/-+-/g, "-"); //thay thế 2- thành 1-
-    //str = str.replace(/^\-+|\-+$/g, "");
-    //cắt bỏ ký tự - ở đầu và cuối chuỗi 
-    return str;
-}
+//function change_alias(alias) {
+//    var str = alias;
+//    str = str.toLowerCase();
+//    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+//    str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a");
+//    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+//    str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e");
+//    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+//    str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i");
+//    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+//    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+//    str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o");
+//    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+//    str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u");
+//    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+//    str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y");
+//    str = str.replace(/đ/g, "d");
+//    str = str.replace(/đ/g, "d");
+//    //str = str.replace(/!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|$|_/g, "-");
+//    /* tìm và thay thế các kí tự đặc biệt trong chuỗi sang kí tự - */
+//    //str = str.replace(/-+-/g, "-"); //thay thế 2- thành 1-
+//    //str = str.replace(/^\-+|\-+$/g, "");
+//    //cắt bỏ ký tự - ở đầu và cuối chuỗi 
+//    return str;
+//}
 
 
 function updateplist() {
@@ -171,7 +173,7 @@ function createplist() {
         //newest
         if (plist[c][4].length < max) {
             if (valid(p)) {
-                plist[c][4].push([p, s]);
+                plist[c][4].push([p, -1]);
             }
             
         }
@@ -223,5 +225,23 @@ function refresh(node) {
 
         setTimeout(startRefresh, times);
     })();
+}
 
+function genSlash(code) {
+    var t = '';
+    for (var i = 0; i < code.length; i++) {
+        if (i == 4 ||
+            i == 9) {
+            t += '&nbsp;&nbsp;';
+        }
+        t += code[i];
+    }
+    return t;
+}
+
+function removeSlash(code) {
+    console.log(code)
+    var t = code.replace('&nbsp;&nbsp;', '');
+    t = t.replace('&nbsp;&nbsp;', '');
+    return t;
 }

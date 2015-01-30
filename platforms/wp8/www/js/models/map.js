@@ -1,4 +1,5 @@
 ﻿var currentDesMarker = null;
+var currentMarker = null;
 var map = null;
 var subMap = null;
 var hereMarker = null;
@@ -100,10 +101,9 @@ function geoProcessShopLocation() {
     }
 }
 
-
+var infowindow;
 
 function geoAddEventClick(p, s) {
-    var infowindow = null;
     infowindow = new google.maps.InfoWindow({
         content: "hoding..."
     });
@@ -119,6 +119,7 @@ function geoAddEventClick(p, s) {
     map_marker[s].Marker.html = contentString;
     google.maps.event.addListener(map_marker[s].Marker, 'click',
         function () {
+            infowindow.close();
             infowindow.setContent(this.html);
             currentDesMarker = this;
             if (currentPage == "promotions_page") {

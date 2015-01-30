@@ -21,7 +21,6 @@ var ui = {
             alert(message);
             callback();
         }
-        
     },
 
     OpenLink: function (link) {
@@ -87,7 +86,6 @@ var ui = {
     },
 
     ChangePage: function (page) {
-        //console.log("change page to : " + page + ":" + lastPage + ":" + currentPage);
         ui.HideLoading();
         CloseSearchPanel();
         if (page == currentPage) {
@@ -117,18 +115,7 @@ var ui = {
     },
 
     ShowCategoryPage: function (reload) {
-        
         ui.ChangePage("categories_page");
-        var max = 5;
-        if (!reload) {
-            return;
-        }
-        if (promotions.length <= 0 ||
-            promotionsAdds.length <= 0 ||
-            shops.length <= 0 ||
-            partners.length <= 0) {
-            return;
-        }
     },
 
     ReloadPromotionsPage: function () {
@@ -138,7 +125,7 @@ var ui = {
             ui.ShowLoading();
             return;
         }
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 6; i++) {
             currentSlide[i] = 0;
         }
         
@@ -181,8 +168,6 @@ var ui = {
             scrolls[3].swipeTo(0);
             scrolls[10].swipeTo(0);
             scrolls[11].reInit();
-            //promotion_slider.swipeTo(0);
-            //scrolls[9].swipeTo(0);
         }
         
         //show hot
@@ -239,7 +224,9 @@ var ui = {
         scrolls[3].reInit();
         scrolls[3].swipeTo(0);
     },
+
     FillSearchArea: function () {
+        currentSlide[5] = 0;
         scrolls[11].swipeTo(0);
         scrolls[11].removeAllSlides();
         var range = sPage.range;
@@ -257,15 +244,12 @@ var ui = {
                     for (var si = 0; si < promotions[plist[currentCategoryId][2][d][0]].ListShop.length; si++) {
                         if (shops[promotions[plist[currentCategoryId][2][d][0]].ListShop[si]].Area == sPage.areaId ||
                             shops[promotions[plist[currentCategoryId][2][d][0]].ListShop[si]].Area == 1) {
-                            scrolls[11].appendSlide(ui.PromotionItemSlide(p, -1));
+                            //scrolls[11].appendSlide(ui.PromotionItemSlide(p, -1));
                             count++;
+                            searchresult.push(p);
                             break;
                         }
                     }
-                }
-                
-                if (count > max) {
-                    break;
                 }
             }
         } else {
@@ -285,18 +269,22 @@ var ui = {
                     for (var si = 0; si < promotions[p].ListShop.length; si++) {
                         if (shops[promotions[p].ListShop[si]].Area == sPage.areaId ||
                             shops[promotions[p].ListShop[si]].Area == 1) {
-                            scrolls[11].appendSlide(ui.PromotionItemSlide(p, -1));
+                            //
+                            searchresult.push(p);
                             count++;
                             break;
                         }
                     }
                 }
-                if (count > max) {
-                    break;
-                }
             }
         }
-        
+        for (var i = 0; i < slShow / 2 * 3; i++) {
+            if (i < searchresult.length) {
+                scrolls[11].appendSlide(ui.PromotionItemSlide(searchresult[i], -1));
+            } else {
+                break;
+            }
+        }
         return count;
     },
 
@@ -313,8 +301,9 @@ var ui = {
 
     PromotionItemSlide: function (p, s) {
         var padd = promotions[p].PromotionAdd;
-        var description = promotions[p].AreaText + ' ';
+        var description = '';
         if (s == -1) {
+            description = promotions[p].AreaText + ' ';
             onclick_func = "pPage.OnPromotionClick(" + p + "," + "-1, -1)";
             description += "<b>" + truncate(partners[promotions[p].PartnerId].PartnerName, 40) + "</b><br> " + truncate(promotions[p].Title, 40) + "<br><br>"
         } else {
@@ -392,12 +381,11 @@ var ui = {
             $(".getcodecontainer1").removeClass('hidden');
             $(".getcodecontainer").addClass('hidden');
         }
-        if (p.ActiveService != null) {
+        if (p.ActiveService != null ||
+            p.ActiveService == '0') {
             $(".active70").removeClass('hidden');
-            console.log("remove");
         } else {
             $(".active70").addClass('hidden');
-            console.log("hide");
         }
         
         var padd = p.PromotionAdd;
@@ -538,10 +526,10 @@ var ui = {
     },
 
     ShowLoading: function () {
-        if ($(".loading_animation").hasClass("hidden")) {
+        /*if ($(".loading_animation").hasClass("hidden")) {
             $(".loading_animation").removeClass("hidden");
-        }
-        //$.mobile.loading("show");
+        }*/
+        $.mobile.loading("show");
         /*if (!isLoading) {
             isLoading = true;
             $.mobile.loading("show");
@@ -549,9 +537,10 @@ var ui = {
     },
 
     HideLoading: function () {
-        if (!$(".loading_animation").hasClass("hidden")) {
+        $.mobile.loading("hide");
+        /*if (!$(".loading_animation").hasClass("hidden")) {
             $(".loading_animation").addClass("hidden");
-        }
+        }*/
     },
 
     UpdateCategorySlider: function () {

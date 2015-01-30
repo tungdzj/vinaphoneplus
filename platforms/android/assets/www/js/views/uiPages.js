@@ -35,6 +35,11 @@ var cPage = { //categories page
         ui.ReloadPromotionsPage();
     },
     OnCategoryClick: function (index) {
+        if (client.criticalError == 1) {
+            ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
+            });
+            return;
+        }
         ui.CloseMenu();
         switch (index) {
             case 1:
@@ -120,16 +125,24 @@ var pPage = { //promotions page
         //promotion_slider.swipeTo(5);
     },
 
+    CloseSearchPromotion: function () {
+        CloseSearchPanel();
+        for (var i = 0; i < slideAdded; i++) {
+            scrolls[11].removeSlide(0);
+        }
+        slideAdded = 0;
+    },
     SearchPromotion: function () {
         var max = 10;
         var count = 0;
         CloseSearchPanel();
         if (partners.length == 0) {
-            ui.Alert("Đang tải dữ liệu, quý khách vui lòng thử lại sau vài giây.", "Lỗi", function () {
+            ui.Alert("Đang tải dữ liệu, quý khách vui lòng thử lại sau vài giây.", "Thông báo", function () {
             });
             return;
         }
         $("#search_result").empty();
+        searchresult = [];
         var result = ui.FillSearchArea();
         scrolls[11].swipeTo(0);
         scrolls[11].reInit();
@@ -326,7 +339,7 @@ var loginPage = {
                     function (button) {
                         if (button == 1) {
                             capturePhoto(1);
-                        } else {
+                        } else if (button == 2) {
                             capturePhoto(0);
                         }
                         
@@ -378,12 +391,15 @@ var loginPage = {
     }
 }
 function validateForm(val) {
-    /*var x = val;
+    if (val == '') {
+        return true;
+    }
+    var x = val;
     var atpos = x.indexOf("@");
     var dotpos = x.lastIndexOf(".");
     if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
         return false;
-    }*/
+    }
     return true;
 }
 
@@ -454,7 +470,16 @@ var sPage = {
     },
 
     Order: function () {
-        client.SendOrder();
+        if ($("#inf_txthoten1").html() == ''||
+            $("#inf_txtemail1").html() == '' ||
+            $("#inf_txtaddress1").html() == '') {
+            ui.Alert('Quý khách cần nhập đủ thông tin', 'Thông báo', function () {
+
+            })
+        } else {
+            client.SendOrder();
+        }
+        
     },
 
     CreateSuggestTag: function () {

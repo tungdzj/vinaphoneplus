@@ -1,4 +1,6 @@
-﻿//data model
+﻿
+
+//data model
 function PromotionInfo(data) {
     this.PromotionId = data.info.promotionId;
     if (data.info.listShop == "{}") {
@@ -28,8 +30,8 @@ function PromotionInfo(data) {
     this.Description        = data.info.description;
     this.PromotionPercent   = data.info.promotionPercent;
     this.LifeTime           = data.info.lifetime;
-    this.StartDate          = data.info.startDate;
-    this.EndDate            = data.info.endDate;
+    this.StartDate          = offgmt(data.info.startDate);
+    this.EndDate            = offgmt(data.info.endDate);
     this.Rate               = Math.round(parseFloat(data.rate));
     this.Like = data.like;
     this.Comment            = data.countComment;
@@ -41,6 +43,11 @@ function PromotionInfo(data) {
     }
     this.AreaText = '';
     this.ActiveService = data.info.activeService;
+}
+
+function offgmt(str) {
+    var s = str.indexOf(' ');
+    return str.substr(0, s);
 }
 
 PromotionInfo.prototype.AddComment = function (data) {
@@ -85,7 +92,7 @@ function EndUserInfo(data) {
     this.email = data.email;
     this.avatar = host + 'uploads/avatar/' + this.phone + '.jpg';
     if (data.address == null) {
-        this.address = '';
+        this.address = '(Hãy nhập địa chỉ)';
     } else {
         this.address = data.address;
     }
@@ -238,9 +245,18 @@ function updateListShop() {
             }
         }
         if (areat != -1) {
-            promotions[p].AreaText = '[' + area[Number(areat) - 1].areaName + ']';
+            promotions[p].AreaText = '[' + getAreaName(areat) + ']';
         } else {
             promotions[p].AreaText = '[Toàn quốc]';
+        }
+    }
+}
+
+function getAreaName(id) {
+    
+    for (var i = 0; i < area.length; i++) {
+        if (area[i].id == id) {
+            return area[i].areaName;
         }
     }
 }

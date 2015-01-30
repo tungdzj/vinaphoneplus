@@ -282,16 +282,19 @@ function InitAllScrolls() {
         scrollContainer: true,
         slideVisibleClass: 'scroll_visible',
         onTouchStart: function() {
-            holdPosition = 0;
+            //holdPosition = 0;
         },
         onResistanceBefore: function (s, pos) {
             if (pos > 100) {
-                $('#moredata3').removeClass('hidden');
+                $('#moreani3').removeClass('hidden');
+            } else {
+                $('#moreani3').addClass('hidden');
             }
             holdPosition = pos;
         },
         onTouchEnd: function(){
             var x = 0;
+            $('#moreani3').addClass('hidden');
             if (holdPosition > 100) {
                 scrolls[3].setWrapperTranslate(0,100,0)
                 scrolls[3].params.onlyExternal = true
@@ -300,7 +303,7 @@ function InitAllScrolls() {
                 ui.ReloadNear();
                 scrolls[3].setWrapperTranslate(0, 0, 0)
                 scrolls[3].params.onlyExternal = false;
-                $('#moredata3').addClass('hidden');
+                holdPosition = 0;
             }
         }
     });
@@ -335,7 +338,75 @@ function InitAllScrolls() {
     scrolls[11] = $(".searchScroll").swiper({
         mode: 'vertical',
         slidesPerView: 'auto',
-        scrollContainer: true
+        scrollContainer: true,
+        onResistanceAfter: function (s, pos) {
+            if (pos > 100) {
+                if (currentSlide[5] + slShow / 2 * 3 < searchresult.length) {
+                    holdPosition = pos;
+                    $("#moreani2").removeClass('hidden');
+                } else {
+                    $("#moreani2").addClass('hidden');
+                }
+            } else {
+                holdPosition = -pos;
+                $("#moreani1").addClass('hidden');
+                $("#moreani2").addClass('hidden');
+            }
+        },
+        onResistanceBefore: function (s, pos) {
+            if (pos > 100) {
+                if (currentSlide[5] > 0) {
+                    $("#moreani1").removeClass('hidden');
+                    holdPosition = -pos;
+                } else {
+                    $("#moreani1").addClass('hidden');
+                }
+            } else {
+                holdPosition = -pos;
+                $("#moreani1").addClass('hidden');
+                $("#moreani2").addClass('hidden');
+            }
+        },
+        onTouchEnd: function () {
+            $("#moreani1").addClass('hidden');
+            $("#moreani2").addClass('hidden');
+            var len = searchresult.length;
+            var me = scrolls[11];
+            var pos = me.positions;
+            if (holdPosition > 100) {   //after
+                var odd = len - (currentSlide[5] + slShow / 2 * 3);
+                if (odd <= 0) {
+                    return;
+                }
+                $(".searchScroll .swiper-wrapper").empty();
+                currentSlide[5] += slShow;
+                var d;
+                if (slShow > odd) {
+                    d = odd;
+                } else {
+                    d = slShow;
+                }
+                for (var i = 0; i < d + slShow / 2; i++) {
+                    $(".searchScroll .swiper-wrapper").append(ui.PromotionItemSlide(
+                        searchresult[currentSlide[5] + i],-1));
+                }
+
+                me.reInit();
+                me.ChangeWrapperTranslate(pos.current + (slShow * slideSize));
+            }
+            if (holdPosition < -100) {  //before
+                var odd = len - (currentSlide[5] + slShow / 2);
+                var d = 0;
+                $(".searchScroll .swiper-wrapper").empty();
+                currentSlide[5] -= slShow;
+                for (d = 0; d <= slShow / 2 * 3; d++) {
+                    $(".searchScroll .swiper-wrapper").append(ui.PromotionItemSlide(searchresult[currentSlide[0] + d], -1));
+                }
+                me.reInit();
+                me.ChangeWrapperTranslate(pos.current - (slShow * slideSize));
+            }
+            holdPosition = 0;
+        }
     });
 
 }

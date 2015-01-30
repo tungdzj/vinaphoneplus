@@ -115,18 +115,7 @@ var ui = {
     },
 
     ShowCategoryPage: function (reload) {
-        
         ui.ChangePage("categories_page");
-        var max = 5;
-        if (!reload) {
-            return;
-        }
-        if (promotions.length <= 0 ||
-            promotionsAdds.length <= 0 ||
-            shops.length <= 0 ||
-            partners.length <= 0) {
-            return;
-        }
     },
 
     ReloadPromotionsPage: function () {
@@ -136,7 +125,7 @@ var ui = {
             ui.ShowLoading();
             return;
         }
-        for (var i = 0; i < 5; i++) {
+        for (var i = 0; i < 6; i++) {
             currentSlide[i] = 0;
         }
         
@@ -179,8 +168,6 @@ var ui = {
             scrolls[3].swipeTo(0);
             scrolls[10].swipeTo(0);
             scrolls[11].reInit();
-            //promotion_slider.swipeTo(0);
-            //scrolls[9].swipeTo(0);
         }
         
         //show hot
@@ -239,6 +226,7 @@ var ui = {
     },
 
     FillSearchArea: function () {
+        currentSlide[5] = 0;
         scrolls[11].swipeTo(0);
         scrolls[11].removeAllSlides();
         var range = sPage.range;
@@ -256,15 +244,12 @@ var ui = {
                     for (var si = 0; si < promotions[plist[currentCategoryId][2][d][0]].ListShop.length; si++) {
                         if (shops[promotions[plist[currentCategoryId][2][d][0]].ListShop[si]].Area == sPage.areaId ||
                             shops[promotions[plist[currentCategoryId][2][d][0]].ListShop[si]].Area == 1) {
-                            scrolls[11].appendSlide(ui.PromotionItemSlide(p, -1));
+                            //scrolls[11].appendSlide(ui.PromotionItemSlide(p, -1));
                             count++;
+                            searchresult.push(p);
                             break;
                         }
                     }
-                }
-                
-                if (count > max) {
-                    break;
                 }
             }
         } else {
@@ -284,18 +269,22 @@ var ui = {
                     for (var si = 0; si < promotions[p].ListShop.length; si++) {
                         if (shops[promotions[p].ListShop[si]].Area == sPage.areaId ||
                             shops[promotions[p].ListShop[si]].Area == 1) {
-                            scrolls[11].appendSlide(ui.PromotionItemSlide(p, -1));
+                            //
+                            searchresult.push(p);
                             count++;
                             break;
                         }
                     }
                 }
-                if (count > max) {
-                    break;
-                }
             }
         }
-        
+        for (var i = 0; i < slShow / 2 * 3; i++) {
+            if (i < searchresult.length) {
+                scrolls[11].appendSlide(ui.PromotionItemSlide(searchresult[i], -1));
+            } else {
+                break;
+            }
+        }
         return count;
     },
 

@@ -112,7 +112,10 @@ function capturePhoto(type) {
         pictureSource = navigator.camera.PictureSourceType.CAMERA;
     }
     navigator.camera.getPicture(onCapturePhoto, onFail, {
-        quality: 100,
+        quality: 45,
+        allowEdit: true,
+        targetWidth: docWidth,
+        targetHeight: docWidth,
         destinationType: destinationType.FILE_URI,
         correctOrientation: true,
         sourceType: pictureSource
@@ -165,7 +168,6 @@ function errorHandler(error) {
     //alert('error = ' + error);
 }
 function onNotification(e) {
-    alert(e.event);
     switch (e.event) {
         case 'registered':
             if (e.regid.length > 0) {

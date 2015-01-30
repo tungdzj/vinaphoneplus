@@ -24,7 +24,7 @@ function detailGetCode() {
         ui.ShowLoading();
         client.GetDealCode(function (data) {
             ui.HideLoading();
-            $("#deal_code_button").html(data.data.code);
+            $("#deal_code_button").html(genSlash(data.data.code));
             $(".getcodecontainer1").addClass('hidden');
             $(".getcodecontainer").removeClass('hidden');
             $(".showQRButton").removeClass("hidden");

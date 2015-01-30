@@ -6,6 +6,7 @@ var host = "http://viplus.vinaphone.com.vn/";
 var httpReq = null;
 var connectionError = 0;
 var client = {
+    criticalError: 0,
     CheckInternet: function () {
         console.log("check internet");
         var r = "http://viplus.vinaphone.com.vn/?json=neon/checkInternet";
@@ -28,10 +29,16 @@ var client = {
             crossDomain: true,
             //dataType: 'jsonp', async: false,
             success: function (data, textStatus, jqXHR) {
+                $("#moreani4").addClass('hidden');
                 s_callback(data);
             },
             error: function (responseData, textStatus, errorThrown) {
+                ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
+
+                });
+                client.criticalError = 1;
                 client.CheckInternet();
+                
             }
         });
     },
@@ -49,7 +56,7 @@ var client = {
                 f_callback();
                 if (connectionError == 0) {
                     connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
                         ui.ShowCategoryPage();
                         client.CheckInternet();
                     });
@@ -73,7 +80,7 @@ var client = {
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
 
                     });
                 } else {
@@ -96,7 +103,7 @@ var client = {
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
                         ui.ShowCategoryPage();
                     });
                 }
@@ -116,14 +123,14 @@ var client = {
                     s_callback(data);
                 }
                 else {
-                    //ui.Alert(d.msg, "Lỗi", function () { });
+                    //ui.Alert(d.msg, "Thông báo", function () { });
                     f_callback(data);
                 }
             },
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
                         ui.ShowCategoryPage();
                     });
                 }
@@ -143,7 +150,7 @@ var client = {
                         promotions[d.promotionId].SetRate(d);
                         s_callback(d);
                     } else {
-                        ui.Alert(d.msg, "Lỗi", function () { });
+                        ui.Alert(d.msg, "Thông báo", function () { });
                     }
                 }
                 else {
@@ -155,7 +162,7 @@ var client = {
                     connectionError = 1;
                     if (connectionError == 0) {
                     connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
                         ui.ShowCategoryPage();
                     });
                 }
@@ -175,13 +182,13 @@ var client = {
                     promotions[d.promotionId].SetLike(d);
                     s_callback(d);
                 } else {
-                    ui.Alert(d.msg, "Lỗi", function () { });
+                    ui.Alert(d.msg, "Thông báo", function () { });
                 }
             },
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối internet.", "Lỗi", function () {
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối internet.", "Thông báo", function () {
                     });
                 }
             }
@@ -201,13 +208,13 @@ var client = {
 		        if (d.status == "ok") {
 		            s_callback(d);
 		        } else {
-		            ui.Alert(d.msg, "Lỗi", function () { });
+		            ui.Alert(d.msg, "Thông báo", function () { });
 		        }
 		    },
 		    error: function (responseData, textStatus, errorThrown) {
 		        if (connectionError == 0) {
 		            connectionError = 1;
-		            ui.Alert("Quý khách vui lòng kiểm tra lại kết nối internet.", "Lỗi", function () {
+		            ui.Alert("Quý khách vui lòng kiểm tra lại kết nối internet.", "Thông báo", function () {
 		            });
 		        }
 		    }
@@ -225,7 +232,7 @@ var client = {
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
                         ui.ShowCategoryPage();
                     });
                 }
@@ -246,7 +253,7 @@ var client = {
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
                         ui.ShowCategoryPage();
                     });
                 }
@@ -269,7 +276,7 @@ var client = {
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
                         ui.ShowCategoryPage();
                     });
                 }
@@ -294,7 +301,7 @@ var client = {
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
                         ui.ShowCategoryPage();
                     });
                 }
@@ -336,7 +343,7 @@ var client = {
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
                         ui.ShowCategoryPage();
                     });
                 }
@@ -359,10 +366,13 @@ var client = {
         $("#avatar_img1").attr("src", endUser.avatar + "?" + d.getTime());
         $("#imguser1").attr('src', 'img/levels/' + img + '.png' + "?" + d.getTime());
         $("#imguser").attr('src', 'img/levels/' + img + '.png' + "?" + d.getTime());
+        $("#lblleveltext2").html(group[endUser.groupId].name);
         $("#lblleveltext1").html(group[endUser.groupId].name);
         $("#lblleveltext").html(group[endUser.groupId].name);
+        $("#uName2").html(endUser.userName.toUpperCase());
         $("#uName1").html(endUser.userName);
         $("#uName").html(endUser.userName);
+        $("#loyalty_point2").html("Điểm: " + endUser.loyaltyPoint);
         $("#loyalty_point1").html("Điểm: " + endUser.loyaltyPoint);
         $("#loyalty_point").html("Điểm: " + endUser.loyaltyPoint);
         createplist();

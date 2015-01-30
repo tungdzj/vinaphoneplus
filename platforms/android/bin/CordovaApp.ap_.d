@@ -70,6 +70,7 @@ g:\viplus\platforms\android\assets\www\img\ca3.png \
 g:\viplus\platforms\android\assets\www\img\ca4.png \
 g:\viplus\platforms\android\assets\www\img\ca5.png \
 g:\viplus\platforms\android\assets\www\img\ca6.png \
+g:\viplus\platforms\android\assets\www\img\card.png \
 g:\viplus\platforms\android\assets\www\img\comment.png \
 g:\viplus\platforms\android\assets\www\img\cuisine.png \
 g:\viplus\platforms\android\assets\www\img\education.png \

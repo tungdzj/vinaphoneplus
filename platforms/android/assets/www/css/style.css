@@ -11,6 +11,7 @@
     -webkit-backface-visibility:hidden;
     -ms-content-zooming: none;
     -ms-touch-action:none;
+    touch-action:manipulation;
 }
 
 .clear{
@@ -416,9 +417,8 @@ marquee{
 }
 
 .dialog{
-    background-color:white;
-    /*width:100%;*/
-    border-radius:10px;
+    /*background-color:white;
+    border-radius:10px;*/
 }
 
 
@@ -1079,4 +1079,8 @@ textarea:focus, input:focus{
     border-bottom: 1px solid rgb(171, 166, 166);
     border-right: 1px solid rgb(171, 166, 166);
     border-left: 1px solid rgb(171, 166, 166);
+}
+
+.card{
+
 }

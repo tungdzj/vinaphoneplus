@@ -3,6 +3,7 @@ var slShow = 8;
 var slTotal = slShow * 2;
 var slideSize = thumbnail_size + 17;
 var currentSlide = [];
+var searchresult = [];
 for (var i = 0; i < 5; i++) {
     currentSlide[i] = 0;
 }

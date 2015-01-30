@@ -29,6 +29,20 @@ module.exports = [
         ]
     },
     {
+        "file": "plugins/org.apache.cordova.file-transfer/www/FileTransferError.js",
+        "id": "org.apache.cordova.file-transfer.FileTransferError",
+        "clobbers": [
+            "window.FileTransferError"
+        ]
+    },
+    {
+        "file": "plugins/org.apache.cordova.file-transfer/www/FileTransfer.js",
+        "id": "org.apache.cordova.file-transfer.FileTransfer",
+        "clobbers": [
+            "window.FileTransfer"
+        ]
+    },
+    {
         "file": "plugins/org.apache.cordova.camera/www/CameraConstants.js",
         "id": "org.apache.cordova.camera.Camera",
         "clobbers": [
@@ -54,20 +68,6 @@ module.exports = [
         "id": "org.apache.cordova.camera.CameraPopoverHandle",
         "clobbers": [
             "CameraPopoverHandle"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.file-transfer/www/FileTransferError.js",
-        "id": "org.apache.cordova.file-transfer.FileTransferError",
-        "clobbers": [
-            "window.FileTransferError"
-        ]
-    },
-    {
-        "file": "plugins/org.apache.cordova.file-transfer/www/FileTransfer.js",
-        "id": "org.apache.cordova.file-transfer.FileTransfer",
-        "clobbers": [
-            "window.FileTransfer"
         ]
     },
     {
@@ -179,10 +179,6 @@ module.exports = [
         ]
     },
     {
-        "file": "plugins/org.apache.cordova.file/www/fileSystems.js",
-        "id": "org.apache.cordova.file.fileSystems"
-    },
-    {
         "file": "plugins/org.apache.cordova.file/www/requestFileSystem.js",
         "id": "org.apache.cordova.file.requestFileSystem",
         "clobbers": [
@@ -212,9 +208,9 @@ module.exports.metadata =
     "org.apache.cordova.geolocation": "0.3.11",
     "org.apache.cordova.inappbrowser": "0.5.4",
     "com.phonegap.plugins.PushPlugin": "2.4.0",
-    "org.apache.cordova.camera": "0.3.4",
     "org.apache.cordova.file-transfer": "0.4.8",
-    "org.apache.cordova.file": "1.3.2"
+    "org.apache.cordova.camera": "0.3.4",
+    "org.apache.cordova.file": "1.1.0"
 }
 // BOTTOM OF METADATA
 });

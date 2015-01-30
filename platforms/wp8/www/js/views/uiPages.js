@@ -35,6 +35,11 @@ var cPage = { //categories page
         ui.ReloadPromotionsPage();
     },
     OnCategoryClick: function (index) {
+        if (client.criticalError == 1) {
+            ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
+            });
+            return;
+        }
         ui.CloseMenu();
         switch (index) {
             case 1:
@@ -88,19 +93,19 @@ var pPage = { //promotions page
         
     },
     UpdatePromotionTabStatus: function () {
+        $("#moredata1").addClass('hidden');
+        $("#moredata2").addClass('hidden');
         scrolls[9].swipeTo(promotion_slider.activeIndex);
         if (promotion_slider.activeIndex == 5) {
             if (scrolls[11].slides.length == 0) {
-                $("#moredata1").addClass("visible");
-                $("#moredata2").removeClass("visible");
+                $("#moredata1").removeClass('hidden');
                 $("#moredata1").html("Chưa có ưu đãi nào trong mục này.");
                 OpenSearchPanel(0);
             }
         } else if (promotion_slider.previousIndex == 5) {
             if (plist[currentCategoryId][0].length > 0) {
-                $("#moredata1").removeClass("visible");
+                $("#moredata1").addClass("hidden");
             }
-            //CloseSearchPanel();
         }
         if (promotion_slider.activeIndex == 1) {
             if (map != null) {
@@ -120,32 +125,38 @@ var pPage = { //promotions page
         //promotion_slider.swipeTo(5);
     },
 
+    CloseSearchPromotion: function () {
+        CloseSearchPanel();
+        for (var i = 0; i < slideAdded; i++) {
+            scrolls[11].removeSlide(0);
+        }
+        slideAdded = 0;
+    },
     SearchPromotion: function () {
         var max = 10;
         var count = 0;
         CloseSearchPanel();
         if (partners.length == 0) {
-            ui.Alert("Đang tải dữ liệu, quý khách vui lòng thử lại sau vài giây.", "Lỗi", function () {
+            ui.Alert("Đang tải dữ liệu, quý khách vui lòng thử lại sau vài giây.", "Thông báo", function () {
             });
             return;
         }
         $("#search_result").empty();
+        searchresult = [];
         var result = ui.FillSearchArea();
         scrolls[11].swipeTo(0);
         scrolls[11].reInit();
         if (result == 0) {
             $("#moredata1").html("Không có ưu đãi nào trong mục này.")
-            $("#moredata1").addClass("visible");
+            $("#moredata1").removeClass('hidden');
             ui.Alert("Không tìm được kết quả nào phù hợp", "Tìm kiếm", function () { });
             
         } else {
-            $("#moredata1").removeClass("visible");
+            $("#moredata1").addClass("hidden");
             promotion_slider.swipeTo(5);
         }
     }
 }
-
-
 
 var promotion_slider = $('.promotion_page_slider').swiper({
     noSwiping: true,
@@ -156,8 +167,13 @@ var promotion_slider = $('.promotion_page_slider').swiper({
 });
 
 var dPage = { //promotion detail page
+    Order: function () {
+        if (!loggedIn) {
+
+        }
+        OpenSearchPanel()
+    },
     ActiveCode:function(){
-        console.log("active code: " + $("#txt_active_code").val())
         CloseSearchPanel();
     },
     OnHomeClick: function () {
@@ -216,8 +232,8 @@ var dPage = { //promotion detail page
     },
 
     GenQRCode: function () {
-        var elText = $("#deal_code_button");
-        qrcode.makeCode(elText.html());
+        var elText = removeSlash($("#deal_code_button").html());
+        qrcode.makeCode(elText);
     }
 }
 var qrcode = new QRCode(document.getElementById("qrcode"), {
@@ -323,7 +339,7 @@ var loginPage = {
                     function (button) {
                         if (button == 1) {
                             capturePhoto(1);
-                        } else {
+                        } else if (button == 2) {
                             capturePhoto(0);
                         }
                         
@@ -375,16 +391,28 @@ var loginPage = {
     }
 }
 function validateForm(val) {
-    /*var x = val;
+    if (val == '') {
+        return true;
+    }
+    var x = val;
     var atpos = x.indexOf("@");
     var dotpos = x.lastIndexOf(".");
     if (atpos < 1 || dotpos < atpos + 2 || dotpos + 2 >= x.length) {
         return false;
-    }*/
+    }
     return true;
 }
 
 var sPage = {
+    suggestText: [
+        ["Lẩu","Nướng","Buffet","Bánh","Cà phê","Coffee", "Pizza","Bia","Cá","Chim","Gà","Dê","Bò","Bít tết","BBQ","Chè","Sinh tố","Phở","Bánh Cuốn","Rượu","Tiệc cưới"],
+        ["Mỹ phẩm", "Nước hoa", "Thời trang", "Quần", "Áo", "Váy", "Xe máy", "Nội thất", "Đồng hồ", "Giầy", "Dép", "Trang sức", "Hoa", "Điện máy"],
+        ["Karaoke", "Golf", "Bar", "Phim", "Cinema", "Bóng đá", "Tennis"],
+        ["Khách sạn", "Phòng", "Nghỉ", "Máy bay", "Resort"],
+        ["Spa", "Tóc", "Da", "Móng", "Sức khỏe", "Bệnh viện", "Phòng khám", "Đa khoa", "Răng", "Fitness", "Yoga"],
+        ["Online", "Tiếng Anh", "Tiếng Nhật", "Marketting", "Trung tâm"]
+        ],
+    suggestTag:[],
     areaId: 1,
     onRangeTextChange: function () {
         $(".suggest_range").removeClass('hidden');
@@ -417,14 +445,52 @@ var sPage = {
         $(".suggest_range").removeClass('hidden');
     },
 
-    onSuggestItemClick: function (str) {
-        /*$("#txt_search").val(str);
-        var kids = $("#suggest").children();
-        kids.addClass('ui-screen-hidden');*/
-
+    onSearchTextChange: function () {
+        $(".suggest_text").removeClass('hidden');
+        $(".suggest_text").empty();
+        var name = $("#txt_search").val();
+        for (var i in this.suggestTag[Number(currentCategoryId)-1]) {
+            if (matchName(this.suggestTag[Number(currentCategoryId) - 1][i], name)) {
+                $(".suggest_text").append('<li onclick="sPage.onSearchItemClick(' + i + ')">' + this.suggestText[Number(currentCategoryId) - 1][i] + '</li>')
+            }
+        }
+    },
+    onSearchBlur: function () {
+        setTimeout(function () {
+            $(".suggest_text").addClass('hidden');
+        }, 500);
+    },
+    onSearchItemClick:function(index){
+        $(".suggest_text").addClass('hidden');
+        $("#txt_search").val(this.suggestText[Number(currentCategoryId) - 1][index])
     },
 
     ActiveCode: function () {
         client.ActiveCode(endUser.phone, $("#txt_active_code").val());
+    },
+
+    Order: function () {
+        if ($("#inf_txthoten1").html() == ''||
+            $("#inf_txtemail1").html() == '' ||
+            $("#inf_txtaddress1").html() == '') {
+            ui.Alert('Quý khách cần nhập đủ thông tin', 'Thông báo', function () {
+
+            })
+        } else {
+            client.SendOrder();
+        }
+        
+    },
+
+    CreateSuggestTag: function () {
+        for (var i in this.suggestText) {
+            this.suggestTag[i] = [];
+            for (var j in this.suggestText[i]) {
+                
+                this.suggestTag[i].push(change_alias(this.suggestText[i][j]));
+            }
+            
+        }
     }
 }
+sPage.CreateSuggestTag();

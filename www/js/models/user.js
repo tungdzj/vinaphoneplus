@@ -5,6 +5,11 @@ var verifyCode = "none";
 var loggedIn = false;
 
 var user = {
+    ShowCard:function(){
+        if (loggedIn) {
+            ui.OpenPopup("#card_dialog");
+        }
+    },
     HideAllPopupTab:function(){
         for (var i = 1; i <= 5; i++) {
             ui.Hide("#login_popup" + i);
@@ -24,11 +29,13 @@ var user = {
                             $("#avatar_img1").attr("src", 'img/avatar_default.png' + "?" + d.getTime());
                             $("#imguser1").attr('src', 'img/levels/' + 3 + '.png' + "?" + d.getTime());
                             $("#imguser").attr('src', 'img/levels/' + 3 + '.png' + "?" + d.getTime());
-
+                            $("#lblleveltext2").html('Chưa đăng nhập');
                             $("#lblleveltext1").html('Chưa đăng nhập');
                             $("#lblleveltext").html('Chưa đăng nhập');
+                            $("#uName2").html('...');
                             $("#uName1").html('');
                             $("#uName").html('');
+                            $("#loyalty_point2").html('Điểm: 0');
                             $("#loyalty_point1").html('Điểm: 0');
                             $("#loyalty_point").html("Điểm: " + '0');
                         }

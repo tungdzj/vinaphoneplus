@@ -180,18 +180,18 @@ Pagination Styles
     top: 0;
 }
 
-#moreani1{
+moreani{
     position: absolute;
-width: 20%;
-margin-left: 40%;
+    width: 10%;
+    margin-left: 45%;
 
 
 }
 
-#moreani2{
+.moreani{
     position: absolute;
-width: 20%;
-margin-left: 40%;
+    width: 10%;
+    margin-left: 45%;
 }
 
 #active_tab td{

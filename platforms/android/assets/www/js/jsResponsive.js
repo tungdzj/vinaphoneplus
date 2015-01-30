@@ -102,9 +102,11 @@ $(".rate_pic_size").css("width", docWidth / 7);
 $("#rate_dialog").enhanceWithin().popup();
 $("#info_dialog").enhanceWithin().popup();
 $("#qr_dialog").enhanceWithin().popup();
+$("#card_dialog").enhanceWithin().popup();
 
 $("#userinfo_dialog").enhanceWithin().popup();
-
+$(".card").css('width', docWidth / 5 * 4);
+$(".card").css('height', docWidth / 15 * 8 );
 //menu panel
 $("#menu_panel").panel(
     {
@@ -212,9 +214,6 @@ function CloseSearchPanel() {
     if (!isOpenSearchPanel) {
         return;
     }
-    for (var i = 0; i < slideAdded; i++) {
-        scrolls[11].removeSlide(0);
-    }
     isOpenSearchPanel = false;
     $("#search_panel").css('opacity', 1);
     $("#search_panel").animate(
@@ -264,4 +263,9 @@ function initAreaList() {
     $(".suggest_range").css('width', docWidth / 5 * 4 + 'px');
 }
 
+
 initAreaList();
+
+$(function () {
+    FastClick.attach(document.body);
+});

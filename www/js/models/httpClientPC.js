@@ -5,9 +5,10 @@
 var host = "http://viplus.vinaphone.com.vn/";
 var httpReq = null;
 var connectionError = 0;
+
 var client = {
+    criticalError : 0,
     CheckInternet: function () {
-        console.log("check internet");
         var r = "http://viplus.vinaphone.com.vn/?json=neon/checkInternet";
         $.ajax({
             url: r,
@@ -22,39 +23,22 @@ var client = {
     },
 
     GetAllInfo: function (s_callback, f_callback) {
-        uuid = "tungphone";
+        uuid = "tungphone1";
         var r = request.GetAllInfo();
         $.ajax({
             url: r,
             dataType: 'jsonp', crossDomain: true, async: false,
             success: function (data, textStatus, jqXHR) {
+                $("#moreani4").addClass('hidden');
                 s_callback(data);
             },
             error: function (responseData, textStatus, errorThrown) {
-                client.CheckInternet();
-            }
-        });
-    },
+                client.criticalError = 1;
+                ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
 
-    GetMemberInfo: function (s_callback, f_callback) {
-        var r = request.MemberAds();
-        console.log(r);
-        $.ajax({
-            url: r,
-            dataType: 'jsonp', crossDomain: true, async: false,
-            success: function (data, textStatus, jqXHR) {
-                console.log(data);
-                s_callback(data);
-            },
-            error: function (responseData, textStatus, errorThrown) {
-                f_callback();
-                if (connectionError == 0) {
-                    connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
-                        ui.ShowCategoryPage();
-                        client.CheckInternet();
-                    });
-                }
+                });
+                ShowCategoryPage(true);
+                client.CheckInternet();
             }
         });
     },
@@ -88,6 +72,7 @@ var client = {
 
     UpdateUserInfo: function (s_callback, f_callback) {
         var r = request.UpdateUserInfo();
+        console.log(r);
         $.ajax({
             url: r,
             dataType: 'jsonp', crossDomain: true, async: false,
@@ -386,10 +371,13 @@ var client = {
         $("#txt_address").html(endUser.address);
         $("#imguser1").attr('src', 'img/levels/' + img + '.png');
         $("#imguser").attr('src', 'img/levels/' + img + '.png');
+        $("#lblleveltext2").html(group[endUser.groupId].name);
         $("#lblleveltext1").html(group[endUser.groupId].name);
         $("#lblleveltext").html(group[endUser.groupId].name);
+        $("#uName2").html(endUser.userName.toUpperCase());
         $("#uName1").html(endUser.userName);
         $("#uName").html(endUser.userName);
+        $("#loyalty_point2").html("Điểm: " + endUser.loyaltyPoint);
         $("#loyalty_point1").html("Điểm: " + endUser.loyaltyPoint);
         $("#loyalty_point").html("Điểm: " + endUser.loyaltyPoint);
         createplist();
