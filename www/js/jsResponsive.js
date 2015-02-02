@@ -265,7 +265,3 @@ function initAreaList() {
 
 
 initAreaList();
-
-$(function () {
-    FastClick.attach(document.body);
-});

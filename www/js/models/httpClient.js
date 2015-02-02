@@ -43,28 +43,6 @@ var client = {
         });
     },
     
-
-    GetMemberInfo: function (s_callback, f_callback) {
-        var r = request.MemberAds();
-        $.ajax({
-            url: r,
-            crossDomain: true,
-            success: function (data, textStatus, jqXHR) {
-                s_callback(data);
-            },
-            error: function (responseData, textStatus, errorThrown) {
-                f_callback();
-                if (connectionError == 0) {
-                    connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
-                        ui.ShowCategoryPage();
-                        client.CheckInternet();
-                    });
-                }
-            }
-        });
-    },
-
     GetEndUserInfo: function () {
         var r = request.GetUserInfo();
         $.ajax({
@@ -267,11 +245,19 @@ var client = {
             url: r,
             crossDomain: true,
             success: function (data, textStatus, jqXHR) {
+                $("#moreani4").addClass('hidden');
                 var d = data;
-                callback(d);
-                if (d.data == "3") {
-                    client.GetEndUserInfo();
+                
+                if (d.data == '5') {
+                    ui.HideLoading();
+                    ui.Alert(d.msg, 'Thông báo', function () { })
+                } else {
+                    callback(d);
+                    if (d.data == "3") {
+                        client.GetEndUserInfo();
+                    }
                 }
+                
             },
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {

@@ -29,7 +29,7 @@ var cPage = { //categories page
         if (index > 6) {
             return;
         }
-        geoAddMarker(currentCategoryId, index);
+        //geoAddMarker(currentCategoryId, index);
         currentCategoryId = index;
         ui.ShowPromotionsPage(false);
         ui.ReloadPromotionsPage();
@@ -61,7 +61,6 @@ var cPage = { //categories page
                 $(".category_title").html("Giáo dục");
                 break;
         }
-        geoAddMarker(currentCategoryId, index);
         currentCategoryId = index;
         ui.ShowPromotionsPage(true);
     },
@@ -251,7 +250,12 @@ var ePage = {
         if (extend_slider.activeIndex == 1) {
             if (subMap != null) {
                 google.maps.event.trigger(subMap, 'resize');
-                subMap.setCenter(map_marker[promotions[currentPromotionId].ListShop[0]].Marker.getPosition());
+                if (currentShopId == -1) {
+                    subMap.setCenter(map_marker[promotions[currentPromotionId].ListShop[0]].Marker.getPosition());
+                } else {
+                    subMap.setCenter(map_marker[currentShopId].Marker.getPosition());
+                }
+                
             }
         }
     },
@@ -418,7 +422,7 @@ var sPage = {
         $(".suggest_range").removeClass('hidden');
         $(".suggest_range").empty();
         var first = 1;
-        var name = $("#txt_range").val();
+        var name = change_alias($("#txt_range").val());
         for (var i in area) {
             if (matchName(area[i].tag, name)) {
                 if (first) {

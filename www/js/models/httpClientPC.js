@@ -244,10 +244,16 @@ var client = {
             url: r,
             dataType: 'jsonp', crossDomain: true, async: false,
             success: function (data, textStatus, jqXHR) {
+                $("#moreani4").addClass('hidden');
                 var d = data;
-                callback(d);
-                if (d.data == "3") {
-                    client.GetEndUserInfo();
+                if (d.data == '5') {
+                    ui.HideLoading();
+                    ui.Alert(d.msg, 'Thông báo', function () { })
+                } else {
+                    callback(d);
+                    if (d.data == "3") {
+                        client.GetEndUserInfo();
+                    }
                 }
             },
             error: function (responseData, textStatus, errorThrown) {

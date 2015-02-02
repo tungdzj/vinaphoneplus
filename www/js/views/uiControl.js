@@ -8,18 +8,27 @@ var loadingComment = false;
 var isLoading = false;
 var promotionColor = (Math.round(Math.random() * 10) % 5);
 
+var testapp = document.URL.indexOf('http://') === -1 && document.URL.indexOf('https://') === -1;
+var isapp = 0;
+if (testapp) {
+    isapp = 1;
+} else {
+    isapp = 0;
+}
+
 var ui = {
     Alert: function (message, title, callback) {
-        if (window.cordova) {
-            navigator.notification.alert(
-            message,
-            callback,         // callback
-            title,
-            "Đóng"
-            );
-        } else {
+        if (navigator.platform == 'Win32') {
             alert(message);
             callback();
+        } else {
+            navigator.notification.alert(
+                        message,
+                        callback,         // callback
+                        title,
+                        "Đóng"
+                        );
+            
         }
     },
 
@@ -581,6 +590,9 @@ $("body").on("pagecontainerchange", function (event, ui) {
             scrolls[5].reInit();
             scrolls[6].reInit();
             scrolls[7].reInit();
+            if (infowindow != null) {
+                infowindow.close();
+            }
             ePage.ChangeExtendTab(next_extend_tab);
             ePage.SetActiveTab(next_extend_tab);
             
@@ -593,9 +605,12 @@ $("body").on("pagecontainerchange", function (event, ui) {
             }
             break;
         case "promotions_page":
+            if (infowindow != null) {
+                infowindow.close();
+            }
+            geoAddMarker(1, currentCategoryId);
             if (!backClick) {
                 rl();
-                
             } else {
                 scrolls[0].reInit();
                 scrolls[1].reInit();

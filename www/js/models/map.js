@@ -149,16 +149,22 @@ function geoAddShopTitle() {
         }
     }
 }
+
 function geoAddMarker(_old, _new) {
     if (map_marker.length == 0) {
         return;
     }
-    if (_old == _new || map == null){
+    if (map == null) {
         return;
     }
-    if (_old != -1) {    //clear all old marker
-        for (var i = 0; i < categories[_old].length; i++) {
-            map_marker[categories[_old][i]].Marker.setMap(null);
+    //if (_marker_old != -1) {    //clear all old marker
+    //    for (var i = 0; i < categories[_marker_old].length; i++) {
+    //        map_marker[categories[_marker_old][i]].Marker.setMap(null);
+    //    }
+    //}
+    for (var s in shops) {
+        if (map_marker[s].Marker != null) {
+            map_marker[s].Marker.setMap(null);
         }
     }
     for (var i = 0; i < categories[_new].length; i++) {

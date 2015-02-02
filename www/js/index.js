@@ -39,14 +39,18 @@ var app = {
                     window.localStorage.clear();
                 }
             });
+        } else {
+            $("#moreani4").addClass('hidden');
         }
-        var notify = window.localStorage.getItem("notification");
-        if (notify == null) {
-            pushNotification = window.plugins.pushNotification;
-            register();
-        }
+
         if (device.platform == "iOS") {
             StatusBar.hide();
+        } else {
+            var notify = window.localStorage.getItem("notification");
+            if (notify == null) {
+                pushNotification = window.plugins.pushNotification;
+                register();
+            }
         }
     },
     // Update DOM on a Received Event
