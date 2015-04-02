@@ -250,17 +250,14 @@ div.ui-mobile-viewport {
 }
 /* Buttons and icons */
 .ui-btn:active{
-    background: -webkit-linear-gradient(#0d6ba9, #01018d); /* For Safari 5.1 to 6.0 */
-      background: -o-linear-gradient(#0d6ba9, #01018d); /* For Opera 11.1 to 12.0 */
-      background: -moz-linear-gradient(#0d6ba9, #01018d); /* For Firefox 3.6 to 15 */
-      background: linear-gradient(#0d6ba9, #01018d);
+background-color: #2d5be3;
+
 }
 
 .ui-btn {
     color: white;
     height: 2em;
     line-height: 2em;
-    background-color: #1990ce;
     display: block;
     position: relative;
     text-align: center;
@@ -272,12 +269,8 @@ div.ui-mobile-viewport {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    border-radius: 1em;
-    border: 1px solid rgb(119, 119, 255);
-    background: -webkit-linear-gradient(#02d3e1, blue);
-    background: -o-linear-gradient(#02d3e1, blue);
-    background: -moz-linear-gradient(#02d3e1, blue);
-    background: linear-gradient(#23aae1, rgb(11, 81, 189));
+    border-radius: 0.5em;
+    background: #168dfe
 }
 .ui-btn-icon-notext,
 .ui-header button.ui-btn.ui-btn-icon-notext,
@@ -1292,6 +1285,7 @@ button.ui-btn-icon-notext,
 .ui-grid-c,
 .ui-grid-d,
 .ui-grid-solo {
+      height: 100%;
 	overflow: hidden;
 }
 .ui-block-a,
@@ -1346,20 +1340,16 @@ li.ui-block-e {
 }
 .ui-grid-a > .ui-block-a,
 .ui-grid-a > .ui-block-b {
-	/* width: 49.95%; IE7 */
-	/* margin-right: -.5px; BB5 */
 	width: 50%;
-    border-right:1px solid white;
+    height:100%;
 }
 .ui-grid-a > .ui-block-b {
     border-right:none;
 }
 .ui-grid-b > .ui-block-a,
 .ui-grid-b > .ui-block-b {
-	/* width: 33.25%; IE7 */
-	/* margin-right: -.5px; BB5 */
-	width: 33.333%;
-    border-right: 1px solid white;
+  width: 33.333%;
+  height: 100%;
 }
 .ui-grid-b > .ui-block-c{
     width: 33.333%;
@@ -1369,10 +1359,8 @@ li.ui-block-e {
 .ui-grid-c > .ui-block-b,
 .ui-grid-c > .ui-block-c,
 .ui-grid-c > .ui-block-d {
-	/* width: 24.925%; IE7 */
-	/* margin-right: -.5px; BB5 */
-	width: 25%;
-    border-right: 1px solid white;
+  width: 25%;
+  height: 100%;
 }
 .ui-grid-c > .ui-block-d{
     border-right:none;

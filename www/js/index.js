@@ -15,42 +15,40 @@ var app = {
     onDeviceReady: function () {
         pictureSource = navigator.camera.PictureSourceType.PHOTOLIBRARY;
         destinationType = navigator.camera.DestinationType;
-        uuid = device.uuid;
+        userControl.uuid = device.uuid;
+        if (device.platform == "iOS") {
+            StatusBar.hide();
+        }
+		var notify = window.localStorage.getItem("notification");
+            if (notify == null) {
+                pushNotification = window.plugins.pushNotification;
+                register();
+            }
         app.receivedEvent('deviceready');
         navigator.geolocation.getCurrentPosition(function (position) {
             deviceLocation = [position.coords.latitude, position.coords.longitude];
             onGetDeviceLocation();
         },
         function (error) {
-            ui.Alert("Không thể xác định vị trí của bạn. Có thể do bạn đã tắt chức năng định vị.", "Lỗi định vị", function () { });
+            ui.Alert("Không thể xác định vị trí của bạn. Có thể do bạn đã tắt chức năng định vị.", "Thông báo", function () { });
         });
         setTimeout(updateDeviceLocation, 5000);
-        onDocumentReady();
+        //onDocumentReady();
         if (window.localStorage.getItem('phoneNumber') != null &&
             window.localStorage.getItem('phoneNumber') != "none") {
-            userPhoneNumber = window.localStorage.getItem('phoneNumber');
-            user.CheckLogin(function (data) {
+            userControl.userPhoneNumber = window.localStorage.getItem('phoneNumber');
+            userControl.CheckLogin(function (data) {
                 if (data.data == "3") {
-                    user.UserLoginSuccess(data.token);
-                }else{
-                    loggedIn = false;
-                    userPhoneNumber = "none";
-                    ui.UpdateLoginStatus(loggedIn);
+                    userControl.UserLoginSuccess(data.token);
+                } else {
+                    userControl.loggedIn = false;
+                    userControl.userPhoneNumber = "none";
+                    userView.UpdateLoginStatus();
                     window.localStorage.clear();
                 }
             });
         } else {
             $("#moreani4").addClass('hidden');
-        }
-
-        if (device.platform == "iOS") {
-            StatusBar.hide();
-        } else {
-            var notify = window.localStorage.getItem("notification");
-            if (notify == null) {
-                pushNotification = window.plugins.pushNotification;
-                register();
-            }
         }
     },
     // Update DOM on a Received Event
@@ -82,10 +80,10 @@ function onCapturePhoto(fileURI) {
     var win = function (r) {
         clearCache();
         retries = 0;
-        ui.HideLoading();
+        utils.HideLoading();
         d = new Date();
-        $("#avatar_img").attr("src", endUser.avatar + "?" + d.getTime());
-        $("#avatar_img1").attr("src", endUser.avatar + "?" + d.getTime());
+        $("#avatar_img").attr("src", userControl.endUser.avatar + "?" + d.getTime());
+        $("#avatar_img1").attr("src", userControl.endUser.avatar + "?" + d.getTime());
     }
 
     var fail = function (error) {
@@ -99,14 +97,14 @@ function onCapturePhoto(fileURI) {
             clearCache();
         }
     }
-    ui.ShowLoading();
+    utils.ShowLoading();
     var options = new FileUploadOptions();
     options.fileKey = "file";
     options.fileName = fileURI.substr(fileURI.lastIndexOf('/') + 1);
     options.mimeType = "image/jpeg";
     options.params = {}; // if we need to send parameters to the server request
     var ft = new FileTransfer()
-    ft.upload(fileURI, encodeURI("http://viplus.vinaphone.com.vn/?json=neon/uploadAvatar&avatar=" + endUser.phone + ".jpg&token=" + token), win, fail, options);
+    ft.upload(fileURI, encodeURI("http://viplus.vinaphone.com.vn/?json=neon/uploadAvatar&avatar=" + userControl.endUser.phone + ".jpg&token=" + userControl.token), win, fail, options);
 }
 
 function capturePhoto(type) {
@@ -163,6 +161,38 @@ function register() {
         });
     }
 }
+function onNotificationAPN(event) {
+    if (event.alert) {
+        navigator.notification.alert(event.alert);
+    }
+
+    if (event.sound) {
+        var snd = new Media(event.sound);
+        snd.play();
+    }
+    if (event.badge) {
+        pushNotification.setApplicationIconBadgeNumber(successHandler, errorHandler, event.badge);
+    }
+}
+//iOS
+function tokenHandler(result) {
+    var r = "http://viplus.vinaphone.com.vn/?json=neon/RegisterDevice&AppID=com.PushVu&DeviceType=IOS&RegID=" + result;
+                $.ajax({
+                    url: r,
+                    crossDomain: true,
+                    //dataType: 'jsonp', async: false,
+                    success: function (data, textStatus, jqXHR) {
+                        if (data.status == "ok") {
+                            window.localStorage.setItem("notification", "ok");
+                        } else {
+                            //alert("failed:" + data.msg);
+                        }
+                    },
+                    error: function (responseData, textStatus, errorThrown) {
+                        client.CheckInternet();
+                    }
+                });
+}
 
 function successHandler(result) {
     //alert("success");
@@ -197,34 +227,10 @@ function onNotification(e) {
             break;
 
         case 'message':
-            alert(e.payload.message);
+			utils.Alert(e.payload.message, "Thông báo", function(){});
             notifyId = 100;
             onNotification();
-            /*
-            // if this flag is set, this notification happened while we were in the foreground.
-            // you might want to play a sound to get the user's attention, throw up a dialog, etc.
-            if (e.foreground) {
-                // on Android soundname is outside the payload.
-                // On Amazon FireOS all custom attributes are contained within payload
-                var soundfile = e.soundname || e.payload.sound;
-                // if the notification contains a soundname, play it.
-                var my_media = new Media("/android_asset/www/" + soundfile);
-                my_media.play();
-            }
-            else {  // otherwise we were launched because the user touched a notification in the notification tray.
-                if (e.coldstart) {
-                    //$("#app-status-ul").append('<li>--COLDSTART NOTIFICATION--' + '</li>');
-                }
-                else {
-                    //$("#app-status-ul").append('<li>--BACKGROUND NOTIFICATION--' + '</li>');
-                }
-            }
-
-            //$("#app-status-ul").append('<li>MESSAGE -> MSG: ' + e.payload.message + '</li>');
-            //Only works for GCM
-            //$("#app-status-ul").append('<li>MESSAGE -> MSGCNT: ' + e.payload.msgcnt + '</li>');
-            //Only works on Amazon Fire OS
-            //$status.append('<li>MESSAGE -> TIME: ' + e.payload.timeStamp + '</li>');   */
+            
             break;
 
         case 'error':

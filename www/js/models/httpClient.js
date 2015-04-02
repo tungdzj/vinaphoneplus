@@ -12,7 +12,7 @@ var client = {
         var r = "http://viplus.vinaphone.com.vn/?json=neon/checkInternet";
         $.ajax({
             url: r,
-            crossDomain: true,
+            crossDomain: true,dataType: 'jsonp',
             success: function (data, textStatus, jqXHR) {
                 location.reload();
             },
@@ -24,9 +24,10 @@ var client = {
 
     GetAllInfo: function (s_callback, f_callback) {
         var r = request.GetAllInfo();
+        console.log(r);
         $.ajax({
             url: r,
-            crossDomain: true,
+            crossDomain: true,dataType: 'jsonp',
             //dataType: 'jsonp', async: false,
             success: function (data, textStatus, jqXHR) {
                 $("#moreani4").addClass('hidden');
@@ -34,7 +35,6 @@ var client = {
             },
             error: function (responseData, textStatus, errorThrown) {
                 ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
-
                 });
                 client.criticalError = 1;
                 client.CheckInternet();
@@ -47,13 +47,15 @@ var client = {
         var r = request.GetUserInfo();
         $.ajax({
             url: r,
-            crossDomain: true,
+            crossDomain: true,dataType: 'jsonp',
             success: function (data, textStatus, jqXHR) {
+                //console.log(JSON.stringify(data));
                 for (var i = 0; i < data.groupInfo.length; i++) {
-                    group[data.groupInfo[i].groupEnduserId] = new GroupUser(data.groupInfo[i]);
+                   store.group[data.groupInfo[i].groupEnduserId] = new GroupUser(data.groupInfo[i]);
                 }
                 var d = data;
                 client.UpdateEndUserInfo(data.data);
+				store.CorrectLikeList();
             },
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
@@ -62,7 +64,7 @@ var client = {
 
                     });
                 } else {
-                    ui.ShowCategoryPage();
+                    utils.ShowCategoryPage();
                 }
             }
         });
@@ -72,17 +74,20 @@ var client = {
         var r = request.UpdateUserInfo();
         $.ajax({
             url: r,
-            crossDomain: true,
+            crossDomain: true,dataType: 'jsonp',
             success: function (data, textStatus, jqXHR) {
-                
-                client.UpdateEndUserInfo(data.data);
-                s_callback(data);
+                if (data.status == 'ok'){
+					client.UpdateEndUserInfo(data.data);
+					s_callback(data);
+				}else{
+					ui.Alert('Thông tin không hợp lệ', 'Thông báo', function(){});
+				}
             },
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -93,11 +98,10 @@ var client = {
         var r = request.GetDealCode();
         $.ajax({
             url: r,
-            crossDomain: true,
+            crossDomain: true,dataType: 'jsonp',
             success: function (data, textStatus, jqXHR) {
-                console.log(data);
                 if (data.status == "ok") {
-                    addPromotionCode(data.data.promotionId, data.data.code);
+                    promotionControl.AddPromotionCode(data.data.promotionId, data.data.code);
                     s_callback(data);
                 }
                 else {
@@ -109,7 +113,7 @@ var client = {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -120,12 +124,12 @@ var client = {
         var r = request.Rate(stars);
         $.ajax({
             url: r,
-            crossDomain: true,
+            crossDomain: true,dataType: 'jsonp',
             success: function (data, textStatus, jqXHR) {
                 if (data.status == "ok") {
                     var d = data;
                     if (d.status == "ok") {
-                        promotions[d.promotionId].SetRate(d);
+                        store.promotions[d.promotionId].SetRate(d);
                         s_callback(d);
                     } else {
                         ui.Alert(d.msg, "Thông báo", function () { });
@@ -141,7 +145,7 @@ var client = {
                     if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
                 }
@@ -153,11 +157,11 @@ var client = {
         var r = request.Like();
         $.ajax({
             url: r,
-            crossDomain: true,
+            crossDomain: true,dataType: 'jsonp',
             success: function (data, textStatus, jqXHR) {
                 var d = data;
                 if (d.status == "ok") {
-                    promotions[d.promotionId].SetLike(d);
+                    store.promotions[d.promotionId].SetLike(d);
                     s_callback(d);
                 } else {
                     ui.Alert(d.msg, "Thông báo", function () { });
@@ -172,6 +176,26 @@ var client = {
             }
         });
     },
+	
+	
+	Like1:function(id){
+		var r = request.Like1(id);
+		console.log("liked: " + r);
+        $.ajax({
+            url: r,
+            crossDomain: true,dataType: 'jsonp',
+            success: function (data, textStatus, jqXHR) {
+
+            },
+            error: function (responseData, textStatus, errorThrown) {
+                if (connectionError == 0) {
+                    connectionError = 1;
+                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối internet.", "Thông báo", function () {
+                    });
+                }
+            }
+        });
+	},
 
     Comment: function (content, s_callback, f_callback) {
 		if (content == ""){
@@ -180,7 +204,7 @@ var client = {
 		var r = request.Comment(content);
 		$.ajax({
 		    url: r,
-		    crossDomain: true,
+		    crossDomain: true,dataType: 'jsonp',
 		    success: function (data, textStatus, jqXHR) {
 		        var d = data;
 		        if (d.status == "ok") {
@@ -203,7 +227,7 @@ var client = {
         var r = request.GetComments();
         $.ajax({
             url: r,
-            crossDomain: true,
+            crossDomain: true,dataType: 'jsonp',
             success: function (data, textStatus, jqXHR) {
                 s_callback(data);
             },
@@ -211,7 +235,7 @@ var client = {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -224,7 +248,7 @@ var client = {
         var r = request.AddViewPromotion();
         $.ajax({
             url: r,
-            crossDomain: true,
+            crossDomain: true,dataType: 'jsonp',
             success: function (data, textStatus, jqXHR) {
                 s_callback(data);
             },
@@ -232,7 +256,7 @@ var client = {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -243,19 +267,16 @@ var client = {
         var r = request.GetCodeByPhone();
         $.ajax({
             url: r,
-            crossDomain: true,
+            crossDomain: true,dataType: 'jsonp',
             success: function (data, textStatus, jqXHR) {
+                console.log(JSON.stringify(data));
                 $("#moreani4").addClass('hidden');
                 var d = data;
                 
-                if (d.data == '5') {
-                    ui.HideLoading();
-                    ui.Alert(d.msg, 'Thông báo', function () { })
-                } else {
-                    callback(d);
-                    if (d.data == "3") {
-                        client.GetEndUserInfo();
-                    }
+                callback(d);
+                if (d.data == "3") {
+                    client.GetEndUserInfo();
+                    store.UpdateLikeList(d.liked);
                 }
                 
             },
@@ -263,7 +284,7 @@ var client = {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -274,13 +295,15 @@ var client = {
         var r = request.VerifyCode();
         $.ajax({
             url: r,
-            crossDomain: true,
+            crossDomain: true,dataType: 'jsonp',
             success: function (data, textStatus, jqXHR) {
+                console.log(JSON.stringify(data));
                 var jd = data;
                 if (jd.status == "ok") {
-                    token = jd.token;
+                    userControl.token = jd.token;
                     window.localStorage.setItem('token', jd.token);
                     client.GetEndUserInfo();
+                    store.UpdateLikeList(jd.liked);
                 }
                 callback(jd);
             },
@@ -288,7 +311,7 @@ var client = {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -300,15 +323,15 @@ var client = {
             p += phone[i];
         }
         var r = 'http://viplus.vinaphone.com.vn/?json=neon/activeWS&phone=' + p + '&activecode=' + code;
-        ui.ShowLoading();
+        utils.ShowLoading();
         $.ajax({
             url: r,
-            crossDomain: true,
+            crossDomain: true,dataType: 'jsonp',
             success: function (data, textStatus, jqXHR) {
-                ui.HideLoading();
+                utils.HideLoading();
                 CloseSearchPanel();
                 //ui.Alert('Quý khách đã kích hoạt thành công gói cước MAX_KM. Chi tiết liên hệ 9191. Cảm ơn quý khách đã sử dung dịch vụ', 'Thông báo', function () { })
-                ui.Alert(data.msg, "Thông báo", function () { });
+                utils.Alert(data.msg, "Thông báo", function () { });
             },
             error: function (responseData, textStatus, errorThrown) {
             }
@@ -317,53 +340,54 @@ var client = {
 
     SendOrder: function () {
         var r = request.SendOrder();
-        ui.ShowLoading();
+        utils.ShowLoading();
         $.ajax({
             url: r,
-            dataType: 'jsonp', crossDomain: true,
+            dataType: 'jsonp', crossDomain: true,dataType: 'jsonp',
             success: function (data, textStatus, jqXHR) {
-                ui.HideLoading();
-                ui.Alert(data.msg, 'Thông báo', function () {
+                utils.HideLoading();
+                utils.Alert(data.msg, 'Thông báo', function () {
                 })
             },
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
-                    ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
-                        ui.ShowCategoryPage();
+                    utils.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Thông báo", function () {
+                        utils.ShowCategoryPage();
                     });
                 }
             }
         });
     },
     UpdateEndUserInfo: function (data) {
-        ui.HideLoading();
-        endUser = new EndUserInfo(data);
-        $("#inf_txthoten").html(endUser.userName);
-        $("#inf_txtemail").html(endUser.email);
-        $("#txt_address").html(endUser.address);
-        $("#inf_txtsdt").html(endUser.phone);
-        var img = endUser.groupId;
+        utils.HideLoading();
+        userControl.endUser = new EndUserInfo(data);
+        $("#inf_txthoten").html(userControl.endUser.userName);
+        $("#inf_txtemail").html(userControl.endUser.email);
+        $("#txt_address").html(userControl.endUser.address);
+        $("#inf_txtsdt").html(userControl.endUser.phone);
+        var img = userControl.endUser.groupId;
         if (img > 11) {
             img = 3;
         }
         d = new Date();
-        $("#avatar_img").attr("src", endUser.avatar + "?" + d.getTime());
-        $("#avatar_img1").attr("src", endUser.avatar + "?" + d.getTime());
+        $("#avatar_img").attr("src", userControl.endUser.avatar + "?" + d.getTime());
+        $("#avatar_img1").attr("src", userControl.endUser.avatar + "?" + d.getTime());
         $("#imguser1").attr('src', 'img/levels/' + img + '.png' + "?" + d.getTime());
         $("#imguser").attr('src', 'img/levels/' + img + '.png' + "?" + d.getTime());
-        $("#lblleveltext2").html(group[endUser.groupId].name);
-        $("#lblleveltext1").html(group[endUser.groupId].name);
-        $("#lblleveltext").html(group[endUser.groupId].name);
-        $("#uName2").html(endUser.userName.toUpperCase());
-        $("#uName1").html(endUser.userName);
-        $("#uName").html(endUser.userName);
-        $("#loyalty_point2").html("Điểm: " + endUser.loyaltyPoint);
-        $("#loyalty_point1").html("Điểm: " + endUser.loyaltyPoint);
-        $("#loyalty_point").html("Điểm: " + endUser.loyaltyPoint);
-        createplist();
-        if (currentCategoryId != -1) {
-            ui.ReloadPromotionsPage();
+        $("#lblleveltext2").html(store.group[userControl.endUser.groupId].name);
+        $("#lblleveltext1").html(store.group[userControl.endUser.groupId].name);
+        $("#lblleveltext").html(store.group[userControl.endUser.groupId].name);
+        $("#uName2").html(userControl.endUser.userName.toUpperCase());
+        $("#uName1").html(userControl.endUser.userName);
+        $("#uName").html(userControl.endUser.userName);
+        $("#loyalty_point2").html("Điểm: " + userControl.endUser.loyaltyPoint);
+        $("#loyalty_point1").html("Điểm: " + userControl.endUser.loyaltyPoint);
+        $("#loyalty_point").html("Điểm: " + userControl.endUser.loyaltyPoint);
+        store.Createplist();
+        if (pageManager.currentPage == "promotions_page") {
+            //ui.ReloadPromotionsPage();
+            pageManager.ChangePage("promotions_page");
         }
     }
 }

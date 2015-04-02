@@ -64,7 +64,7 @@ var client = {
 
                     });
                 } else {
-                    ui.ShowCategoryPage();
+                    utils.ShowCategoryPage();
                 }
             }
         });
@@ -72,19 +72,24 @@ var client = {
 
     UpdateUserInfo: function (s_callback, f_callback) {
         var r = request.UpdateUserInfo();
-        console.log(r);
         $.ajax({
             url: r,
             dataType: 'jsonp', crossDomain: true, async: false,
             success: function (data, textStatus, jqXHR) {
-                client.UpdateEndUserInfo(data.data);
-                s_callback(data);
+			console.log(data);
+				ui.HideLoading();
+				if (data.status == 'ok'){
+					client.UpdateEndUserInfo(data.data);
+					s_callback(data);
+				}else{
+					ui.Alert('Thông tin không hợp lệ', 'Thông báo', function(){});
+				}
             },
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -98,7 +103,7 @@ var client = {
             dataType: 'jsonp', crossDomain: true, async: false,
             success: function (data, textStatus, jqXHR) {
                 if (data.status == "ok") {
-                    addPromotionCode(data.data.promotionId, data.data.code);
+                    promotionControl.AddPromotionCode(data.data.promotionId, data.data.code);
                     s_callback(data);
                 }
                 else {
@@ -110,7 +115,7 @@ var client = {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -142,7 +147,7 @@ var client = {
                     if (connectionError == 0) {
                         connectionError = 1;
                         ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
-                            ui.ShowCategoryPage();
+                            utils.ShowCategoryPage();
                         });
                     }
                 }
@@ -212,7 +217,7 @@ var client = {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -231,7 +236,7 @@ var client = {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -246,21 +251,16 @@ var client = {
             success: function (data, textStatus, jqXHR) {
                 $("#moreani4").addClass('hidden');
                 var d = data;
-                if (d.data == '5') {
-                    ui.HideLoading();
-                    ui.Alert(d.msg, 'Thông báo', function () { })
-                } else {
-                    callback(d);
-                    if (d.data == "3") {
-                        client.GetEndUserInfo();
-                    }
+                callback(d);
+                if (d.data == "3") {
+                    client.GetEndUserInfo();
                 }
             },
             error: function (responseData, textStatus, errorThrown) {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -274,7 +274,7 @@ var client = {
         }
         
         var r = 'http://viplus.vinaphone.com.vn/?json=neon/activeWS&phone=' + p + '&activecode=' + code;
-        ui.ShowLoading();
+        utils.ShowLoading();
         $.ajax({
             url: r,
             dataType: 'jsonp', crossDomain: true, async: false,
@@ -307,7 +307,7 @@ var client = {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -330,7 +330,7 @@ var client = {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -339,7 +339,7 @@ var client = {
 
     SendOrder: function () {
         var r = request.SendOrder();
-        ui.ShowLoading();
+        utils.ShowLoading();
         $.ajax({
             url: r,
             dataType: 'jsonp', crossDomain: true, async: false,
@@ -354,7 +354,7 @@ var client = {
                 if (connectionError == 0) {
                     connectionError = 1;
                     ui.Alert("Quý khách vui lòng kiểm tra lại kết nối Internet.", "Lỗi", function () {
-                        ui.ShowCategoryPage();
+                        utils.ShowCategoryPage();
                     });
                 }
             }
@@ -386,7 +386,7 @@ var client = {
         $("#loyalty_point2").html("Điểm: " + endUser.loyaltyPoint);
         $("#loyalty_point1").html("Điểm: " + endUser.loyaltyPoint);
         $("#loyalty_point").html("Điểm: " + endUser.loyaltyPoint);
-        createplist();
+        createstore.plist();
         if (currentCategoryId != -1) {
             ui.ReloadPromotionsPage();
         }

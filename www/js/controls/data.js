@@ -1,37 +1,37 @@
 ﻿
-var currentPromotionId = -1;
-var currentPromotionAddId = -1;
-var currentCategoryId = -1;
-var currentShopId = -1;
-var notifyId = -1;
+//var currentPromotionId = -1;
+//var currentPromotionAddId = -1;
+//var currentCategoryId = -1;
+//var currentShopId = -1;
+//var notifyId = -1;
 
-var promotions = [];
+//var promotions = [];
 
-var newPromotions = [];
+//var newPromotions = [];
 
-var promotionsAdds = [];
+//var promotionsAdds = [];
 
-var shops = [];
+//var shops = [];
 
-var partners = [];
+//var partners = [];
 
-var nearShops = [];
+//var nearShops = [];
 
-var categories = [];
-for (var i = 1; i <= 6; i++) {
-    categories[i + ""] = [];
-}
+//var categories = [];
+//for (var i = 1; i <= 6; i++) {
+//    categories[i + ""] = [];
+//}
 
-var endUser = null;
+//var endUser = null;
 
-var promotionsCode = [];
+//var promotionsCode = [];
 
-var bestView = [];
+//var bestView = [];
 
-var bestBuy = [];
+//var bestBuy = [];
 
-var plist = null;
+//var plist = null;
 
-var shopDis = [];
+//var shopDis = [];
 
-var group = new Array();
+//var group = new Array();
