@@ -15,15 +15,23 @@ var app = {
     onDeviceReady: function () {
         pictureSource = navigator.camera.PictureSourceType.PHOTOLIBRARY;
         destinationType = navigator.camera.DestinationType;
+        var _uuid = window.localStorage.getItem("uuid");
+        if (_uuid == null || _uuid == '') {
+            _uuid = device.uuid;
+            window.localStorage.setItem('uuid', device.uuid);
+            userControl.uuid = device.uuid;
+        } else {
+            userControl.uuid = _uuid;
+        }
         userControl.uuid = device.uuid;
         if (device.platform == "iOS") {
             StatusBar.hide();
         }
-		var notify = window.localStorage.getItem("notification");
-            if (notify == null) {
-                pushNotification = window.plugins.pushNotification;
-                register();
-            }
+        var notify = window.localStorage.getItem("notification");
+        if (notify == null) {
+            pushNotification = window.plugins.pushNotification;
+            register();
+        }
         app.receivedEvent('deviceready');
         navigator.geolocation.getCurrentPosition(function (position) {
             deviceLocation = [position.coords.latitude, position.coords.longitude];
@@ -149,7 +157,7 @@ function register() {
             pushTransportReadyCallback: replace_with_pushTransportReady_callback,
             launchApplicationOnPush: true
         });
-    } else {
+    } else if (device.platform == "iOS"){
         pushNotification.register(
         tokenHandler,
         errorHandler,
@@ -163,7 +171,9 @@ function register() {
 }
 function onNotificationAPN(event) {
     if (event.alert) {
-        navigator.notification.alert(event.alert);
+        mypush.init(event.alert, event.title, event.options);
+        mypush.applyPush();
+        //navigator.notification.alert(event.alert);
     }
 
     if (event.sound) {
@@ -176,22 +186,23 @@ function onNotificationAPN(event) {
 }
 //iOS
 function tokenHandler(result) {
-    var r = "http://viplus.vinaphone.com.vn/?json=neon/RegisterDevice&AppID=com.PushVu&DeviceType=IOS&RegID=" + result;
-                $.ajax({
-                    url: r,
-                    crossDomain: true,
-                    //dataType: 'jsonp', async: false,
-                    success: function (data, textStatus, jqXHR) {
-                        if (data.status == "ok") {
-                            window.localStorage.setItem("notification", "ok");
-                        } else {
-                            //alert("failed:" + data.msg);
-                        }
-                    },
-                    error: function (responseData, textStatus, errorThrown) {
-                        client.CheckInternet();
-                    }
-                });
+    var r = "http://viplus.vinaphone.com.vn/?json=neon/RegisterDevice&AppID=com.PushVu&DeviceType=IOS&RegID=" + result + "&uuid=" + userControl.uuid;
+    console.log(r);
+    $.ajax({
+        url: r,
+        crossDomain: true,
+        //dataType: 'jsonp', async: false,
+        success: function (data, textStatus, jqXHR) {
+            if (data.status == "ok") {
+                window.localStorage.setItem("notification", "ok");
+            } else {
+                //alert("failed:" + data.msg);
+            }
+        },
+        error: function (responseData, textStatus, errorThrown) {
+            client.CheckInternet();
+        }
+    });
 }
 
 function successHandler(result) {
@@ -207,7 +218,7 @@ function onNotification(e) {
             if (e.regid.length > 0) {
                 // Your GCM push server needs to know the regID before it can push to this device
                 // here is where you might want to send it the regID for later use.
-                var r = "http://viplus.vinaphone.com.vn/?json=neon/RegisterDevice&AppID=com.PushVu&DeviceType=AND&RegID=" + e.regid;
+                var r = "http://viplus.vinaphone.com.vn/?json=neon/RegisterDevice&AppID=com.PushVu&DeviceType=AND&RegID=" + e.regid + "&uuid=" + userControl.uuid;
                 $.ajax({
                     url: r,
                     crossDomain: true,
@@ -227,10 +238,8 @@ function onNotification(e) {
             break;
 
         case 'message':
-			utils.Alert(e.payload.message, "Thông báo", function(){});
-            notifyId = 100;
-            onNotification();
-            
+            mypush.init(e.payload.message, e.payload.title, e.payload.options);
+            mypush.applyPush();
             break;
 
         case 'error':
@@ -243,3 +252,32 @@ function onNotification(e) {
     }
 }
 
+var mypush = {
+    message: '',
+    title: '',
+    path: '',
+    applyPush: function () {
+        if (store.promotions.length == 0 || mypush.message == '') {
+            return;
+        }
+        utils.Confirm1(mypush.message, mypush.title, function () {
+            var t = mypush.path.split('-');
+            var category = t[0];
+            var id = t[1];
+            homeControl.OnCategoryClick(category);
+            promotionControl.OnPromotionClick(id, -1, -1);
+        },
+        function () { },
+        'Xem',
+        'Bỏ qua'
+        );
+
+
+    },
+
+    init: function (_message, _title, _path) {
+        mypush.message = _message;
+        mypush.title = _title;
+        mypush.path = _path;
+    }
+}

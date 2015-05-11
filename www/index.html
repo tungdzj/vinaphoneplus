@@ -10,10 +10,12 @@
     <link rel="stylesheet" href="css/idangerous.swiper.css">
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
     <script type="text/javascript" charset="utf-8" src="cordova_plugins.js"></script>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery.mobile-1.4.4.min.js"></script>
+    <script src="js/jquery-2.1.3.min.js"></script>
+    <script src="js/jquery.mobile-1.4.5.js"></script>
     <script src="js/idangerous.swiper.js"></script>
+	<script src="PushNotification.js"></script>
 	<script src="js/index.js"></script>
+	
     <script type="text/javascript">
         app.initialize();
     </script>
@@ -31,6 +33,7 @@
         <div class="addbar">
 			<div class="loading-container">
 				<img src="img/loading.gif" id="moreani4" class="moreani" />
+				<span>Đang tải dữ liệu</span>
 			</div>
             <div id="groupUser1" onclick="userControl.UpdateClick()">
                 <img id="imguser1" src="img/levels/3.png"/>
@@ -156,14 +159,20 @@
             </div>
         </div>
     </div>
-    
+
     <div data-role="page" id="help_page">
         <div class="arrow-left" onclick="helpControl.OnPrevClick()"></div>
         <div class="arrow-right" onclick="helpControl.OnNextClick()"></div>
         <div id="help_content" class="swiper-container scroll-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
+                    <img src="img/help/f0.png" />
+                </div>
+                <div class="swiper-slide">
                     <img src="img/help/f1.png" />
+                </div>
+                <div class="swiper-slide">
+                    <img src="img/help/f4.png" />
                 </div>
                 <div class="swiper-slide">
                     <img src="img/help/f2.png" />
@@ -171,27 +180,10 @@
                 <div class="swiper-slide">
                     <img src="img/help/f3.png" />
                 </div>
-                <div class="swiper-slide">
-                    <img src="img/help/f4.png" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="img/help/f5.png" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="img/help/f6.png" />
-                </div>
-                <div class="swiper-slide">
-                    <img src="img/help/f7.png" />
-                </div>
             </div>
         </div>
         <div class="pagination"></div>
-        <img class="help-close" src="img/icon/close1.png" onclick="pageManager.OnBackClick()" />
-        <!--<div class="footer font_size_14">
-            <div class="text_center pressable btn-img btn-img-back" onclick="pageManager.OnBackClick()">
-                Quay lại
-            </div>
-        </div>-->
+        <img class="help-close" src="img/help/close.png" onclick="helpControl.OnBackClick()" />
     </div>
 
     <div data-role="page" id="promotions_page">
@@ -203,51 +195,23 @@
             </div>
             <div id="promotion_nav" class="swiper-container swiper-pages p_nav_slider">
                 <div class="p-nav-1 p-nav-block btn-nav-img-small" onclick="promotionControl.OnNavItemClick(0)">
-                    <span>Yêu thích</span>
+                    <span>YÊU THÍCH</span>
                 </div>
                 <div class="p-nav-2 p-nav-block btn-nav-img-small" onclick="promotionControl.OnNavItemClick(1)">
-                    <span>Ưu đãi</span>
+                    <span>ƯU ĐÃI</span>
                 </div>
                 <div class="p-nav-3 p-nav-block btn-nav-img-small" onclick="promotionControl.OnNavItemClick(2)">
-                    <span>Hot</span>
+                    <span>HOT NHẤT</span>
                 </div>
                 <div class="p-nav-4 p-nav-block btn-nav-img-small" onclick="promotionControl.OnNavItemClick(3)">
-                    <span>Mới</span>
+                    <span>MỚI NHẤT</span>
                 </div>
                 <div class="p-nav-5 p-nav-block  btn-nav-img-small" onclick="promotionControl.OnNavItemClick(4)">
-                    <span>Gần</span>
+                    <span>GẦN NHẤT</span>
                 </div>
                 <div class="p-nav-6 p-nav-block btn-nav-img-small" onclick="promotionControl.OnNavItemClick(5)">
-                    <span>Tìm kiếm</span>
+                    <span>TÌM KIẾM</span>
                 </div>
-                <!--<div class="swiper-wrapper" style="background: -webkit-linear-gradient(top, rgb(255, 255, 255), rgb(202, 202, 202));">-->
-                <!--<div class="swiper-wrapper">
-                    <div class="swiper-slide swiper-slide-active" onclick="promotionControl.OnNavItemClick(0)">
-                        <div class="promotion-tab-text-1" style="text-align: center;">Yêu thích</div>
-                    </div>
-                    <div class="swiper-slide " onclick="promotionControl.OnNavItemClick(1)">
-                        <div class="promotion-tab-text-2" style="text-align: center;">Ưu đãi</div>
-                    </div>
-                    <div class="swiper-slide" onclick="promotionControl.OnNavItemClick(2)">
-                        <div class="promotion-tab-text-3" style="text-align: center;">Hot nhất</div>
-                    </div>
-                    <div class="swiper-slide" onclick="promotionControl.OnNavItemClick(3)">
-                        <div class="promotion-tab-text-4" style="text-align: center;">Mới nhất</div>
-                    </div>
-                    <div class="swiper-slide" onclick="promotionControl.OnNavItemClick(4)">
-                        <div class="promotion-tab-text-5" style="text-align: center;">Gần nhất</div>
-                    </div>
-                    <div class="swiper-slide" onclick="promotionControl.OnNavItemClick(5)">
-                        <div class="promotion-tab-text-6" style="text-align: center;">Mua nhiều nhất</div>
-                    </div>
-                    <div class="swiper-slide" onclick="promotionControl.OnNavItemClick(6)">
-                        <div class="promotion-tab-text-7" style="text-align: center; margin-left: 5%;">Tìm kiếm</div>
-                    </div>
-                </div>
-                <div class="border_mask hidden" >
-                    <div class="ui-grid-b">
-                    </div>
-                </div>-->
             </div>
             <div class="cursor-container">
                 <div class="cursor">
@@ -296,8 +260,7 @@
                     </div>
                     
                     <div class="nearScroll nearPanel" style="overflow-y:hidden;position:relative;">
-                        <img src="img/loading.gif" id="moreani3" style="width: 10%; margin-left: 45%; position: absolute;" class="hidden moreani" />
-                        <div class="swiper-scrollbar"></div>
+                        <img src="img/loading.gif" id="moreani3" style="" class="hidden moreani" />
                         <div class="swiper-wrapper">
                             <div class="swiper-slide"></div>
                             </div>
@@ -305,7 +268,6 @@
                 </div>
                 <div class="swiper-slide">
                     <div class="searchScroll promotion_content">
-                        <div class="swiper-scrollbar"></div>
                         <div class="swiper-wrapper">
                             <div class="swiper-slide"></div>
                         </div>
@@ -365,7 +327,6 @@
             <div class="detail_social ui-grid-c">
                 <div class="ui-block-a text_center" onclick="detailControl.OnSocialClick(1)">
                     <div id="like_count" class="no_line_height social_text_count"><span></span><img class="social_img like-img" src="img/like.png" /></div>
-                    
                     <div class="social_text social-text-1">Thích</div>
                     
                 </div>
@@ -382,33 +343,33 @@
                     
                 </div>
                 <div class="ui-block-d text_center" onclick="detailControl.OnSocialClick(4)">
-                    <div id="rate_count" class="social_text_count"><span></span><img class="social_img" src="img/fb.png" /></div>
-                    
+                    <div class="social_text_count"><img class="social_img" src="img/fb.png" /></div>
                     <div class="social_text social-text-4">Chia sẻ</div>
                     
                 </div>
             </div>
         </div>
         <div id="detail_content" class="detail_scroll swiper-container scroll-container">
-            <div class="swiper-scrollbar"></div>
             <div class="swiper-wrapper">
                 <div class="swiper-slide">
                     <div id="detail_above" class="detail-content-block">
 
                     </div>
-                    <div class="detail-content-block">
+                    <div class="detail-content-block getcode-block">
                         <div class="promotion_title">
 
                         </div>
                         <div class="getcodecontainer">
                             <div class="getCodeButton" onclick="detailControl.GetCode();" style="width:65%;">
                                 <span id="deal_code_button" class="font_size_14" style="font-size:140%;">Lấy mã ưu đãi tại đây</span>
+                                <span id="remain-text-1" class="remain">(Còn lại 3 mã)</span>
                             </div>
                             <div class="showQRButton" onclick="detailControl.OnShowQRClick();" style="margin-bottom: 2%; float: left; width: 14%; background-size: 100%; margin-left:1%;">Hiện mã QR</div>
                         </div>
                         <div class="getcodecontainer1 hidden">
                             <div class="getCodeButton" onclick="detailControl.GetCode();">
                                 <span id="deal_code_button1" class="font_size_14" style="font-size: 140%;">Lấy mã ưu đãi tại đây</span>
+                                <span id="remain-text-2" class="remain">(Còn lại 3 mã)</span>
                             </div>
                         </div>
                         <div class="active70 hidden" onclick="OpenSearchPanel(1)">
@@ -424,9 +385,11 @@
                     
                 </div>
                 <div class="swiper-slide">
+
                     <div class="detail-content-block">
+                        <img class='detail-icon' src="img/comment/comment.png" /><b>Bình luận</b>
                         <form id="comment_input">
-                            <textarea id="comment_text_area" placeholder="Viết bình luận"></textarea>
+                            <div id="comment_text_area" onclick="utils.Prompt(this, 'Viết bình luận')">Viết bình luận</div>
                             <div id="comment_btn_send" class="ui-btn" onclick="detailControl.SendComment()">
                                 Gửi
                             </div>
@@ -436,6 +399,15 @@
                     <div id="detail_comment_panel" class="detail-content-block">
                         <img src="img/loading.gif" class="loading_comment" />
                     </div>
+                </div>
+                <div class="swiper-slide">
+                    <div class="banner_slider swiper-container">
+                        <div class="banner-text"></div>
+                        <div class="swiper-wrapper">
+                        </div>
+                        <div class="dot"></div>
+                    </div>
+                    
                 </div>
             </div>
         </div>
@@ -466,8 +438,7 @@
         <div class="detail_extend_slider swiper-pages swiper-container">
             <div class="swiper-wrapper">
                 <div class="swiper-slide page_slide">
-                    <div id="info_panel" class="infoScroll promotion_content">
-                        <div class="swiper-scrollbar"></div>
+                    <div id="info_panel" class="infoScroll extend_content">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
                                 <div class="infoItems page-inner">
@@ -482,7 +453,6 @@
                     <div id="location_map_canvas" class="swiper-no-swiping">
                     </div>
                     <div class="locationScroll locationSize" style="overflow-y:hidden;">
-                        <div class="swiper-scrollbar"></div>
                         <div class="swiper-wrapper" style="float:left;">
                             <div class="swiper-slide">
                                 <div class="locationItems page-inner">
@@ -493,8 +463,7 @@
                     </div>
                 </div>
                 <div id="images_panel" class="swiper-slide page_slide">
-                    <div class="imageScroll promotion_content">
-                        <div class="swiper-scrollbar"></div>
+                    <div class="imageScroll extend_content">
                         <div class="swiper-wrapper">
                         </div>
                     </div>
@@ -551,8 +520,7 @@
             <div class="top_border"></div>
             <div id="popup_content">
                 <div id="login_popup1" class="hidden">
-                    <span class="viplus font_size_20">VINAPHONE PLUS</span>
-                    <div class="font_size_14 text_center full_width"><b>Tận hưởng thế giới ưu đãi của khách hàng VinaPhone</b></div>
+                    <div class="font_size_14 text_center full_width"><p class="title">Tận hưởng thế giới ưu đãi của khách hàng VinaPhone</p></div>
                     <span id="popup_warning_text" class="large_text text_red"></span>
                     <div class="btn_container_a">
                         <div class="ui-btn" onclick="pageManager.OnBackClick()">Đóng</div>
@@ -561,8 +529,7 @@
                 </div>
 
                 <div id="login_popup2" class="hidden">
-                    <span class="viplus font_size_20">VINAPHONE PLUS</span>
-                    <div class="font_size_14 text_center full_width"><b>Tận hưởng thế giới ưu đãi của khách hàng VinaPhone</b></div><br />
+                    <div class="font_size_14 text_center full_width"><p class="title">Tận hưởng thế giới ưu đãi của khách hàng VinaPhone</p></div><br />
                     <div class="clear"></div>
                     <div class="font_size_12 text_center full_width"><i>Nhập số điện thoại của bạn</i></div>
                     <div class="clear"></div>
@@ -574,8 +541,7 @@
                 </div>
 
                 <div id="login_popup3" class="hidden">
-                    <span class="viplus font_size_20">VINAPHONE PLUS</span>
-                    <div class="font_size_14 text_center full_width"><b>Tận hưởng thế giới ưu đãi của khách hàng VinaPhone</b></div><br />
+                    <div class="font_size_14 text_center full_width"><p class="title">Tận hưởng thế giới ưu đãi của khách hàng VinaPhone</></div><br />
                     <div class="clear"></div>
                     
                     <div class="font_size_12 text_center full_width"><i>Nhập mã xác nhận</i></div>
@@ -591,11 +557,10 @@
                 </div>
 
                 <div id="login_popup4" class="hidden">
-                    <span class="viplus font_size_20">VINAPHONE PLUS</span>
-                    <div class="font_size_14 text_center full_width"><b>Tận hưởng thế giới ưu đãi của khách hàng VinaPhone</b></div><br />
+                    <div class="font_size_14 text_center full_width"><p class="title">Tận hưởng thế giới ưu đãi của khách hàng VinaPhone</p></div><br />
                     
                     <div class="popup1_controls">
-                        <span class="large_text font_size_20" style="margin-top:25px;margin-bottom:25px;color:#0094ff;">Bạn đã đăng nhập<br /> thành công</span>
+                        <span class="large_text font_size_20" style="margin: 1em 0em; color: #168DFE; font-size: 150%; ">Bạn đã đăng nhập<br /> thành công</span>
                         <div class="btn_container_a">
                             <div class="ui-btn" onclick="pageManager.OnBackClick()">Đóng</div>
                             <div id="login_btn_login" class="ui-btn" onclick="userControl.UpdateClick()">Cập nhật</div>
@@ -674,15 +639,17 @@
     <div data-role="panel" id="menu_panel" class="font_size_14">
         <div class="ui-panel-inner">
             <div class="menu_header" onclick="utils.CloseMenu()">
-                <p>Menu</p>
+                <p>MENU</p>
             </div>
             <ul style="margin-top:0px;">
+                <li class="menu_item menu_item_header">DANH MỤC</li>
                 <li onclick="homeControl.OnMenuClick(1)" class="menu_item"><img src="img/cuisine.png" /><div class="menu-text-2">Ẩm thực</div></li>
                 <li onclick="homeControl.OnMenuClick(2)" class="menu_item"><img src="img/shopping.png" /><div class="menu-text-3">Mua sắm</div></li>
                 <li onclick="homeControl.OnMenuClick(3)" class="menu_item"><img src="img/entertainment.png" /><div class="menu-text-4">Giải trí­</div></li>
                 <li onclick="homeControl.OnMenuClick(4)" class="menu_item"><img src="img/travel.png" /><div class="menu-text-5">Du lịch</div></li>
                 <li onclick="homeControl.OnMenuClick(5)" class="menu_item"><img src="img/health.png" /><div class="menu-text-6">Sức khỏe</div></li>
                 <li onclick="homeControl.OnMenuClick(6)" class="menu_item"><img src="img/education.png" /><div class="menu-text-7">Giáo dục</div></li>
+                <li class="menu_item menu_item_header">HỖ TRỢ</li>
                 <li onclick="homeControl.OnMenuClick(7)" class="menu_item"><img src="img/icon/help.png" /><div class="menu-text-8">Hướng dẫn</div></li>
                 <li onclick="detailControl.OnInfoMenuClick()" class="menu_item"><img src="img/information.png" /><div class="menu-text-9">Thông tin</div></li>
             </ul>
@@ -691,13 +658,13 @@
     <!--Rate dialog-->
     <div data-role="popup" class="dialog ui-content" id="rate_dialog" data-history="false" data-overlay-theme="b">
         <div role="main">
-            <h2 class="font_size_48" align="center">Đánh giá</h2><br />
+            <h2 class="popup_title" align="center">Đánh giá</h2><br />
             <img class="rate_pic_size" id="rate_pic_1" src="img/star_empty.png" onclick="detailControl.OnStarClick(1)"/>
             <img class="rate_pic_size" id="rate_pic_2" src="img/star_empty.png" onclick="detailControl.OnStarClick(2)" />
             <img class="rate_pic_size" id="rate_pic_3" src="img/star_empty.png" onclick="detailControl.OnStarClick(3)" />
             <img class="rate_pic_size" id="rate_pic_4" src="img/star_empty.png" onclick="detailControl.OnStarClick(4)" />
             <img class="rate_pic_size" id="rate_pic_5" src="img/star_empty.png" onclick="detailControl.OnStarClick(5)" />
-            <div class="font_size_14"><br />Quý khách hãy đánh giá ưu đãi này. <br /><b>Lưu ý: </b><i>Quý khách chỉ được đánh giá <br />một lần cho mỗi ưu đãi.</i></div>
+            <div class="font_size_14"><br />Quý khách hãy đánh giá ưu đãi này. <br /><br /><b>Lưu ý: </b><i>Quý khách chỉ được đánh giá một lần cho mỗi ưu đãi.</i></div>
         </div>
     </div>
 
@@ -723,23 +690,31 @@
     <!--Info dialog-->
     <div data-role="popup" class="dialog" id="info_dialog" data-history="false" data-overlay-theme="b" style="padding-bottom:20px;">
         <div role="main">
-            <div class="app-info-title popup_title">Thông tin</div><br />
+            <div class="app-info-title popup_title">Thông báo</div><br />
             <img src="img/vinaphone.png" style="width:80%;margin-left:10%;" />
             <div class="version-info">Phiên bản: 1.0.9</div>
-            <div class="rate-app" onclick="promotionControl.Rate()">Chấm điểm ứng dụng</div>
+            <div class="rate-app" onclick="promotionControl.Rate()">Đánh giá ứng dụng</div>
         </div>
     </div>
-    <div id="background" class="hidden" style="opacity:0.4;position: fixed; z-index: 1500; background-color: black; width: 100%; height: 100%;"></div>
+    <!--Update-->
+    <div class="popup hidden"  id="version_dialog" style="padding-bottom: 20px; z-index: 1501;">
+        <img class="close-btn" src="img/icon/close1.png" onclick="checkVersion.onCloseClick()" />
+        <div class="app-info-title popup_title">Thông báo</div>
+        <div class="update-ver-1">Đã đến lúc cần nâng cấp ứng dụng</div>
+        <div class="update-ver-2">Phiên bản mới với nhiều tính năng hấp dẫn đã sẵn sàng</div>
+        <div id="login_btn_next" class="ui-btn update-btn" onclick="checkVersion.onUpdateClick()">Cập nhật</div>
+    </div>
+    <div id="background" class="hidden"></div>
     <!--Search panel-->
     <div id="search_panel" class="popup hidden" >
         <div class="top_border"></div>
         <div id="search_tab" class="hidden">
-            <div class="search-title-text popup_title">Tìm kiếm</div>
+            <div class="search-title-text popup_title">TÌM KIẾM</div>
             <input id="txt_search" onkeyup="promotionControl.onSearchTextChange()" onblur="promotionControl.onSearchBlur()" data-type="search" type="search"  placeholder="Từ tìm kiếm" class="input_popup search-input-text" />
-            <ul class="suggest_text font_size_14" style="margin-top: 0px; width: 80%; margin-left: 10%; position: absolute; z-index: 110;" data-filter="true" data-filter-reveal="true" data-input="#txt_search"></ul>
+            <ul class="suggest_text font_size_14" data-filter="true" data-filter-reveal="true" data-input="#txt_search"></ul>
             <input id="txt_range" data-type="search" onkeyup="promotionControl.onRangeTextChange()" onblur="promotionControl.onRangeBlur()" type="search" placeholder="Toàn quốc" class="input_popup" />
 
-            <ul class="suggest_range font_size_14 hidden" style="margin-top: 0px; width: 80%; margin-left: 10%; position: absolute; z-index: 110;">
+            <ul class="suggest_range font_size_14 hidden">
 
             </ul>
             <div class="btn_container_a">
@@ -749,7 +724,7 @@
             <div class="clear"></div>
         </div>
         <div id="active_tab">
-            <input id="txt_active_phone" placeholder="Số điện thoại" class="input_popup" />
+            <!--<input id="txt_active_phone" placeholder="Số điện thoại" class="input_popup" />-->
             <div  class="popup_title">KÍCH HOẠT GÓI KHUYẾN MẠI VINAPHONE</div>
             <input id="txt_active_code" placeholder="(Nhập mã kích hoạt tại đây)" class="input_popup" />
             <div class="btn_container_a">
@@ -800,10 +775,8 @@
             
         </div>
         <div id="order_tab">
+            <div class="popup_title">ĐẶT HÀNG</div>
             <table border="0" style="margin-left:10px;margin-right:10px;">
-                <tr>
-                    <th colspan="2" align="center" class="popup_title">Đặt hàng<br /><br /></th>
-                </tr>
                 <tr>
                     <td class="font_size_14" style="width:30%;">Họ tên:</td>
                     <td><div id="inf_txthoten1" class="font_size_14 padding-5" onclick="utils.Prompt(this, 'Nhập họ tên')"></div></td>
@@ -824,9 +797,9 @@
         </div>
         <div class="bottom_border"></div>
     </div>
-    <script src="js/jquery.min.js"></script>
-    <script src="js/jquery.mobile-1.4.5.js"></script>
+    
     <script src="js/idangerous.swiper.js"></script>
+	
     <script src="js/jsResponsive.js"></script>
 
     <script src="js/views/sliderManager.js"></script>
@@ -855,12 +828,14 @@
     <script src="js/views/detailView.js"></script>
     <script src="js/views/extendView.js"></script>
     <script src="js/views/promotionView.js"></script>
+    <script src="js/newVersion.js"></script>
 	<script src="js/language.js"></script>
-<script src="js/models/httpClient.js"></script>
+    <script src="js/models/httpClientPC.js"></script>
 
     <script type="text/javascript"
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAXGB8JF4cvCtemlZr2G_ajvBGg239sNbQ">
     </script>
     <script src="js/models/map.js"></script>
+    
 </body>
 </html>

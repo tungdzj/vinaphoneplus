@@ -1,2 +1,2 @@
-G:\viplus\platforms\android\CordovaLib\ant-build\AndroidManifest.xml : \
-G:\viplus\platforms\android\CordovaLib\AndroidManifest.xml \
+E:\viplus\android\platforms\android\CordovaLib\ant-build\AndroidManifest.xml : \
+E:\viplus\android\platforms\android\CordovaLib\AndroidManifest.xml \

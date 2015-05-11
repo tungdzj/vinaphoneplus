@@ -87,19 +87,13 @@
     },
 
     GetCodeByPhone: function () {
-        var r = "84";
-        for (var i = 1; i < userControl.userPhoneNumber.length; i++) {
-            r += userControl.userPhoneNumber[i];
-        }
+        var r = request.CorrectPhoneNumber();
         return host + "?json=neon/getCodeByPhone&phone=" + r +
             "&uuid=" + userControl.uuid;
     },
 
     VerifyCode: function () {
-        var r = "84";
-        for (var i = 1; i < userControl.userPhoneNumber.length; i++) {
-            r += userControl.userPhoneNumber[i];
-        }
+        var r = request.CorrectPhoneNumber();
         return host + "?json=neon/verifyCodeLogin&phone=" + r +
             "&code=" + verifyCode +
             "&uuid=" + userControl.uuid;
@@ -111,15 +105,34 @@
     },
 
     UpdateUserInfo: function () {
-        var r = "84";
-        for (var i = 1; i < userControl.endUser.phone.length; i++) {
-            r += userControl.userPhoneNumber[i];
-        }
+        var r = request.CorrectPhoneNumber();
+        
         return host + "?json=neon/updateEndUser&token=" + userControl.token +
             "&uuid=" + userControl.uuid +
             "&userName=" + userControl.endUser.userName +
             "&phone=" + r + 
             "&email=" + userControl.endUser.email +
             "&address=" + userControl.endUser.address;
+    },
+
+    CheckVersion: function () {
+        return host + "?json=neon/checkVersion";
+    },
+
+    CorrectPhoneNumber: function () {
+        var r = '';
+        if (userControl.userPhoneNumber[0] == '0') {
+            r = "84";
+            for (var i = 1; i < userControl.userPhoneNumber.length; i++) {
+                r += userControl.userPhoneNumber[i];
+            }
+        } else if (userControl.userPhoneNumber[0] == '+') {
+            for (var i = 1; i < userControl.userPhoneNumber.length; i++) {
+                r += userControl.userPhoneNumber[i];
+            }
+        } else {
+            r = userControl.userPhoneNumber;
+        }
+        return r;
     }
 }

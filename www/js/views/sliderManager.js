@@ -60,7 +60,8 @@ function ReInitPromotionsScroll() {
     //scrolls.bestbuy.swipeTo(0);
     scrolls.like.swipeTo(0);
 }
-var holdPosition= 0;
+var holdPosition = 0;
+var threshHold = 50;
 function InitAllScrolls() {
 	//like scroll
     scrolls.like = $(".likeScroll").swiper({
@@ -69,8 +70,8 @@ function InitAllScrolls() {
         slidesPerView: 'auto',
         scrollContainer: true,
         onResistanceAfter: function (s, pos) {
-            if (pos > 100) {
-                if (promotionView.currentLikeSlide + promotionView.slShow / 2 * 3 < store.likeList.length) {
+            if (pos > threshHold) {
+                if (promotionView.currentLikeSlide + promotionView.slShow / 2 * 3 < store.likeList[store.currentCategoryId].length) {
                     holdPosition = pos;
                     $("#moreani2").removeClass('hidden');
                 } else {;
@@ -83,7 +84,7 @@ function InitAllScrolls() {
             }
         },
         onResistanceBefore: function (s, pos) {
-            if (pos > 100) {
+            if (pos > threshHold) {
                 if (promotionView.currentLikeSlide > 0) {
                     $("#moreani1").removeClass('hidden');
                     holdPosition = -pos;
@@ -101,10 +102,10 @@ function InitAllScrolls() {
             $("#moredata1").addClass('hidden');
             $("#moreani1").addClass('hidden');
             $("#moreani2").addClass('hidden');
-            var len = store.likeList.length;
+            var len = store.likeList[store.currentCategoryId].length;
             var me = scrolls.like;
             var pos = me.positions;
-            if (holdPosition > 100) {   //after
+            if (holdPosition > threshHold) {   //after
                 var odd = len - (promotionView.currentLikeSlide + promotionView.slShow / 2 * 3);
                 if (odd <= 0) {
                     return;
@@ -118,40 +119,42 @@ function InitAllScrolls() {
                     d = promotionView.slShow;
                 }
                 for (var i = 0; i < d + promotionView.slShow / 2; i++) {
-					if (store.promotions[store.likeList[i]] != null) {
-						$(".likeScroll .swiper-wrapper").append(promotionView.PromotionItemSlide(store.likeList[i], -1));
+                    if (store.promotions[store.likeList[store.currentCategoryId][promotionView.currentLikeSlide + i]] != null) {
+                        console.log("add" + store.likeList[store.currentCategoryId][i]);
+                        $(".likeScroll .swiper-wrapper").append(promotionView.PromotionItemSlide(store.likeList[store.currentCategoryId][promotionView.currentLikeSlide + i], -1));
 					}
                     
                 }
 
                 me.reInit();
-                me.ChangeWrapperTranslate(pos.current + (promotionView.slShow * promotionView.slideSize));
+                me.ChangeWrapperTranslate(pos.current + (promotionView.slShow * promotionView.slideSize - 10));
             }
-            if (holdPosition < -100) {  //before
+            if (holdPosition < -threshHold) {  //before
                 var odd = len - (promotionView.currentLikeSlide + promotionView.slShow / 2);
                 var d = 0;
                 $(".likeScroll .swiper-wrapper").empty();
                 promotionView.currentLikeSlide -= promotionView.slShow;
                 for (d = 0; d <= promotionView.slShow / 2 * 3; d++) {
-					if (store.promotions[store.likeList[i]] != null) {
-						$(".likeScroll .swiper-wrapper").append(promotionView.PromotionItemSlide(store.likeList[i], -1));
+                    if (store.promotions[store.likeList[store.currentCategoryId][promotionView.currentLikeSlide + d]] != null) {
+                        console.log(store.likeList[store.currentCategoryId][i]);
+                        $(".likeScroll .swiper-wrapper").append(promotionView.PromotionItemSlide(store.likeList[store.currentCategoryId][promotionView.currentLikeSlide + d], -1));
 					}
                     
                 }
                 me.reInit();
-                me.ChangeWrapperTranslate(pos.current - (promotionView.slShow * promotionView.slideSize));
+                me.ChangeWrapperTranslate(pos.current - (promotionView.slShow * promotionView.slideSize - 8));
             }
             holdPosition = 0;
         }
     });
-    //new scroll
+    //random scroll
     scrolls.random = $(".randomScroll").swiper({
         speed:0,
         mode: 'vertical',
         slidesPerView: 'auto',
         scrollContainer: true,
         onResistanceAfter: function (s, pos) {
-            if (pos > 100) {
+            if (pos > threshHold) {
                 if (promotionView.currentSlide[0] + promotionView.slShow / 2 * 3 < store.plist[store.currentCategoryId][0].length) {
                     holdPosition = pos;
                     $("#moreani2").removeClass('hidden');
@@ -165,7 +168,7 @@ function InitAllScrolls() {
             }
         },
         onResistanceBefore: function (s, pos) {
-            if (pos > 100) {
+            if (pos > threshHold) {
                 if (promotionView.currentSlide[0] > 0) {
                     $("#moreani1").removeClass('hidden');
                     holdPosition = -pos;
@@ -186,7 +189,7 @@ function InitAllScrolls() {
             var len = store.plist[store.currentCategoryId][0].length;
             var me = scrolls.random;
             var pos = me.positions;
-            if (holdPosition > 100) {   //after
+            if (holdPosition > threshHold) {   //after
                 var odd = len - (promotionView.currentSlide[0] + promotionView.slShow / 2 * 3);
                 if (odd <= 0) {
                     return;
@@ -206,9 +209,9 @@ function InitAllScrolls() {
                 }
                 
                 me.reInit();
-                me.ChangeWrapperTranslate(pos.current + (promotionView.slShow * promotionView.slideSize));
+                me.ChangeWrapperTranslate(pos.current + (promotionView.slShow * promotionView.slideSize - 10));
             }
-            if (holdPosition < -100) {  //before
+            if (holdPosition < -threshHold) {  //before
                 var odd = len - (promotionView.currentSlide[0] + promotionView.slShow / 2);
                 var d = 0;
                 $(".randomScroll .swiper-wrapper").empty();
@@ -217,7 +220,7 @@ function InitAllScrolls() {
                     $(".randomScroll .swiper-wrapper").append(promotionView.PromotionItemSlide(store.plist[store.currentCategoryId][0][promotionView.currentSlide[0] + d][0], store.plist[store.currentCategoryId][0][promotionView.currentSlide[0] + d][1]));
                 }
                 me.reInit();
-                me.ChangeWrapperTranslate(pos.current - (promotionView.slShow * promotionView.slideSize));
+                me.ChangeWrapperTranslate(pos.current - (promotionView.slShow * promotionView.slideSize - 8));
             }
             holdPosition = 0;
         }
@@ -228,7 +231,7 @@ function InitAllScrolls() {
         slidesPerView: 'auto',
         scrollContainer: true,
         onResistanceAfter: function (s, pos) {
-            if (pos > 100) {
+            if (pos > threshHold) {
                 if (promotionView.currentSlide[1] + promotionView.slShow / 2 * 3 < store.plist[store.currentCategoryId][1].length) {
                     holdPosition = pos;
                     $("#moreani2").removeClass('hidden');
@@ -242,7 +245,7 @@ function InitAllScrolls() {
             }
         },
         onResistanceBefore: function (s, pos) {
-            if (pos > 100) {
+            if (pos > threshHold) {
                 if (promotionView.currentSlide[1] > 0) {
                     $("#moreani1").removeClass('hidden');
                     holdPosition = -pos;
@@ -261,7 +264,7 @@ function InitAllScrolls() {
             var len = store.plist[store.currentCategoryId][1].length;
             var me = scrolls.hot;
             var pos = me.positions;
-            if (holdPosition > 100) {   //after
+            if (holdPosition > threshHold) {   //after
                 var odd = len - (promotionView.currentSlide[1] + promotionView.slShow / 2 * 3);
                 if (odd <= 0) {
                     return;
@@ -281,9 +284,9 @@ function InitAllScrolls() {
                 }
 
                 me.reInit();
-                me.ChangeWrapperTranslate(pos.current + (promotionView.slShow * promotionView.slideSize));
+                me.ChangeWrapperTranslate(pos.current + (promotionView.slShow * promotionView.slideSize - 10));
             }
-            if (holdPosition < -100) {  //before
+            if (holdPosition < -threshHold) {  //before
                 var odd = len - (promotionView.currentSlide[1] + promotionView.slShow / 2);
                 var d = 0;
                 $(".hotScroll .swiper-wrapper").empty();
@@ -292,7 +295,7 @@ function InitAllScrolls() {
                     $(".hotScroll .swiper-wrapper").append(promotionView.PromotionItemSlide(store.plist[store.currentCategoryId][1][promotionView.currentSlide[1] + d][0], store.plist[store.currentCategoryId][1][promotionView.currentSlide[1] + d][1]));
                 }
                 me.reInit();
-                me.ChangeWrapperTranslate(pos.current - (promotionView.slShow * promotionView.slideSize));
+                me.ChangeWrapperTranslate(pos.current - (promotionView.slShow * promotionView.slideSize - 8));
             }
             holdPosition = 0;
         }
@@ -303,7 +306,7 @@ function InitAllScrolls() {
         slidesPerView: 'auto',
         scrollContainer: true,
         onResistanceAfter: function (s, pos) {
-            if (pos > 100) {
+            if (pos > threshHold) {
                 if (promotionView.currentSlide[2] + promotionView.slShow / 2 * 3 < store.plist[store.currentCategoryId][2].length) {
                     holdPosition = pos;
                     $("#moreani2").removeClass('hidden');
@@ -317,7 +320,7 @@ function InitAllScrolls() {
             }
         },
         onResistanceBefore: function (s, pos) {
-            if (pos > 100) {
+            if (pos > threshHold) {
                 if (promotionView.currentSlide[2] > 0) {
                     $("#moreani1").removeClass('hidden');
                     holdPosition = -pos;
@@ -336,7 +339,7 @@ function InitAllScrolls() {
             var len = store.plist[store.currentCategoryId][2].length;
             var me = scrolls.new;
             var pos = me.positions;
-            if (holdPosition > 100) {   //after
+            if (holdPosition > threshHold) {   //after
                 var odd = len - (promotionView.currentSlide[2] + promotionView.slShow / 2 * 3);
                 if (odd <= 0) {
                     return;
@@ -355,10 +358,10 @@ function InitAllScrolls() {
                         store.plist[store.currentCategoryId][2][promotionView.currentSlide[2] + i][1]));
                 }
                 me.reInit();
-                me.ChangeWrapperTranslate(pos.current + (promotionView.slShow * promotionView.slideSize));
+                me.ChangeWrapperTranslate(pos.current + (promotionView.slShow * promotionView.slideSize - 10));
             }
 
-            if (holdPosition < -100) {  //before
+            if (holdPosition < -threshHold) {  //before
                 var odd = len - (promotionView.currentSlide[2] + promotionView.slShow / 2);
                 var d = 0;
                 $(".newScroll .swiper-wrapper").empty();
@@ -369,7 +372,7 @@ function InitAllScrolls() {
                         store.plist[store.currentCategoryId][2][promotionView.currentSlide[2] + d][1]));
                 }
                 me.reInit();
-                me.ChangeWrapperTranslate(pos.current - (promotionView.slShow * promotionView.slideSize));
+                me.ChangeWrapperTranslate(pos.current - (promotionView.slShow * promotionView.slideSize - 8));
             }
             holdPosition = 0;
         }
@@ -383,7 +386,7 @@ function InitAllScrolls() {
             //holdPosition = 0;
         },
         onResistanceBefore: function (s, pos) {
-            if (pos > 100) {
+            if (pos > threshHold) {
                 $('#moreani3').removeClass('hidden');
             } else {
                 $('#moreani3').addClass('hidden');
@@ -393,7 +396,7 @@ function InitAllScrolls() {
         onTouchEnd: function(){
             var x = 0;
             $('#moreani3').addClass('hidden');
-            if (holdPosition > 100) {
+            if (holdPosition > threshHold) {
                 if (deviceLocation == null) {
                     map.setCenter(new google.maps.LatLng(defaultLocation[0], defaultLocation[1]));
                     map.setZoom(16);
@@ -424,7 +427,7 @@ function InitAllScrolls() {
         slidesPerView: 'auto',
         scrollContainer: true,
         onResistanceAfter: function (s, pos) {
-            if (pos > 100) {
+            if (pos > threshHold) {
                 if (promotionView.currentSlide[5] + promotionView.slShow / 2 * 3 < promotionView.searchresult.length) {
                     holdPosition = pos;
                     $("#moreani2").removeClass('hidden');
@@ -438,7 +441,7 @@ function InitAllScrolls() {
             }
         },
         onResistanceBefore: function (s, pos) {
-            if (pos > 100) {
+            if (pos > threshHold) {
                 if (promotionView.currentSlide[5] > 0) {
                     $("#moreani1").removeClass('hidden');
                     holdPosition = -pos;
@@ -457,7 +460,7 @@ function InitAllScrolls() {
             var len = promotionView.searchresult.length;
             var me = scrolls.search;
             var pos = me.positions;
-            if (holdPosition > 100) {   //after
+            if (holdPosition > threshHold) {   //after
                 var odd = len - (promotionView.currentSlide[5] + promotionView.slShow / 2 * 3);
                 if (odd <= 0) {
                     return;
@@ -476,9 +479,9 @@ function InitAllScrolls() {
                 }
 
                 me.reInit();
-                me.ChangeWrapperTranslate(pos.current + (promotionView.slShow * promotionView.slideSize));
+                me.ChangeWrapperTranslate(pos.current + (promotionView.slShow * promotionView.slideSize - 10));
             }
-            if (holdPosition < -100) {  //before
+            if (holdPosition < -threshHold) {  //before
                 var odd = len - (promotionView.currentSlide[5] + promotionView.slShow / 2);
                 var d = 0;
                 $(".searchScroll .swiper-wrapper").empty();
@@ -487,7 +490,7 @@ function InitAllScrolls() {
                     $(".searchScroll .swiper-wrapper").append(promotionView.PromotionItemSlide(promotionView.searchresult[promotionView.currentSlide[5] + d], -1));
                 }
                 me.reInit();
-                me.ChangeWrapperTranslate(pos.current - (promotionView.slShow * promotionView.slideSize));
+                me.ChangeWrapperTranslate(pos.current - (promotionView.slShow * promotionView.slideSize - 8));
             }
             holdPosition = 0;
         }
@@ -510,6 +513,8 @@ function InitAllScrolls() {
         slidesPerView: 'auto',
         scrollContainer: true
     });
+
+    
     //scrolls["promotion_nav"] = $(".p_nav_slider").swiper({
     //    mode: 'horizontal',
     //    slidesPerView: 3,
@@ -521,6 +526,5 @@ function InitAllScrolls() {
 }
 $(document).ready(function () {
     InitAllScrolls();
-    
 })
 

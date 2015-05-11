@@ -126,13 +126,13 @@ var Swiper = function (selector, params) {
     var defaults = {
         eventTarget: 'wrapper', // or 'container'
         mode: 'horizontal', // or 'vertical'
-        touchRatio: 1,
+        touchRatio: 0.8,
         speed: 300,
         freeMode: false,
         freeModeFluid: false,
-        momentumRatio: 1,
+        momentumRatio: 0.8,
         momentumBounce: true,
-        momentumBounceRatio: 1,
+        momentumBounceRatio: 0.8,
         slidesPerView: 1,
         slidesPerGroup: 1,
         slidesPerViewFit: true, //Fit to slide when spv "auto" and slides larger than container
@@ -160,7 +160,7 @@ var Swiper = function (selector, params) {
         useCSS3Transforms: true,
         // Autoplay
         autoplay: false,
-        autoplayDisableOnInteraction: true,
+        autoplayDisableOnInteraction: false,
         autoplayStopOnLast: false,
         //Loop mode
         loop: false,

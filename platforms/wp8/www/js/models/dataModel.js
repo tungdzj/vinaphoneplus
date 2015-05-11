@@ -7,6 +7,9 @@ function PromotionInfo(data) {
         this.ListShop = new Array();
     } else {
         var s = data.info.listShop;
+        if (s == null) {
+            console.log(data)
+        }
         s = s.replace('{', '');
         s = s.replace('}', '');
         this.ListShop = s.split(",");
@@ -36,6 +39,8 @@ function PromotionInfo(data) {
     this.Like = data.like;
     this.Comment            = data.countComment;
     this.Photo = data.photo;
+    this.Slogan = data.info.slogan;
+    this.Remain = Number(data.info.remain);
     if (data.info.promotionAdd != null) {
         this.PromotionAdd = new PromotionAddInfo(data.info.promotionAdd);
     } else {
@@ -52,21 +57,21 @@ function offgmt(str) {
 
 PromotionInfo.prototype.AddComment = function (data) {
     this.Comment++;
-    if (currentPromotionId == data.promotionId) {
-        $("#comment_count").html(this.Comment);
+    if (store.currentPromotionId == data.promotionId) {
+        $("#comment_count span").html(this.Comment);
     }
 }
 
 PromotionInfo.prototype.SetRate = function (data) {
     this.Rate = Math.round(data.ratecount);
-    if (currentPromotionId == data.promotionId) {
-        $("#rate_count").html(this.Rate);
+    if (store.currentPromotionId == data.promotionId) {
+        $("#rate_count span").html(this.Rate);
     }
 }
 
 PromotionInfo.prototype.SetLike = function (data) {
     this.Like = data.totalLike;
-    $("#like_count").html(data.totalLike);
+    $("#like_count span").html(data.totalLike);
 }
 
 function GroupUser(data) {
@@ -82,6 +87,7 @@ function EndUserInfo(data) {
         p += data.phone[i];
     }
     this.phone = p;
+
     if (data.userName == null || data.userName == ""){
         this.userName = "(Họ và tên)";
     }else{
@@ -98,8 +104,6 @@ function EndUserInfo(data) {
     }
     this.groupId = data.groupID;
     this.image = null;
-
-
 }
 
 function PromotionAddInfo(data) {
@@ -134,6 +138,7 @@ function PartnerInfo(data) {
     this.PartnerName = data.partnerName;
     this.Title = data.title;
     this.Logo = data.logo;
+    this.Avatar = data.partnerAvatar;
     this.Detail = data.details;
     this.Phone = data.phone;
     this.LoyaltyPoint = data.loyaltyPoint;
@@ -219,6 +224,7 @@ function contains(arr, e) {
 }
 
 function updateListShop() {
+    console.log("update list shop");
     if (promotions.length == 0 ||
         shops.length == 0) {
         return;

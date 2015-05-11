@@ -10,7 +10,7 @@ var medium_header_scale = 0.107;
 var large_header_scale = 0.1;//0.2124;
 var thumbnail_scale = 0.29;
 var comment_input = parseInt(docWidth * large_header_scale);
-
+var cursorSize = $(".cursor-container").height();
 var sliders = new Array();
 var header_height = $(".page_header").height();
 var nav_height = header_height;
@@ -42,13 +42,12 @@ $("#location_map_canvas").css("height", subMap_canvas);
 $(".page_slide").css("max-width", docWidth);
 //setHeight(".page_header", header_height);
 setHeight(".fb-share-button", header_height);
-$(".m_gradient").css("height", comment_input);
 $(".medium_header").css("height", docWidth * medium_header_scale);
-$(".detail_extend_content").css("height", docHeight - header_height);
+$(".detail_extend_content").css("height", docHeight - footer_height);
 $(".promotion_tab_content").css("top", header_height * 2);
 $(".promotion_detail_slider").css("height", docWidth / image_scale);
 var member_image_height = parseInt(docWidth / image_scale);
-var categories_height = docHeight - member_image_height - footer_height - comment_input / 2 * 5;
+var categories_height = docHeight - member_image_height - footer_height - $(".addbar").height() - header_height - 10;
 $(".gradient_bot").css('height', comment_input / 2);
 var socialsize = $(".social").height();
 $("#social").css("height", socialsize + "px");
@@ -57,16 +56,17 @@ $("#detail_content").css("height", docHeight - footer_height - comment_input - m
 $(".member_image_slider").css("height", member_image_height);
 $(".slide").css("height", member_image_height);
 $(".comments").css("height", docHeight - docWidth / 4 - 10);
-
+$(".banner_slider").css("width", docWidth);
+$(".banner_slider").css('height', docWidth / 3);
 $("#info_dialog").css("width", docWidth / 4 * 3 + "px");
 $(".large_slider img").css('width', docWidth);
-$(".promotion_page_slider").css("top", header_height * 2);
-$(".promotion_page_slider").css("height", docHeight - header_height * 2 - footer_height);
+$(".promotion_page_slider").css("top", header_height * 2 + cursorSize);
+$(".promotion_page_slider").css("height", docHeight - header_height * 2 - footer_height - cursorSize);
 $(".promotion_page_slider").css("width", docWidth);
 $(".slider_wrapper").css("height", docHeight - header_height * 2);
 $(".slider_wrapper").css("margin-top", header_height * 2);
 $(".slider_wrapper").css("width", docWidth);
-$(".detail_extend_slider").css("height", docHeight - header_height);
+$(".detail_extend_slider").css("height", docHeight - footer_height);
 $(".detail_extend_slider").css("width", docWidth);
 var cWidth = getCategoryWidth();
 var margin_top = (categories_height - cWidth * 2) / 3;
@@ -79,6 +79,7 @@ $(".category").css("margin-top", margin_top + "px");
 //promotions page
 $(".p_nav_slider .swiper-wrapper .swiper-slide").css('width', Math.round(docWidth / 5 * 3))
 $(".promotion_content").css("height", docHeight - header_height * 2 - footer_height);
+$(".extend_content").css("height", docHeight - footer_height);
 $("#content").css("height", docHeight - header_height - header_height);
 $("#content").css("top", header_height + header_height);
 //near item
@@ -91,24 +92,31 @@ $(".pItem").css("height", thumbnail_size + 10 + "px");
 $(".rate_pic_size").css("width", docWidth / 7);
 $("#rate_dialog").enhanceWithin().popup({
     afterclose: function (event, ui) {
-        popupOpen = 'none';
+        pageManager.popupOpen = 'none';
     }
 });
 $("#info_dialog").enhanceWithin().popup({
     afterclose: function (event, ui) {
-        popupOpen = 'none';
+        pageManager.popupOpen = 'none';
     }
 });
 $("#qr_dialog").enhanceWithin().popup({
     afterclose: function (event, ui) {
-        popupOpen = 'none';
+        pageManager.popupOpen = 'none';
     }
 });
 $("#card_dialog").enhanceWithin().popup({
     afterclose: function (event, ui) {
-        popupOpen = 'none';
+        pageManager.popupOpen = 'none';
     }
 });
+
+//$("#version_dialog").enhanceWithin().popup({
+//    afterclose: function (event, ui) {
+//        pageManager.popupOpen = 'none';
+//    },
+//    dismissible: false
+//});
 
 $("#userinfo_dialog").enhanceWithin().popup();
 $(".card").css('width', docWidth / 5 * 4);
@@ -141,8 +149,18 @@ $("#qrcode").css("width", docWidth / 3 * 2 + "px");
 $("#qrcode").css("height", docWidth / 3 * 2 + "px");
 var help_scroll = $("#help_content").swiper({
     mode: 'horizontal',
-    pagination: '.pagination'
+    pagination: '.pagination',
+    onSlideChangeEnd: function (swiper, direction) {
+        $(".arrow-left").removeClass('hidden');
+        $(".arrow-right").removeClass('hidden');
+        if (swiper.activeIndex == 0) {
+            $(".arrow-left").addClass('hidden');
+        } else if (swiper.activeIndex == swiper.slides.length - 1) {
+            $(".arrow-right").addClass('hidden');
+        }
+    },
 });
+$(".arrow-left").addClass('hidden');
 var isOpenSearchPanel = false;
 var slideAdded = 0;
 function OpenSearchPanel(tab) {

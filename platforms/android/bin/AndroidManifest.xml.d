@@ -1,2 +1,2 @@
-g:\viplus\platforms\android\bin\AndroidManifest.xml : \
-g:\viplus\platforms\android\AndroidManifest.xml \
+e:\viplus\android\platforms\android\bin\AndroidManifest.xml : \
+e:\viplus\android\platforms\android\AndroidManifest.xml \

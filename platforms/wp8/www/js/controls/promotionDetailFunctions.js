@@ -2,8 +2,8 @@
 function detailLike() {
     if (!loggedIn) {
         $("#popup_warning_text").html("BẠN CẦN ĐĂNG NHẬP<br /> ĐỂ THÍCH ĐIỀU NÀY");
-        user.HideAllPopupTab();
-        ui.Show("#login_popup1")
+        userView.HideAllPopupTab();
+        utils.Show("#login_popup1")
         ui.ChangePage("login_dialog");
         return;
     }
@@ -15,13 +15,13 @@ function detailLike() {
 function detailGetCode() {
     if (!loggedIn) {
         $("#popup_warning_text").html("BẠN CẦN ĐĂNG NHẬP<br /> ĐỂ LẤY MÃ ƯU ĐÃI");
-        user.HideAllPopupTab();
-        ui.Show("#login_popup1")
+        userView.HideAllPopupTab();
+        utils.Show("#login_popup1")
         ui.ChangePage("login_dialog");
         return;
     }
     else {
-        ui.ShowLoading();
+        utils.ShowLoading();
         client.GetDealCode(function (data) {
             ui.HideLoading();
             $("#deal_code_button").html(genSlash(data.data.code));
@@ -41,22 +41,22 @@ function detailGetCode() {
 function detailCommentClick() {
     if (!loggedIn) {
         $("#popup_warning_text").html("BẠN CẦN ĐĂNG NHẬP<br /> ĐỂ BÌNH LUẬN");
-        user.HideAllPopupTab();
-        ui.Show("#login_popup1");
+        userView.HideAllPopupTab();
+        utils.Show("#login_popup1");
         ui.ChangePage("login_dialog");
         return;
     }
     ui.ChangePage("comment_page");
     if (loadingComment) {
-        ui.ShowLoading();
+        utils.ShowLoading();
     }
 }
 
 function detailRate() {
     if (!loggedIn) {
         $("#popup_warning_text").html("BẠN CẦN ĐĂNG NHẬP<br /> ĐỂ ĐÁNH GIÁ");
-        user.HideAllPopupTab();
-        ui.Show("#login_popup1")
+        userView.HideAllPopupTab();
+        utils.Show("#login_popup1")
         ui.ChangePage("login_dialog");
         return;
     }
@@ -116,7 +116,7 @@ function detailSendComment() {
     
     client.Comment(s, function (data) {
         $(".comments").append(ui.CommentField("default", data.data.userName, data.data.content));
-        $("#comment_count").html(data.totalComment);
+        $("#comment_count span").html(data.totalComment);
     },
     function (msg) { });
 }

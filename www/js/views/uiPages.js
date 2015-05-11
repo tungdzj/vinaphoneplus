@@ -217,7 +217,7 @@ var commentPage = {
             promotions[data.data.promotionId].AddComment(data.data);
             data.data.createDate = data.data.createrDate;
             $(".comments").prepend(commentPage.CommentField(data.data));
-            $("#comment_count span").html(data.totalComment);
+            $("#comment_count p").html(data.totalComment);
         },
         function (msg) { });
     }

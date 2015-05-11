@@ -11,7 +11,9 @@
     partners: [],
     nearShops: [],
     categories: [],
-    likeList: [],
+    likeList: { '1': [], '2': [], '3': [], '4': [], '5': [], '6': []},
+    likeListAll: [],
+
 
     endUser: null,
     promotionsCode: [],
@@ -22,55 +24,100 @@
     group: new Array(),
     //home 
     homeImages: [],
+    bannerImages: [],
+    bannerText: [],
     headLine: [],
+
+    CalculateLikeList: function(){
+        if (store.shops.length == 0 || 
+            store.promotions.length == 0 ||
+            store.likeListAll.length == 0) {
+            return;
+        }
+        for (var l in store.likeListAll) {
+            if (store.promotions[store.likeListAll[l]] == null) {
+                promotionControl.Like1(store.likeListAll[l]);
+                continue;
+            }
+            var categoryId = store.shops[store.promotions[store.likeListAll[l]].ListShop[0]].CategoryId;
+            store.likeList[categoryId].push(store.likeListAll[l])
+            
+        }
+    },
 	
 	UpdateLike:function(id){
-	    var index = store.likeList.indexOf(id);
+	    var index = store.likeList[store.currentCategoryId].indexOf(id);
 	    var currentLike = Number($("#like_count span").html());
 	    if (index == -1) {
 	        currentLike++;
 		    $(".pid" + id).attr('src', 'img/like1.png');
-			store.likeList.push(id);
+		    store.likeList[store.currentCategoryId].push(id);
 	    } else {
 	        currentLike--
 		    $(".pid" + id).attr('src', 'img/like4.png');
-			store.likeList.splice(index, 1);
+		    store.likeList[store.currentCategoryId].splice(index, 1);
 	    }
+	    store.promotions[id].Like = currentLike;
 	    $("#like_count span").html(currentLike)
 		promotionView.UpdateLike();
 		promotionControl.Like1(id);
 	},
-	
-    ProcessMemberData: function (data) {
+	test: [],
+	ProcessMemberData: function (data) {
+		test = data;
+		console.log(data)
+	    $('.banner-text').css('height', docWidth / 9);
         if (data != null) {
             for (var i in data.images) {
                 store.homeImages.push(data.images[i]);
             }
+            for (var i in data.banner) {
+                store.bannerImages.push(data.banner[i]);
+                store.bannerText.push(data.banner[i].description)
+                $(".banner_slider .swiper-wrapper").append("<div class='swiper-slide'>" + data.banner[i].url + "'/></div>")
+
+            }
             for (var h in data.headline) {
                 store.headLine.push(data.headline[h]);
             }
+            
             homeView.Update();
+            scrolls.banner_slider = $(".banner_slider").swiper({
+                mode: 'horizontal',
+                pagination: '.dot',
+                loop: true,
+                autoplay: 2000,
+                onSlideChangeEnd: function (swiper, direction) {
+                    var index = swiper.activeLoopIndex;
+                    $('.banner-text').html(store.bannerText[index % store.bannerText.length]);
+                    $('.banner-text').css('height', docWidth / 9);
+                },
+                onSlideChangeStart: function (swiper, direction) {
+                    $('.banner-text').css('height', 0);
+                },
+            })
         }
     },
 
     UpdateLikeList:function(data){
         for (var p in data) {
-            store.likeList.push(data[p]);
+            store.likeListAll.push(data[p]);
         }
+        store.CalculateLikeList();
     },
 	
 	CorrectLikeList: function(){
 		var tmp = [];
-		if (store.promotions.length > 0 && store.likeList.length > 0){
-			for (var i = 0; i < store.likeList.length; i++){
-				if (store.promotions[store.likeList[i]] != null){
-					tmp.push(store.likeList[i]);
+		if (store.promotions.length > 0 && store.likeListAll.length > 0){
+			for (var i = 0; i < store.likeListAll.length; i++){
+				if (store.promotions[store.likeListAll[i]] != null){
+					tmp.push(store.likeListAll[i]);
 				} else {
-				    client.Like1(store.likeList[i]);
-					console.log("remove " + store.likeList[i]);
+				    client.Like1(store.likeListAll[i]);
+					console.log("remove " + store.likeListAll[i]);
 				}
 			}
-			store.likeList = tmp;
+			store.likeListAll = tmp;
 		}
 	},
 
@@ -175,9 +222,10 @@
             store.shops.length == 0) {
             return;
         }
-        var areat = -1;
-        var first = 1;
+        
         for (var p in store.promotions) {
+			var areat = -1;
+			var first = 1;
             if (store.promotions[p].ListShop.length == 0) {
                 first = 1;
                 for (var s in store.shops) {
@@ -192,10 +240,21 @@
                                 areat = -1;
                             }
                         }
-
                     }
                 }
-            }
+            }else{
+				if (store.promotions[p].ListShop.length == 1){
+					areat = store.shops[store.promotions[p].ListShop[0]].Area;
+				}else{
+					areat = store.shops[store.promotions[p].ListShop[0]].Area;
+					for (var i = 1; i < store.promotions[p].ListShop.length; i++){
+						if (store.promotions[p].ListShop[i].Area != store.promotions[p].ListShop[i - 1].Area){
+							areat = -1;
+							break;
+						}
+					}
+				}
+			}
             if (areat != -1) {
                 store.promotions[p].AreaText = '[' + getAreaName(areat) + ']';
             } else {
@@ -248,7 +307,9 @@
         });
         for (var i = 0; i < ta.length; i++) {
             if (store.valid(ta[i][0])) {
+				console.log(ta[i][0] + ":" + store.promotions[ta[i][0]].ListShop);
                 store.plist[store.shops[store.promotions[ta[i][0]].ListShop[0]].CategoryId][0].push([ta[i][0], -1]);
+				
             }
         }
 
@@ -268,7 +329,7 @@
                 if (store.newPromotions[p] == 216) {
                     console.log("valid:" + store.promotions[store.newPromotions[p]].Title)
                 }
-                store.plist[c][2].push([store.newPromotions[p], -1, change_alias(store.partners[store.promotions[store.newPromotions[p]].PartnerId].PartnerName + " " + store.partners[store.promotions[store.newPromotions[p]].PartnerId].Detail), store.promotions[store.newPromotions[p]].PartnerId]);
+                store.plist[c][2].push([store.newPromotions[p], -1, change_alias(store.partners[store.promotions[store.newPromotions[p]].PartnerId].PartnerName + " " + store.partners[store.promotions[store.newPromotions[p]].PartnerId].Slogan), store.promotions[store.newPromotions[p]].PartnerId]);
             }
 
         }

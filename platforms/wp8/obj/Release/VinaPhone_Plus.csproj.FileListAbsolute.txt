@@ -1,0 +1,17 @@
+E:\viplus\android\platforms\wp8\Bin\Release\ApplicationIcon.png
+E:\viplus\android\platforms\wp8\Bin\Release\Background.png
+E:\viplus\android\platforms\wp8\Bin\Release\com.vn.viplus.dll
+E:\viplus\android\platforms\wp8\Bin\Release\com.vn.viplus.pdb
+E:\viplus\android\platforms\wp8\Bin\Release\AppManifest.xaml
+E:\viplus\android\platforms\wp8\Bin\Release\Properties\WMAppManifest.xml
+E:\viplus\android\platforms\wp8\Bin\Release\CordovaAppProj_Release_AnyCPU.xap
+E:\viplus\android\platforms\wp8\Bin\Release\Newtonsoft.Json.dll
+E:\viplus\android\platforms\wp8\obj\Release\VinaPhone_Plus.csprojResolveAssemblyReference.cache
+E:\viplus\android\platforms\wp8\obj\Release\App.g.cs
+E:\viplus\android\platforms\wp8\obj\Release\Plugins\org.apache.cordova.dialogs\NotificationBox.g.cs
+E:\viplus\android\platforms\wp8\obj\Release\cordovalib\CordovaView.g.cs
+E:\viplus\android\platforms\wp8\obj\Release\MainPage.g.cs
+E:\viplus\android\platforms\wp8\obj\Release\com.vn.viplus.g.resources
+E:\viplus\android\platforms\wp8\obj\Release\com.vn.viplus.dll
+E:\viplus\android\platforms\wp8\obj\Release\com.vn.viplus.pdb
+E:\viplus\android\platforms\wp8\obj\Release\XapCacheFile.xml

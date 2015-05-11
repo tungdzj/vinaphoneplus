@@ -23,17 +23,21 @@ function onReceivedAll(data) {
     store.ProcessListShopData(data.shops);
     store.ProcessBestBuyData(data.bestbuy);
     store.Createplist();
-	store.CorrectLikeList();
+    store.CorrectLikeList();
+    checkVersion.check();
     if (pageManager.currentPage == "promotions_page") {
         promotionView.Update();
     }
-    onNotification();
+	$(".loading-container").addClass('hidden');
+	store.CalculateLikeList();
+	mypush.applyPush();
 }
 
 //END REQUEST EVENT LISTENER
 
 //OTHER EVENT LISTENER
 function onDocumentReady() {
+	
     slider.InitSlider("member_image_slider", 3000);
     slider.InitSlider("promotion_detail_slider", 3000);
     for (var i = 1 ; i <= 6; i++) {
@@ -44,15 +48,10 @@ function onDocumentReady() {
     client.GetAllInfo(onReceivedAll, onRequestFailed);
     var first_help = window.localStorage.getItem('firstHelp');
     if (first_help == null) {
-        window.localStorage.setItem('firstHelp', 'ok');
         pageManager.ChangePage("help_page");
+    } else {
+        pageManager.ChangePage("categories_page");
     }
-    //$('#headline').marquee({
-    //    duration: 9000
-    //});
-    //$("#detail_title").marquee({
-    //    duration: 9000
-    //});
 }
 
 function onMapReady() {
@@ -76,19 +75,6 @@ function onGetDeviceLocation() {
 
 function onUpdateDeviceLocation() {
     updateHereMarker();
-}
-
-function onNotification() {
-    //if (promotions.length == 0) {
-    //    return;
-    //}
-    //if (promotions[notifyId] == null) {
-    //    return;
-    //}
-    //store.currentCategoryId = shops[promotions[notifyId].ListShop[0]].CategoryId;
-    //currentShopId = -1;
-    //currentPromotionId = notifyId;
-    //promotionControl.OnPromotionClick(notifyId, -1, -1);
 }
 
 

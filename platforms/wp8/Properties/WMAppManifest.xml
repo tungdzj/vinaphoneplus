@@ -4,22 +4,22 @@
     <Languages xmlns="">
         <Language code="en-US" />
     </Languages>
-    <App Author="VinaPhone Plus Author" BitsPerPixel="32" Description="Apache Cordova for Windows Phone" Genre="apps.normal" ProductID="{ec8d1e70-8f04-11e4-b9d6-a5b657468a3e}" Publisher="VinaPhone Plus Publisher" PublisherID="{db093ed5-53b1-45f7-af72-751e8f36ab80}" RuntimeType="Silverlight" Title="VinaPhone Plus" Version="1.0.8" xmlns="">
-        <IconPath IsRelative="true" IsResource="false">large.png</IconPath>
+    <App Author="VinaPhone Plus author" BitsPerPixel="32" Description="Apache Cordova for Windows Phone" Genre="apps.normal" ProductID="{ae16db50-eca5-11e4-b54b-8f4ae8a7ccd7}" Publisher="VinaPhone Plus" PublisherID="{db093ed5-53b1-45f7-af72-751e8f36ab80}" RuntimeType="Silverlight" Title="VinaPhone Plus" Version="1.0.9" xmlns="">
+        <IconPath IsRelative="true" IsResource="false">ApplicationIcon.png</IconPath>
         <Capabilities>
             <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />
             <Capability Name="ID_CAP_NETWORKING" />
-            <Capability Name="ID_CAP_IDENTITY_DEVICE" />
-            <Capability Name="ID_CAP_LOCATION" />
             <Capability Name="ID_CAP_PUSH_NOTIFICATION" />
             <Capability Name="ID_CAP_ISV_CAMERA" />
             <Capability Name="ID_CAP_MEDIALIB_PHOTO" />
+            <Capability Name="ID_CAP_IDENTITY_DEVICE" />
+            <Capability Name="ID_CAP_LOCATION" />
         </Capabilities>
         <Tasks>
             <DefaultTask Name="_default" NavigationPage="MainPage.xaml" />
         </Tasks>
         <Tokens>
-            <PrimaryToken TaskName="_default" TokenID="VinaPhone Plus">
+            <PrimaryToken TaskName="_default" TokenID="VinaPhone PlusToken">
                 <TemplateIconic>
                     <SmallImageURI IsRelative="true" IsResource="false">small.png</SmallImageURI>
                     <Count>0</Count>

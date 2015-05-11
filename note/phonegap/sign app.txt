@@ -4,8 +4,8 @@ ant release
 
 cd bin
 
-jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore viplusKey.keystore CordovaApp-release-unsigned.apk viplus
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore viplusKey.keystore MainActivity-release-unsigned.apk viplus
 
-jarsigner -verify -verbose -certs CordovaApp-release-unsigned.apk
+jarsigner -verify -verbose -certs MainActivity-release-unsigned.apk
 
-zipalign -v 4 CordovaApp-release-unsigned.apk Viplus.apk
+zipalign -v 4 MainActivity-release-unsigned.apk Viplus.apk

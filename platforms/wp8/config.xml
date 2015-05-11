@@ -1,16 +1,16 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.vn.viplus" version="1.0.8" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="com.vn.viplus" version="1.0.9" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <feature name="PushPlugin">
+        <param name="wp-package" value="PushPlugin" />
+    </feature>
+    <feature name="Camera">
+        <param name="wp-package" value="Camera" />
+    </feature>
     <feature name="Device">
         <param name="wp-package" value="Device" />
     </feature>
     <feature name="Notification">
         <param name="wp-package" value="Notification" />
-    </feature>
-    <feature name="InAppBrowser">
-        <param name="wp-package" value="InAppBrowser" />
-    </feature>
-    <feature name="PushPlugin">
-        <param name="wp-package" value="PushPlugin" />
     </feature>
     <feature name="File">
         <param name="wp-package" value="File" />
@@ -18,20 +18,21 @@
     <feature name="FileTransfer">
         <param name="wp-package" value="FileTransfer" />
     </feature>
-    <feature name="Camera">
-        <param name="wp-package" value="Camera" />
+    <feature name="InAppBrowser">
+        <param name="wp-package" value="InAppBrowser" />
     </feature>
     <name>VinaPhone Plus</name>
     <description>
         Vinaphone Care Plus
     </description>
-    <author email="dothanhtung.cnpm@gmail.com" href="http://google.com.vn">
+    <author email="tungdo@neonstudio.us" href="http://google.com.vn">
         Development Team
     </author>
     <content src="index.html" />
     <preference name="SplashScreen" value="screen" />
     <preference name="SplashScreenDelay" value="3000" />
     <preference name="Orientation" value="portrait" />
+    <preference name="KeyboardShrinksView" value="true" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="Fullscreen" value="true" />
     <access origin="*" />

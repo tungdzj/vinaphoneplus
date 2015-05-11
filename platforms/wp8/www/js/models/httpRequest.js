@@ -5,13 +5,14 @@
     },
 
     GetAllInfo: function(){
-        return host + "?json=neon/NewGetAllInfo";
+        return host + "?json=neon/NewGetAllInfo&lang=" + languageControl.lanString[languageControl.currentLan];
+        //return "http://multilanguage.neonstudio.us/?json=neon/NewGetAllInfo&lang=" + languageControl.lanString[languageControl.currentLan];
     },
 
     GetDealCode: function () {
-        return host + "?json=neon/CreatePromotionCode&token=" + token +
-            "&promotionId=" + currentPromotionId +
-            "&uuid=" + uuid;
+        return host + "?json=neon/CreatePromotionCode&token=" + userControl.token +
+            "&promotionId=" + store.currentPromotionId +
+            "&uuid=" + userControl.uuid;
     },
 
     GetPromotionAdds: function () {
@@ -23,10 +24,10 @@
     },
 
     SendOrder:function(){
-        return host + "?json=neon/order&token=" + token +
-            "&uuid=" + uuid +
-            "&phone=" + endUser.phone +
-            "&promotionId=" + currentPromotionId +
+        return host + "?json=neon/order&token=" + userControl.token +
+            "&uuid=" + userControl.uuid +
+            "&phone=" + userControl.endUser.phone +
+            "&promotionId=" + store.currentPromotionId +
             "&userName=" + $("#inf_txthoten1").html() +
             "&email=" + $("#inf_txtemail1").html() +
             "&address=" + $("#inf_txtaddress1").html(); 
@@ -40,27 +41,33 @@
     },
 
     Comment: function (text) {
-        return host + "?json=neon/addComment&token=" + token +
-            "&promotionId=" + currentPromotionId +
+        return host + "?json=neon/addComment&token=" + userControl.token +
+            "&promotionId=" + store.currentPromotionId +
             "&content=" + text +
-            "&uuid=" + uuid;
+            "&uuid=" + userControl.uuid;
     },
 
     GetComments: function () {
-        return host + "?json=neon/getListComments&promotionId=" + currentPromotionId;
+        return host + "?json=neon/getListComments&promotionId=" + store.currentPromotionId;
     },
 
     Like: function () {
-        return host + "?json=neon/processLike&token=" + token +
-            "&promotionId=" + currentPromotionId +
-            "&uuid=" + uuid;
+        return host + "?json=neon/processLike&token=" + userControl.token +
+            "&promotionId=" + store.currentPromotionId +
+            "&uuid=" + userControl.uuid;
     },
+	
+	Like1: function(id){
+		return host + "?json=neon/processLike&token=" + userControl.token +
+            "&promotionId=" + id +
+            "&uuid=" + userControl.uuid;
+	},
 
     Rate: function (stars) {
-        return host + "?json=neon/operatorRating&token=" + token +
-            "&promotionId=" + currentPromotionId +
+        return host + "?json=neon/operatorRating&token=" + userControl.token +
+            "&promotionId=" + store.currentPromotionId +
             "&votecount=" + stars +
-            "&uuid=" + uuid;
+            "&uuid=" + userControl.uuid;
     },
 
     MemberAds: function () {
@@ -68,7 +75,7 @@
     },
 
     AddViewPromotion: function () {
-        return host + "?json=neon/addViewPromotion&promotionId=" + currentPromotionId;
+        return host + "?json=neon/addViewPromotion&promotionId=" + store.currentPromotionId;
     },
 
     GetBestView: function () {
@@ -80,39 +87,52 @@
     },
 
     GetCodeByPhone: function () {
-        var r = "84";
-        for (var i = 1; i < userPhoneNumber.length; i++) {
-            r += userPhoneNumber[i];
-        }
+        var r = request.CorrectPhoneNumber();
         return host + "?json=neon/getCodeByPhone&phone=" + r +
-            "&uuid=" + uuid;
+            "&uuid=" + userControl.uuid;
     },
 
     VerifyCode: function () {
-        var r = "84";
-        for (var i = 1; i < userPhoneNumber.length; i++) {
-            r += userPhoneNumber[i];
-        }
+        var r = request.CorrectPhoneNumber();
         return host + "?json=neon/verifyCodeLogin&phone=" + r +
             "&code=" + verifyCode +
-            "&uuid=" + uuid;
+            "&uuid=" + userControl.uuid;
     },
 
     GetUserInfo: function () {
-        return host + "?json=neon/getInfoEnduser&token=" + token +
-            "&uuid=" + uuid;
+        return host + "?json=neon/getInfoEnduser&token=" + userControl.token +
+            "&uuid=" + userControl.uuid;
     },
 
     UpdateUserInfo: function () {
-        var r = "84";
-        for (var i = 1; i < endUser.phone.length; i++) {
-            r += userPhoneNumber[i];
-        }
-        return host + "?json=neon/updateEndUser&token=" + token +
-            "&uuid=" + uuid +
-            "&userName=" + endUser.userName +
+        var r = request.CorrectPhoneNumber();
+        
+        return host + "?json=neon/updateEndUser&token=" + userControl.token +
+            "&uuid=" + userControl.uuid +
+            "&userName=" + userControl.endUser.userName +
             "&phone=" + r + 
-            "&email=" + endUser.email + 
-            "&address=" + endUser.address;
+            "&email=" + userControl.endUser.email +
+            "&address=" + userControl.endUser.address;
+    },
+
+    CheckVersion: function () {
+        return host + "?json=neon/checkVersion";
+    },
+
+    CorrectPhoneNumber: function () {
+        var r = '';
+        if (userControl.userPhoneNumber[0] == '0') {
+            r = "84";
+            for (var i = 1; i < userControl.userPhoneNumber.length; i++) {
+                r += userControl.userPhoneNumber[i];
+            }
+        } else if (userControl.userPhoneNumber[0] == '+') {
+            for (var i = 1; i < userControl.userPhoneNumber.length; i++) {
+                r += userControl.userPhoneNumber[i];
+            }
+        } else {
+            r = userControl.userPhoneNumber;
+        }
+        return r;
     }
 }

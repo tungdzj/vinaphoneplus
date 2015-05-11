@@ -52,7 +52,7 @@ function calcRoute() {
         travelMode: google.maps.TravelMode.DRIVING
     };
     directionsDisplay.setMap(null);
-    if (currentPage == "promotions_page") {
+    if (pageManager.currentPage == "promotions_page") {
         directionsDisplay.setMap(map);
     } else {
         directionsDisplay.setMap(subMap);
@@ -92,12 +92,12 @@ for (var i = 1; i <= 6; i++) {
 }
 
 function geoProcessShopLocation() {
-    if (shops.length == 0 || map == null)
+    if (store.shops.length == 0 || map == null)
     {
         return;
     }
-    for (var s in shops) {
-        map_marker[s] = new MapMarker(shops[s].LatLong);
+    for (var s in store.shops) {
+        map_marker[s] = new MapMarker(store.shops[s].LatLong);
     }
 }
 
@@ -105,15 +105,15 @@ var infowindow;
 
 function geoAddEventClick(p, s) {
     infowindow = new google.maps.InfoWindow({
-        content: "hoding..."
+        content: "holding..."
     });
-    if (partners[shops[s].PartnerId] == null) {
+    if (store.partners[store.shops[s].PartnerId] == null) {
         return;
     }
-    var contentString = '<div id="content" class="font_size_12">' +
-                      '<div id="siteNotice"><b>' + partners[shops[s].PartnerId].Title + 
+    var contentString = '<div id="content" class="bodyContent font_size_12">' +
+                      '<div id="siteNotice"><b>' + store.partners[store.shops[s].PartnerId].PartnerName +
                       '</b></div>' +
-                      '<div id="bodyContent" class="font_size_12"><div style="color:blue;" onclick="pPage.OnPromotionClick(' + p + ', -1, -1)">' + promotions[p].Title + '</div><b>Phone:</b> ' + partners[shops[s].PartnerId].Phone + '<br><b>Website:</b> <a href="#" onclick=\'ui.OpenLink("' + partners[shops[s].PartnerId].Website + '")\'>Tại đây</a>&nbsp;&nbsp;&nbsp;&nbsp;' + '<b>Chỉ đường:</b><a href="#" onclick="calcRoute()">Tại đây</a>' +
+                      '<div class="bodyContent" class="font_size_12"><div style="color:blue;" onclick="promotionControl.OnPromotionClick(' + p + ', -1, -1)">' + store.promotions[p].Title + '</div><b>Phone:</b> ' + store.partners[store.shops[s].PartnerId].Phone + '<br><b>Website:</b> <a href="#" onclick=\'utils.OpenLink("' + store.partners[store.shops[s].PartnerId].Website + '")\'>Tại đây</a>&nbsp;&nbsp;&nbsp;&nbsp;' + '<b>Chỉ đường:</b><a href="#" onclick="calcRoute()">Tại đây</a>' +
                       '</div>' +
                       '</div>';
     map_marker[s].Marker.html = contentString;
@@ -122,7 +122,7 @@ function geoAddEventClick(p, s) {
             infowindow.close();
             infowindow.setContent(this.html);
             currentDesMarker = this;
-            if (currentPage == "promotions_page") {
+            if (pageManager.currentPage == "promotions_page") {
                 infowindow.open(map, this);
             } else {
                 infowindow.open(subMap, this);
@@ -131,38 +131,44 @@ function geoAddEventClick(p, s) {
 }
 
 function geoAddShopTitle() {
-    if (shops.length == 0 || partners.length == 0 || map == null || promotions.length == 0) {
+    if (store.shops.length == 0 || store.partners.length == 0 || map == null || store.promotions.length == 0) {
         return;
     }
-    for (var pr in promotions) {
-        if (promotions[pr].ListShop.length == 0) {
-            for (var s in shops) {
-                if (shops[s].PartnerId == promotions[pr].PartnerId) {
+    for (var pr in store.promotions) {
+        if (store.promotions[pr].ListShop.length == 0) {
+            for (var s in store.shops) {
+                if (store.shops[s].PartnerId == store.promotions[pr].PartnerId) {
                     geoAddEventClick(pr, s);
                 }
             }
         } else {
-            for (var i = 0; i < promotions[pr].ListShop.length; i++) {
-                s = promotions[pr].ListShop[i];
+            for (var i = 0; i < store.promotions[pr].ListShop.length; i++) {
+                s = store.promotions[pr].ListShop[i];
                 geoAddEventClick(pr, s);
             }
         }
     }
 }
+
 function geoAddMarker(_old, _new) {
     if (map_marker.length == 0) {
         return;
     }
-    if (_old == _new || map == null){
+    if (map == null) {
         return;
     }
-    if (_old != -1) {    //clear all old marker
-        for (var i = 0; i < categories[_old].length; i++) {
-            map_marker[categories[_old][i]].Marker.setMap(null);
+    //if (_marker_old != -1) {    //clear all old marker
+    //    for (var i = 0; i < store.categories[_marker_old].length; i++) {
+    //        map_marker[store.categories[_marker_old][i]].Marker.setMap(null);
+    //    }
+    //}
+    for (var s in store.shops) {
+        if (map_marker[s].Marker != null) {
+            map_marker[s].Marker.setMap(null);
         }
     }
-    for (var i = 0; i < categories[_new].length; i++) {
-        map_marker[categories[_new][i]].Marker.setMap(map);
+    for (var i = 0; i < store.categories[_new].length; i++) {
+        map_marker[store.categories[_new][i]].Marker.setMap(map);
     }
 }
 
@@ -217,7 +223,7 @@ function geoAddMapMarker(_latlong, _title) {
     var marker = new google.maps.Marker({
         position: latlng,
         map: map,
-        title: "This is vinaphone partner shops"
+        title: "This is vinaphone partner store.shops"
     });
 }
 
@@ -239,7 +245,7 @@ function geoDistance(lat1, lon1, lat2, lon2) {
 //map utilities
 function geoCalculateDistance() {
     //if not have shop list
-    if (shops.length <= 0) {
+    if (store.shops.length <= 0) {
         return;
     }
     var r = "";
@@ -247,26 +253,26 @@ function geoCalculateDistance() {
     if (deviceLocation != null) {
         d = deviceLocation;
     }
-    nearShops.length = 0;
-    for (var id in shops) {
-        var t = shops[id].LatLong;
+    store.nearShops.length = 0;
+    for (var id in store.shops) {
+        var t = store.shops[id].LatLong;
         var l = t.split("/");
         var dis = geoDistance(
                     parseFloat(l[0]),
                     parseFloat(l[1]),
                     parseFloat(d[0]),
                     parseFloat(d[1]));
-        nearShops.push(
+        store.nearShops.push(
             [
                 id,
                 dis,
-                shops[id].PartnerId
+                store.shops[id].PartnerId
             ]);
-        shopDis[id] = dis;
+        store.shopDis[id] = dis;
     }
     
-    //sort nearPromotions array
-    nearShops.sort(function (a, b) {
+    //sort nearpromotions array
+    store.nearShops.sort(function (a, b) {
         if (a[1] === b[1]) {
             return 0;
         }

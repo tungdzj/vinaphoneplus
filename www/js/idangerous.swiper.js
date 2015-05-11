@@ -160,7 +160,7 @@ var Swiper = function (selector, params) {
         useCSS3Transforms: true,
         // Autoplay
         autoplay: false,
-        autoplayDisableOnInteraction: true,
+        autoplayDisableOnInteraction: false,
         autoplayStopOnLast: false,
         //Loop mode
         loop: false,

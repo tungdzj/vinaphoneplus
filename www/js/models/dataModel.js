@@ -7,6 +7,9 @@ function PromotionInfo(data) {
         this.ListShop = new Array();
     } else {
         var s = data.info.listShop;
+        if (s == null) {
+            console.log(data)
+        }
         s = s.replace('{', '');
         s = s.replace('}', '');
         this.ListShop = s.split(",");
@@ -37,6 +40,7 @@ function PromotionInfo(data) {
     this.Comment            = data.countComment;
     this.Photo = data.photo;
     this.Slogan = data.info.slogan;
+    this.Remain = Number(data.info.remain);
     if (data.info.promotionAdd != null) {
         this.PromotionAdd = new PromotionAddInfo(data.info.promotionAdd);
     } else {
@@ -134,6 +138,7 @@ function PartnerInfo(data) {
     this.PartnerName = data.partnerName;
     this.Title = data.title;
     this.Logo = data.logo;
+    this.Avatar = data.partnerAvatar;
     this.Detail = data.details;
     this.Phone = data.phone;
     this.LoyaltyPoint = data.loyaltyPoint;

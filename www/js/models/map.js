@@ -105,15 +105,15 @@ var infowindow;
 
 function geoAddEventClick(p, s) {
     infowindow = new google.maps.InfoWindow({
-        content: "hoding..."
+        content: "holding..."
     });
     if (store.partners[store.shops[s].PartnerId] == null) {
         return;
     }
-    var contentString = '<div id="content" class="font_size_12">' +
-                      '<div id="siteNotice"><b>' + store.partners[store.shops[s].PartnerId].Title + 
+    var contentString = '<div id="content" class="bodyContent font_size_12">' +
+                      '<div id="siteNotice"><b>' + store.partners[store.shops[s].PartnerId].PartnerName +
                       '</b></div>' +
-                      '<div id="bodyContent" class="font_size_12"><div style="color:blue;" onclick="promotionControl.OnPromotionClick(' + p + ', -1, -1)">' + store.promotions[p].Title + '</div><b>Phone:</b> ' + store.partners[store.shops[s].PartnerId].Phone + '<br><b>Website:</b> <a href="#" onclick=\'utils.OpenLink("' + store.partners[store.shops[s].PartnerId].Website + '")\'>Tại đây</a>&nbsp;&nbsp;&nbsp;&nbsp;' + '<b>Chỉ đường:</b><a href="#" onclick="calcRoute()">Tại đây</a>' +
+                      '<div class="bodyContent" class="font_size_12"><div style="color:blue;" onclick="promotionControl.OnPromotionClick(' + p + ', -1, -1)">' + store.promotions[p].Title + '</div><b>Phone:</b> ' + store.partners[store.shops[s].PartnerId].Phone + '<br><b>Website:</b> <a href="#" onclick=\'utils.OpenLink("' + store.partners[store.shops[s].PartnerId].Website + '")\'>Tại đây</a>&nbsp;&nbsp;&nbsp;&nbsp;' + '<b>Chỉ đường:</b><a href="#" onclick="calcRoute()">Tại đây</a>' +
                       '</div>' +
                       '</div>';
     map_marker[s].Marker.html = contentString;

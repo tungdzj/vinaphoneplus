@@ -1,0 +1,14 @@
+{
+    "org.pushandplay.cordova.apprate": {
+        "source": {
+            "type": "registry",
+            "id": "org.pushandplay.cordova.apprate"
+        }
+    },
+    "org.apache.cordova.globalization": {
+        "source": {
+            "type": "registry",
+            "id": "org.apache.cordova.globalization"
+        }
+    }
+}
